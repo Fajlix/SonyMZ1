@@ -4,12 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 public class FirstFragment extends Fragment {
+
+    private TextView challengeName, progressTxt;
+    private ImageView arrow, medal, backgroundPic;
+
 
     @Override
     public View onCreateView(
@@ -31,4 +37,15 @@ public class FirstFragment extends Fragment {
             }
         });
     }
+
+    private void initiateView(View view) {
+        challengeName = view.findViewById(R.id.challengeName);
+        progressTxt = view.findViewById(R.id.progressTxt);
+        arrow = view.findViewById(R.id.arrow);
+        medal = view.findViewById(R.id.medal);
+        backgroundPic = view.findViewById(R.id.backgroundPic);
+    }
+
+
+
 }
