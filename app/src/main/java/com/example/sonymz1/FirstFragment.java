@@ -20,6 +20,8 @@ public class FirstFragment extends Fragment {
     private TextView challengeName, progressTxt;
     private ImageView arrow, medal, backgroundPic;
     private RecyclerView recyclerView;
+    private RecyclerView.Adapter rAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
 
@@ -38,22 +40,19 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ArrayList<ChallengeItem> challengeList = new ArrayList<>();
+        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challange name","You are first!"));
+        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+
         initiateView(view);
-        RecycleViewChallengeAdapter adapter = new RecycleViewChallengeAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        rAdapter = new ChallengeAdapter(challengeList);
 
-
-
-        /*view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
-
-        });*/
-
-
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(rAdapter);
 
     }
 
