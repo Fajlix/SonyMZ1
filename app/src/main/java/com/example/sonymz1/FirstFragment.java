@@ -16,11 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
+    private ArrayList<ChallengeItem> challengeList;
 
     private TextView challengeName, progressTxt;
     private ImageView arrow, medal, backgroundPic;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter rAdapter;
+    private ChallengeAdapter rAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -41,19 +42,34 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<ChallengeItem> challengeList = new ArrayList<>();
+        createChallengeList();
+        initiateView(view);
+        buildRecyclerView();
+    }
+
+    private void createChallengeList() {
+        challengeList = new ArrayList<>();
         challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challange name","You are first!"));
         challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
         challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+    }
 
-        initiateView(view);
+    private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         rAdapter = new ChallengeAdapter(challengeList);
-
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(rAdapter);
-
+        rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+             challengeList.get(position).changeText("Clicked");
+             rAdapter.notifyItemChanged(position);
+             // Temp on click for test
+            }
+        });
     }
 
     private void initiateView(View view) {
