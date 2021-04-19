@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homePageFragment">
+    app:startDestination="@id/FirstFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -11,19 +11,8 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
         <action
-            android:id="@+id/action_FirstFragment_to_homePageFragment"
-            app:destination="@id/homePageFragment" />
-        <action
             android:id="@+id/action_FirstFragment_to_challengePageFragment"
             app:destination="@id/challengePageFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/homePageFragment"
-        android:name="com.example.sonymz1.homePageFragment"
-        android:label="homePageFragment" >
-        <action
-            android:id="@+id/action_homePageFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/challengePageFragment"
