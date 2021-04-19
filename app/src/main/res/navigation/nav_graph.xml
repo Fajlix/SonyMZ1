@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_FirstFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
+      <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_challengePageFragment"
+            app:destination="@id/challengePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/homePageFragment"
@@ -22,4 +28,9 @@
             android:id="@+id/action_homePageFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/challengePageFragment"
+        android:name="com.example.sonymz1.ChallengePageFragment"
+        android:label="fragment_challenge_page"
+        tools:layout="@layout/fragment_challenge_page" />
 </navigation>
