@@ -28,13 +28,7 @@ public class FirstFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-
-
-
-    ) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
@@ -46,6 +40,14 @@ public class FirstFragment extends Fragment {
         createChallengeList();
         initiateView(view);
         buildRecyclerView();
+
+        view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+            }
+        });
     }
 
     private void createChallengeList() {
