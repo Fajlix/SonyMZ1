@@ -80,7 +80,6 @@ public class FirstFragment extends Fragment {
         arrow = view.findViewById(R.id.arrow);
         medal = view.findViewById(R.id.medal);
         backgroundPic = view.findViewById(R.id.backgroundPic);
-        card = view.findViewById(R.id.card);
     }
 
 
