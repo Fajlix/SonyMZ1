@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_FirstFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
-      <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
         <action
             android:id="@+id/action_FirstFragment_to_challengePageFragment"
             app:destination="@id/challengePageFragment" />
