@@ -71,14 +71,6 @@ public class FirstFragment extends Fragment {
              // Temp on click for test
             }
         });
-
-       card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
-            }
-        });
     }
 
     private void initiateView(View view) {
@@ -88,7 +80,6 @@ public class FirstFragment extends Fragment {
         arrow = view.findViewById(R.id.arrow);
         medal = view.findViewById(R.id.medal);
         backgroundPic = view.findViewById(R.id.backgroundPic);
-        card = view.findViewById(R.id.card);
     }
 
 
