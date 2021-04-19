@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,8 +24,7 @@ public class FirstFragment extends Fragment {
     private RecyclerView recyclerView;
     private ChallengeAdapter rAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-
+    private CardView card;
 
 
     @Override
@@ -41,6 +41,7 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initiateView(view);
 
         createChallengeList();
         initiateView(view);
@@ -70,6 +71,14 @@ public class FirstFragment extends Fragment {
              // Temp on click for test
             }
         });
+
+       card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+            }
+        });
     }
 
     private void initiateView(View view) {
@@ -79,6 +88,7 @@ public class FirstFragment extends Fragment {
         arrow = view.findViewById(R.id.arrow);
         medal = view.findViewById(R.id.medal);
         backgroundPic = view.findViewById(R.id.backgroundPic);
+        card = view.findViewById(R.id.card);
     }
 
 
