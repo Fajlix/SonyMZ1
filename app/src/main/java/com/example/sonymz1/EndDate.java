@@ -14,6 +14,11 @@ public class EndDate implements ChallengeComponent{
     public EndDate() {
         this.endDate = new Date().getTime();
     }
+
+    /**
+     *
+     * @return returns the time left until the challenge ends.
+     */
     public String getValue()
     {
         Date now = new Date();

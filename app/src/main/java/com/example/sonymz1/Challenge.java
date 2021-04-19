@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Challenge {
     /**
-     * name for challenge, leaderboard with playerIds and score, challenge components, if challenge
+     * name for challenge, leader Board with playerIds and score, challenge components, if challenge
      *  is private or not, string for challenge description, challenge code to join
      */
     private String name;
