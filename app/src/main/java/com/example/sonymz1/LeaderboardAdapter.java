@@ -26,10 +26,12 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     private Map<Integer,Integer> leaderboard;
     private Activity context;
     private AllUsers users;
+    private User user;
 
-    public LeaderboardAdapter(Activity context, Map<Integer, Integer> leaderboard) {
+    public LeaderboardAdapter(Activity context, Map<Integer, Integer> leaderboard, User user) {
         this.leaderboard = leaderboard;
         this.context = context;
+        this.user = user;
         this.users = new AllUsers();
         notifyDataSetChanged();
     }
@@ -44,22 +46,38 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        List<Map.Entry<Integer, Integer>> leaderboardList =
-                new LinkedList<>(leaderboard.entrySet());
-        User user = users.getUserMap().get(leaderboardList.get(position).getKey());
-        holder.usernametxt.setText(user.getUsername());
-        holder.progressTxt.setText(String.valueOf(leaderboardList.get(position).getValue())); // add unit
-        holder.userImg.setImageResource(user.getProfilePic());
+        LinkedList<Integer> leaderboardList = new LinkedList<>(leaderboard.keySet());
+        int rank = leaderboardList.indexOf(user.getId()) + 1;
+        StringBuilder sb = new StringBuilder();
+        //Get the challenger above and below the user.
         switch (position) {
-            case 0: holder.rank.setText(1 + "st"); break;
+            case 0:
+                user = users.getUserMap().get(leaderboardList.get(rank-2));
+                sb.append(rank-1);
+                break;
             case 1:
-                holder.rank.setText(2 + "nd");
+                user = users.getUserMap().get(leaderboardList.get(rank));
+                sb.append(rank+1);
                 CardView cardView = (CardView) holder.itemView;
                 cardView.setCardBackgroundColor(Color.WHITE);
                 break;
-            case 2: holder.rank.setText(3 + "rd"); break;
-            default: holder.rank.setText(position+1 + "th"); break;
+            case 2:
+                user = users.getUserMap().get(leaderboardList.get(rank));
+                sb.append(rank+1);
+                break;
         }
+
+        //Give right rank end thing.
+        switch (sb.toString()) {
+            case "1": sb.append("st"); break;
+            case "2": sb.append("nd"); break;
+            case "3": sb.append("rd"); break;
+            default: sb.append("th"); break;
+        }
+        holder.rank.setText(sb.toString());
+        holder.usernametxt.setText(user.getUsername());
+        holder.progressTxt.setText(String.valueOf(leaderboard.get(user.getId()))); // add unit
+        holder.userImg.setImageResource(user.getProfilePic());
     }
 
     @Override

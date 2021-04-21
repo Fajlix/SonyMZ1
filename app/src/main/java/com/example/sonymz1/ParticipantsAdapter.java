@@ -25,10 +25,12 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     private Map<Integer,Integer> leaderboard;
     private Activity context;
     private AllUsers users;
+    private User user;
 
-    public ParticipantsAdapter(Activity context, Map<Integer, Integer> leaderboard) {
+    public ParticipantsAdapter(Activity context, Map<Integer, Integer> leaderboard, User user) {
         this.leaderboard = leaderboard;
         this.context = context;
+        this.user = user;
         this.users = new AllUsers();
         notifyDataSetChanged();
     }
@@ -44,10 +46,12 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {
         List<Map.Entry<Integer, Integer>> leaderboardList =
                 new LinkedList<>(leaderboard.entrySet());
-        User user = users.getUserMap().get(leaderboardList.get(position).getKey());
-        holder.username.setText(user.getUsername());
+        User challenger = users.getUserMap().get(leaderboardList.get(position).getKey());
+        holder.username.setText(challenger.getUsername());
         holder.scoreTxt.setText("Score: " + leaderboardList.get(position).getValue()); // add unit
-        holder.userImg.setImageResource(user.getProfilePic());
+        holder.userImg.setImageResource(challenger.getProfilePic());
+
+        //Changes cards background colour for top 3 challengers.
         CardView cardView = (CardView) holder.itemView;
         switch (position) {
             case 0:
@@ -69,6 +73,13 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
                 cardView.setCardBackgroundColor(context.getResources().getColor(R.color.third));
                 break;
             default: holder.rank.setText(position+1 + "th"); break;
+        }
+
+        //Set blue colour to mark where the user is.
+        if (leaderboardList.get(position).getKey() == user.getId()){
+            holder.rank.setTextColor(context.getResources().getColor(R.color.blue));
+            holder.username.setTextColor(context.getResources().getColor(R.color.blue));
+            holder.scoreTxt.setTextColor(context.getResources().getColor(R.color.blue));
         }
     }
 

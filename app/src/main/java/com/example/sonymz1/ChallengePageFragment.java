@@ -27,7 +27,7 @@ import java.util.Map;
  * @author Wendy P, Jonathan S.
  */
 public class ChallengePageFragment extends Fragment {
-
+    private User user; //Should be the user of the app
     private final Challenge challenge = new Challenge("Challenge");
     private AllUsers users = new AllUsers();
     private LeaderboardAdapter leaderboardAdapter;
@@ -90,6 +90,7 @@ public class ChallengePageFragment extends Fragment {
 
         initializeViews(view);
 
+        user = users.getUserMap().get(2);
         challenge.addPlayer(users.getUserMap().get(1).getId(),6);
         challenge.addPlayer(users.getUserMap().get(2).getId(),5);
         challenge.addPlayer(users.getUserMap().get(3).getId(),10);
@@ -104,7 +105,7 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setParticipants(){
         rvcParticipants.setLayoutManager(new LinearLayoutManager(getContext()));
-        participantsAdapter = new ParticipantsAdapter(getActivity(),challenge.getLeaderBoard());
+        participantsAdapter = new ParticipantsAdapter(getActivity(),challenge.getLeaderBoard(),user);
         rvcParticipants.setAdapter(participantsAdapter);
     }
 
@@ -113,7 +114,7 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setLeaderboard(){
         rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
-        leaderboardAdapter = new LeaderboardAdapter(getActivity(),challenge.getLeaderBoard());
+        leaderboardAdapter = new LeaderboardAdapter(getActivity(),challenge.getLeaderBoard(),user);
         rvcLeaderboard.setAdapter(leaderboardAdapter);
 
         if(challenge.getLeaderBoard().size() > 3){
