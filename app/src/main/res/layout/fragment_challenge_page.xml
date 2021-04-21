@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
+    android:visibility="visible"
     tools:context=".ChallengePageFragment">
 
     <ImageView
@@ -26,6 +27,7 @@
         android:layout_marginRight="10dp"
         android:foregroundGravity="center_vertical"
         app:cardCornerRadius="50dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toStartOf="@+id/first_img"
         app:layout_constraintTop_toTopOf="@+id/first_img">
 
@@ -34,7 +36,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            tools:src="@drawable/Rick" />
+            tools:src="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -43,6 +45,7 @@
         android:layout_height="40dp"
         android:layout_marginBottom="60dp"
         app:cardCornerRadius="50dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
         app:layout_constraintStart_toStartOf="@+id/imageView4">
@@ -52,7 +55,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            tools:src="@drawable/pickle_rick" />
+            tools:src="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -63,6 +66,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="35dp"
         app:cardCornerRadius="50dp"
+        app:cardElevation="0dp"
         app:layout_constraintStart_toEndOf="@+id/first_img"
         app:layout_constraintTop_toTopOf="@+id/first_img">
 
@@ -71,7 +75,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:src="@drawable/morty" />
+            tools:src="@tools:sample/avatars" />
+
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -142,5 +147,64 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvcLeaderboard" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/particiantsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E6000000"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Participants"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvcParticipants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:listitem="@layout/participants" />
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/back_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

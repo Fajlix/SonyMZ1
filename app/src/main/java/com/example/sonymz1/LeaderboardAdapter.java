@@ -1,6 +1,7 @@
 package com.example.sonymz1;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -50,7 +52,11 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         holder.userImg.setImageResource(user.getProfilePic());
         switch (position) {
             case 0: holder.rank.setText(1 + "st"); break;
-            case 1: holder.rank.setText(2 + "nd"); break;
+            case 1:
+                holder.rank.setText(2 + "nd");
+                CardView cardView = (CardView) holder.itemView;
+                cardView.setCardBackgroundColor(Color.WHITE);
+                break;
             case 2: holder.rank.setText(3 + "rd"); break;
             default: holder.rank.setText(position+1 + "th"); break;
         }

@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,16 +23,19 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  * Use the {@link ChallengePageFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * @author Wendy P, Jonathan S.
  */
 public class ChallengePageFragment extends Fragment {
 
     private final Challenge challenge = new Challenge("Challenge");
     private AllUsers users = new AllUsers();
     private LeaderboardAdapter leaderboardAdapter;
-    private ImageView userImg1, userImg2, userImg3;
+    private ParticipantsAdapter participantsAdapter;
+    private ImageView userImg1, userImg2, userImg3, backBtn;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn;
-    private LinearLayoutManager linearLayoutManager;
-    private RecyclerView rvcLeaderboard;
+    private RecyclerView rvcLeaderboard, rvcParticipants;
+    private ConstraintLayout participantsView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,26 +87,48 @@ public class ChallengePageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         initializeViews(view);
 
         challenge.addPlayer(users.getUserMap().get(1).getId(),6);
         challenge.addPlayer(users.getUserMap().get(2).getId(),5);
         challenge.addPlayer(users.getUserMap().get(3).getId(),10);
+        challenge.addPlayer(users.getUserMap().get(4).getId(),4);
         setPedestal();
+        setLeaderboard();
+        setParticipants();
+    }
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        rvcLeaderboard.setLayoutManager(linearLayoutManager);
+    /**
+     * Show all the participants
+     */
+    private void setParticipants(){
+        rvcParticipants.setLayoutManager(new LinearLayoutManager(getContext()));
+        participantsAdapter = new ParticipantsAdapter(getActivity(),challenge.getLeaderBoard());
+        rvcParticipants.setAdapter(participantsAdapter);
+    }
+
+    /**
+     * Populate the leaderboard with participants.
+     */
+    private void setLeaderboard(){
+        rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
         leaderboardAdapter = new LeaderboardAdapter(getActivity(),challenge.getLeaderBoard());
         rvcLeaderboard.setAdapter(leaderboardAdapter);
 
         if(challenge.getLeaderBoard().size() > 3){
+            moreBtn.setVisibility(View.VISIBLE);
             moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Test
-                    Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                    participantsView.setVisibility(View.VISIBLE);
+                }
+            });
 
-                    // show participants view
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    participantsView.setVisibility(View.GONE);
                 }
             });
         }else moreBtn.setVisibility(View.GONE);
@@ -138,5 +162,8 @@ public class ChallengePageFragment extends Fragment {
         progressTxt3 = view.findViewById(R.id.progressTxt3);
         rvcLeaderboard = view.findViewById(R.id.rvcLeaderboard);
         moreBtn = view.findViewById(R.id.moreBtn);
+        participantsView = view.findViewById(R.id.particiantsView);
+        backBtn = view.findViewById(R.id.backBtn);
+        rvcParticipants = view.findViewById(R.id.rvcParticipants);
     }
 }
