@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ExampleViewHolder> {
-    private ArrayList<ChallengeItem> mChallengeList;
+    private ArrayList<Challenge> mChallengeList;// här skall bytas till challenge
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -25,7 +25,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
     }
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder{
-        public ImageView mImageView1;
+
         public ImageView mImageView2;
         public ImageView mImageView3;
         public TextView mTextView1;
@@ -34,7 +34,6 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
 
         public ExampleViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            mImageView1 = itemView.findViewById(R.id.arrow);
             mImageView2 = itemView.findViewById(R.id.backgroundPic);
             mImageView3 = itemView.findViewById(R.id.medal);
             mTextView1 = itemView.findViewById(R.id.challengeName);
@@ -60,7 +59,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
       }
     }
 
-    public ChallengeAdapter(ArrayList<ChallengeItem> challengeList){
+    public ChallengeAdapter(ArrayList<Challenge> challengeList){ // här skall bytas till challenge
        mChallengeList = challengeList;
     }
 
@@ -74,9 +73,9 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
 
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
-          ChallengeItem currentItem = mChallengeList.get(position);
+          Challenge currentItem = mChallengeList.get(position); // här skall bytas till challenge
 
-          holder.mImageView1.setImageResource(currentItem.getmImageResource1());
+
           holder.mImageView2.setImageResource(currentItem.getmImageResource2());
           holder.mImageView3.setImageResource(currentItem.getmImageResource3());
           holder.mTextView1.setText(currentItem.getmText1());

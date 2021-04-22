@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
-    private ArrayList<ChallengeItem> challengeList;
+    private ArrayList<Challenge> challengeList; // här skall bytas till challenge
 
     private TextView challengeName, progressTxt;
-    private ImageView arrow, medal, backgroundPic;
+    private ImageView medal, backgroundPic;
     private RecyclerView recyclerView;
     private ChallengeAdapter rAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -52,11 +52,11 @@ public class FirstFragment extends Fragment {
 
     private void createChallengeList() {
         challengeList = new ArrayList<>();
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challange name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        challengeList.add(new Challenge(R.drawable.run_challenge, R.drawable.medal,"Challange name","You are first!"));
+        challengeList.add(new Challenge(R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        challengeList.add(new Challenge(R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        challengeList.add(new Challenge(R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        challengeList.add(new Challenge(R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
     }
 
     private void buildRecyclerView() {
@@ -79,7 +79,6 @@ public class FirstFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rvc_list);
         challengeName = view.findViewById(R.id.challengeName);
         progressTxt = view.findViewById(R.id.progressTxt);
-        arrow = view.findViewById(R.id.arrow);
         medal = view.findViewById(R.id.medal);
         backgroundPic = view.findViewById(R.id.backgroundPic);
     }

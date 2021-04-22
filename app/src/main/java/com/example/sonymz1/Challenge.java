@@ -22,6 +22,10 @@ public class Challenge {
     private boolean isPrivate;
     private String description;
     private int challengeCode;
+    private int mImageResource2;
+    private int mImageResource3;
+    private String mText1;
+    private String mText2;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
                      ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
@@ -37,6 +41,12 @@ public class Challenge {
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.description = "";
+    }
+    public Challenge( int mImageResource2, int mImageResource3, String mText1, String mText2) {
+        this.mImageResource2 = mImageResource2;
+        this.mImageResource3 = mImageResource3;
+        this.mText1 = mText1;
+        this.mText2 = mText2;
     }
 
     public String getName() {
@@ -100,5 +110,25 @@ public class Challenge {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void changeText(String text){
+        mText1 = text;
+    }
+
+    public int getmImageResource2() {
+        return mImageResource2;
+    }
+
+    public int getmImageResource3() {
+        return mImageResource3;
+    }
+
+    public String getmText1() {
+        return mText1;
+    }
+
+    public String getmText2() {
+        return mText2;
     }
 }
