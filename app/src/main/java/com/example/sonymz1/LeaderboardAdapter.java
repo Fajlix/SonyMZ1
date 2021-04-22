@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -24,15 +25,13 @@ import java.util.Map;
  */
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
     private Map<Integer,Integer> leaderboard;
-    private Activity context;
-    private AllUsers users;
-    private User user;
+    private ChallengePageFragment context;
+    private ChallengeViewModel vm;
 
-    public LeaderboardAdapter(Activity context, Map<Integer, Integer> leaderboard, User user) {
+    public LeaderboardAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderboard) {
+        vm = new ViewModelProvider(context).get(ChallengeViewModel.class);
         this.leaderboard = leaderboard;
         this.context = context;
-        this.user = user;
-        this.users = new AllUsers();
         notifyDataSetChanged();
     }
 
@@ -46,28 +45,29 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        User user = vm.getMainUser();
         LinkedList<Integer> leaderboardList = new LinkedList<>(leaderboard.keySet());
         int rank = leaderboardList.indexOf(user.getId()) + 1;
         StringBuilder sb = new StringBuilder();
         //Get the challenger above and below the user.
         switch (position) {
             case 0:
-                user = users.getUserMap().get(leaderboardList.get(rank-2));
+                user = vm.getUsers().get(leaderboardList.get(rank-2));
                 sb.append(rank-1);
                 break;
             case 1:
-                user = users.getUserMap().get(leaderboardList.get(rank));
-                sb.append(rank+1);
+                user = vm.getUsers().get(leaderboardList.get(rank-1));
+                sb.append(rank);
                 CardView cardView = (CardView) holder.itemView;
                 cardView.setCardBackgroundColor(Color.WHITE);
                 break;
             case 2:
-                user = users.getUserMap().get(leaderboardList.get(rank));
+                user = vm.getUsers().get(leaderboardList.get(rank));
                 sb.append(rank+1);
                 break;
         }
 
-        //Give right rank end thing.
+        //Give the right rank end thing.
         switch (sb.toString()) {
             case "1": sb.append("st"); break;
             case "2": sb.append("nd"); break;

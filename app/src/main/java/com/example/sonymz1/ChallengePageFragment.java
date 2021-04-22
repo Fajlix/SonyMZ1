@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,11 +28,7 @@ import java.util.Map;
  * @author Wendy P, Jonathan S.
  */
 public class ChallengePageFragment extends Fragment {
-    private User user; //Should be the user of the app
-    private final Challenge challenge = new Challenge("Challenge");
-    private AllUsers users = new AllUsers();
-    private LeaderboardAdapter leaderboardAdapter;
-    private ParticipantsAdapter participantsAdapter;
+    private ChallengeViewModel vm;
     private ImageView userImg1, userImg2, userImg3, backBtn;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn;
     private RecyclerView rvcLeaderboard, rvcParticipants;
@@ -88,13 +85,14 @@ public class ChallengePageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
 
-        user = users.getUserMap().get(2);
-        challenge.addPlayer(users.getUserMap().get(1).getId(),6);
-        challenge.addPlayer(users.getUserMap().get(2).getId(),5);
-        challenge.addPlayer(users.getUserMap().get(3).getId(),10);
-        challenge.addPlayer(users.getUserMap().get(4).getId(),4);
+        vm.addPlayer(vm.getUser(1).getId(),6);
+        vm.addPlayer(vm.getUser(2).getId(),5);
+        vm.addPlayer(vm.getUser(3).getId(),10);
+        vm.addPlayer(vm.getUser(4).getId(),4);
+
         setPedestal();
         setLeaderboard();
         setParticipants();
@@ -105,7 +103,8 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setParticipants(){
         rvcParticipants.setLayoutManager(new LinearLayoutManager(getContext()));
-        participantsAdapter = new ParticipantsAdapter(getActivity(),challenge.getLeaderBoard(),user);
+        ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,
+                vm.getLeaderboard().getValue());
         rvcParticipants.setAdapter(participantsAdapter);
     }
 
@@ -114,10 +113,11 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setLeaderboard(){
         rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
-        leaderboardAdapter = new LeaderboardAdapter(getActivity(),challenge.getLeaderBoard(),user);
+        LeaderboardAdapter leaderboardAdapter = new LeaderboardAdapter(this,
+                vm.getLeaderboard().getValue());
         rvcLeaderboard.setAdapter(leaderboardAdapter);
 
-        if(challenge.getLeaderBoard().size() > 3){
+        if(vm.getLeaderboard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
             moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,15 +139,28 @@ public class ChallengePageFragment extends Fragment {
      * Set the top 3 users info on the pedestal.
      */
     private void setPedestal(){
-        // Case if there are only 2 users??
-        List<Map.Entry<Integer, Integer>> leaderboardList =
-                new LinkedList<>(challenge.getLeaderBoard().entrySet());
-        userImg1.setImageResource(users.getUserMap().get(leaderboardList.get(0).getKey()).getProfilePic());
-        userImg2.setImageResource(users.getUserMap().get(leaderboardList.get(1).getKey()).getProfilePic());
-        userImg3.setImageResource(users.getUserMap().get(leaderboardList.get(2).getKey()).getProfilePic());
-        progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
-        progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
-        progressTxt3.setText(String.valueOf(leaderboardList.get(2).getValue()));
+        vm.getLeaderboard().observe(getViewLifecycleOwner(), leaderboard -> {
+            List<Map.Entry<Integer, Integer>> leaderboardList =
+                    new LinkedList<>(leaderboard.entrySet());
+
+            if (leaderboardList.size() > 2) {
+                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
+                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
+                userImg3.setImageResource(vm.getUsers().get(leaderboardList.get(2).getKey()).getProfilePic());
+                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
+                progressTxt3.setText(String.valueOf(leaderboardList.get(2).getValue()));
+            }
+            else if (leaderboardList.size() == 2) {
+                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
+                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
+                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
+            }else {
+                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
+                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+            }
+        });
     }
 
     /**

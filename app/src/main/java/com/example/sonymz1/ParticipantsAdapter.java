@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -23,15 +24,13 @@ import java.util.Map;
  */
 public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapter.ViewHolder> {
     private Map<Integer,Integer> leaderboard;
-    private Activity context;
-    private AllUsers users;
-    private User user;
+    private ChallengePageFragment context;
+    private ChallengeViewModel vm;
 
-    public ParticipantsAdapter(Activity context, Map<Integer, Integer> leaderboard, User user) {
+    public ParticipantsAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderboard) {
+        vm = new ViewModelProvider(context).get(ChallengeViewModel.class);
         this.leaderboard = leaderboard;
         this.context = context;
-        this.user = user;
-        this.users = new AllUsers();
         notifyDataSetChanged();
     }
 
@@ -46,7 +45,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {
         List<Map.Entry<Integer, Integer>> leaderboardList =
                 new LinkedList<>(leaderboard.entrySet());
-        User challenger = users.getUserMap().get(leaderboardList.get(position).getKey());
+        User challenger = vm.getUsers().get(leaderboardList.get(position).getKey());
         holder.username.setText(challenger.getUsername());
         holder.scoreTxt.setText("Score: " + leaderboardList.get(position).getValue()); // add unit
         holder.userImg.setImageResource(challenger.getProfilePic());
@@ -76,7 +75,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
         }
 
         //Set blue colour to mark where the user is.
-        if (leaderboardList.get(position).getKey() == user.getId()){
+        if (leaderboardList.get(position).getKey() == vm.getMainUser().getId()){
             holder.rank.setTextColor(context.getResources().getColor(R.color.blue));
             holder.username.setTextColor(context.getResources().getColor(R.color.blue));
             holder.scoreTxt.setTextColor(context.getResources().getColor(R.color.blue));
