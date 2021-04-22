@@ -1,17 +1,17 @@
-package com.example.sonymz1;
+package com.example.sonymz1.Components;
 
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class EndDate implements ChallengeComponent{
+public class DateComponent implements ChallengeComponent {
 
     private long endDate;
 
-    public EndDate(long endDate) {
+    public DateComponent(long endDate) {
         this.endDate = endDate;
     }
-    public EndDate() {
+    public DateComponent() {
         this.endDate = new Date().getTime();
     }
 

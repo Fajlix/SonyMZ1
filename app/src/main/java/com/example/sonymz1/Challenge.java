@@ -1,5 +1,7 @@
 package com.example.sonymz1;
 
+import com.example.sonymz1.Components.ChallengeComponent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.Map;
 /**
  * @author Felix
  */
-public class Challenge {
+public class Challenge implements ScoreUpdateListener{
     /**
      * name for challenge, leader Board with playerIds and score, challenge components, if challenge
      *  is private or not, string for challenge description, challenge code to join
@@ -22,6 +24,7 @@ public class Challenge {
     private boolean isPrivate;
     private String description;
     private int challengeCode;
+    private int currentUserID = 1111111111;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
                      ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
@@ -100,5 +103,11 @@ public class Challenge {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public void updateScore(int score) {
+        //TODO getcurrentuserID
+        leaderBoard.put(currentUserID,score);
     }
 }
