@@ -24,30 +24,26 @@ public class Challenge {
     private int challengeCode;
     private int mImageResource2;
     private int mImageResource3;
-    private String mText1;
-    private String mText2;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
-                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
+                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description, int mImageResource2) {
         this.name = name;
         this.leaderBoard = leaderBoard;
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
+        this.mImageResource2 = mImageResource2;
     }
-    public Challenge(String name) {
+    public Challenge(String name, int mImageResource2, int mImageResource3) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
-        this.description = "";
-    }
-    public Challenge( int mImageResource2, int mImageResource3, String mText1, String mText2) {
+        this.description = "You are first!";
         this.mImageResource2 = mImageResource2;
         this.mImageResource3 = mImageResource3;
-        this.mText1 = mText1;
-        this.mText2 = mText2;
     }
+
 
     public String getName() {
         return name;
@@ -113,7 +109,7 @@ public class Challenge {
     }
 
     public void changeText(String text){
-        mText1 = text;
+        description = text;
     }
 
     public int getmImageResource2() {
@@ -124,11 +120,5 @@ public class Challenge {
         return mImageResource3;
     }
 
-    public String getmText1() {
-        return mText1;
-    }
 
-    public String getmText2() {
-        return mText2;
-    }
 }

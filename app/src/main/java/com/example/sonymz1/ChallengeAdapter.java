@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ExampleViewHolder> {
-    private ArrayList<Challenge> mChallengeList;// här skall bytas till challenge
+    private ArrayList<Challenge> mChallengeList;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -73,13 +73,13 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
 
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
-          Challenge currentItem = mChallengeList.get(position); // här skall bytas till challenge
+          Challenge currentItem = mChallengeList.get(position);
 
 
           holder.mImageView2.setImageResource(currentItem.getmImageResource2());
           holder.mImageView3.setImageResource(currentItem.getmImageResource3());
-          holder.mTextView1.setText(currentItem.getmText1());
-          holder.mTextView2.setText(currentItem.getmText2());
+          holder.mTextView2.setText(currentItem.getDescription());
+
     }
 
     @Override
