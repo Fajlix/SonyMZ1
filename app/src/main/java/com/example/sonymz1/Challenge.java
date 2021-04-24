@@ -70,7 +70,7 @@ public class Challenge implements ScoreUpdateListener{
 
         // 2. Sort list with Collections.sort(), provide a custom Comparator
         //    Try switch the o1 o2 position for a different order
-        Collections.sort(list, (o1, o2) -> (o1.getValue()).compareTo(o2.getValue()));
+        Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
 
         // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
         Map<Integer, Integer> sortedMap = new LinkedHashMap<>();
