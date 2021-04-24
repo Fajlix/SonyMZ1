@@ -10,13 +10,18 @@ import androidx.fragment.app.Fragment;
 
 import com.example.sonymz1.Components.CounterComponent;
 
+/**
+ * @author Felix
+ */
 public class CounterView extends Fragment {
     private CounterComponent counterComponent;
+    private ChallengeViewModel vm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //TODO change to counter view
+
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
 
@@ -31,7 +36,7 @@ public class CounterView extends Fragment {
     }
     public void addToCounter(int count){
         //lisener update
-        counterComponent.addCount(count);
+        counterComponent.addCount(vm.getMainUser().getId(),count);
     }
 
 }

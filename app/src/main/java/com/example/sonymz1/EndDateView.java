@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.example.sonymz1.Components.DateComponent;
+
+/**
+ * @author Felix
+ */
 
 public class EndDateView extends Fragment {
 

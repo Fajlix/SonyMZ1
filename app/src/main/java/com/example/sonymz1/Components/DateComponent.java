@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Felix
+ */
 public class DateComponent implements ChallengeComponent {
 
     private long endDate;

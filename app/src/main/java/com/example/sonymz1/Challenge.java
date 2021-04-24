@@ -24,7 +24,7 @@ public class Challenge implements ScoreUpdateListener{
     private boolean isPrivate;
     private String description;
     private int challengeCode;
-    private int currentUserID = 1111111111;
+
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
                      ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
@@ -106,8 +106,8 @@ public class Challenge implements ScoreUpdateListener{
     }
 
     @Override
-    public void updateScore(int score) {
+    public void updateScore(int mainUserId,int score) {
         //TODO getcurrentuserID
-        leaderBoard.put(currentUserID,score);
+        leaderBoard.put(mainUserId,score);
     }
 }

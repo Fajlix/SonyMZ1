@@ -2,6 +2,9 @@ package com.example.sonymz1.Components;
 
 import com.example.sonymz1.ScoreUpdateListener;
 
+/**
+ * @author Felix
+ */
 public class CounterComponent implements ScoreComponent {
     private int currentCount;
     private final ScoreUpdateListener parent;
@@ -11,8 +14,8 @@ public class CounterComponent implements ScoreComponent {
         this.currentCount = currentCount;
         this.parent = parent;
     }
-    public void updateParent(){
-        parent.updateScore(currentCount);
+    public void updateParent(int mainUserId){
+        parent.updateScore(mainUserId,currentCount);
     }
 
     public int getScore() {
@@ -21,8 +24,8 @@ public class CounterComponent implements ScoreComponent {
     public String getValue() {
         return String.valueOf(currentCount);
     }
-    public void addCount(int count){
+    public void addCount(int mainUserId,int count){
         currentCount += count;
-        updateParent();
+        updateParent(mainUserId);
     }
 }
