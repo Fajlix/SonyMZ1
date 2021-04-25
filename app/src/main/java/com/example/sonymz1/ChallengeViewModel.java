@@ -15,6 +15,7 @@ public class ChallengeViewModel extends ViewModel {
 
     public ChallengeViewModel() {
         this.challenge = new Challenge("Challenge");
+        this.challenge.setDescription("Run 100km before any of the other challengers");
         this.users = db.getUserMap();
         this.mainUser = getUsers().get(2);
         this.leaderboard = new MutableLiveData<>();
@@ -33,4 +34,11 @@ public class ChallengeViewModel extends ViewModel {
     public User getMainUser() { return mainUser; }
 
     public Map<Integer, User> getUsers() { return users; }
+
+    public String getName(){
+        return challenge.getName();
+    }
+    public String getDescription(){
+        return challenge.getDescription();
+    }
 }
