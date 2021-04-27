@@ -1,5 +1,7 @@
 package com.example.sonymz1;
 
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -14,20 +16,28 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * The main activity for the application. Uses a navigation drawer to navigate to different pages.
  * @author Wendy Pau
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    private TextView settingsTxt;
+    private ImageView settingsImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        settingsTxt = findViewById(R.id.settingsTxt);
+        settingsImg = findViewById(R.id.settingsImg);
 
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
@@ -49,8 +62,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //Config navigation drawer with NavController.
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(navigationView,navController);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+
+        findViewById(R.id.nav_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO the change doesn´t stay
+                settingsTxt.setTextColor(getResources().getColor(R.color.logo_green));
+                settingsImg.setColorFilter(getResources().getColor(R.color.logo_green));
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
     }
 
     @Override
@@ -58,50 +85,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }*/
+        int id = item.getItemId();
 
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            settingsTxt.setTextColor(Color.BLACK);
+            settingsImg.setColorFilter(Color.BLACK);
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // item id is being passed into the method here
-        displaySelectedFragment(item.getItemId());
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    /**
-     * Navigates to the fragment thats clicked in the navigation drawer.
-     * @param item_id the selected menuitem.
-     */
-    public void displaySelectedFragment(int item_id){
-        Fragment fragment = null;
-
-        switch (item_id){
-            case R.id.nav_home: fragment = new FirstFragment(); break;
-            case R.id.nav_explore: //fragment = new Explore(); break;
-            case R.id.nav_contacts: //fragment = new Contacts(); break;
-            case R.id.nav_about: //fragment = new AboutUs(); break;
-            case R.id.nav_faq: //fragment = new FAQ(); break;
-            case R.id.nav_settings: //fragment = new Settings(); break;
-        }
-
-        if(fragment!=null){
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            //this is where the id(R.id.container) of the ConstraintLayout in content_main.xml
-            // is being mentioned. Hence the fragment would be loaded into the layout
-            ft.replace(R.id.container, fragment);
-            ft.commit();
-        }
-
     }
 }

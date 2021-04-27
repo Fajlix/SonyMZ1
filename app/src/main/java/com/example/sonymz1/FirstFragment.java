@@ -70,9 +70,8 @@ public class FirstFragment extends Fragment {
             public void onItemClick(int position) {
              challengeList.get(position).changeText("Clicked");
              rAdapter.notifyItemChanged(position);
-             // Temp on click for test
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+             NavHostFragment.findNavController(FirstFragment.this)
+                     .navigate(R.id.action_FirstFragment_to_challengePageFragment);
             }
         });
     }
