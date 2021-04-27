@@ -10,8 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+/**
+ * @author Jesper
+ */
 
 public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ExampleViewHolder> {
+    /**
+     * Adapter class for Challenge Recycler view
+     * mChallengeList holds representation off challenges.
+     */
     private ArrayList<Challenge> mChallengeList;
     private OnItemClickListener mListener;
 
@@ -26,18 +33,18 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView mImageView2;
-        public ImageView mImageView3;
-        public TextView mTextView1;
-        public TextView mTextView2;
+        public ImageView background;
+        public ImageView medal;
+        public TextView challengeName;
+        public TextView progressText;
         
 
         public ExampleViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            mImageView2 = itemView.findViewById(R.id.backgroundPic);
-            mImageView3 = itemView.findViewById(R.id.medal);
-            mTextView1 = itemView.findViewById(R.id.challengeName);
-            mTextView2 = itemView.findViewById(R.id.progressTxt);
+            background = itemView.findViewById(R.id.backgroundPic);
+            medal = itemView.findViewById(R.id.medal);
+            challengeName = itemView.findViewById(R.id.challengeName);
+            progressText = itemView.findViewById(R.id.progressTxt);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,14 +81,16 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
           Challenge currentItem = mChallengeList.get(position);
-
-
-          holder.mImageView2.setImageResource(currentItem.getmImageResource2());
-          holder.mImageView3.setImageResource(currentItem.getmImageResource3());
-          holder.mTextView2.setText(currentItem.getDescription());
+          holder.background.setImageResource(currentItem.getChallengeBackground());
+          holder.medal.setImageResource(currentItem.getMedal());
+          holder.progressText.setText(currentItem.getDescription());
 
     }
 
+    /**
+     * method to get amount of items in challengeList.
+     * @return
+     */
     @Override
     public int getItemCount() {
         return mChallengeList.size();

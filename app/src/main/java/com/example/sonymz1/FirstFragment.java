@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
     private ArrayList<Challenge> challengeList;
-
     private TextView challengeName, progressTxt;
     private ImageView medal, backgroundPic;
     private RecyclerView recyclerView;
@@ -36,7 +35,6 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initiateView(view);
-
         createChallengeList();
         initiateView(view);
         buildRecyclerView();
@@ -50,6 +48,9 @@ public class FirstFragment extends Fragment {
         });
     }
 
+    /**
+     * Populate challengeList, currently temporary test cards.
+     */
     private void createChallengeList() {
         challengeList = new ArrayList<>();
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
@@ -59,6 +60,9 @@ public class FirstFragment extends Fragment {
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
     }
 
+    /**
+     * method to setup recyclerview that contains challengecards.
+     */
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -74,6 +78,11 @@ public class FirstFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * method to initiate views.
+     * @param view
+     */
 
     private void initiateView(View view) {
         recyclerView = view.findViewById(R.id.rvc_list);

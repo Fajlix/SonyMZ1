@@ -13,8 +13,9 @@ import java.util.Map;
  */
 public class Challenge {
     /**
-     * name for challenge, leader Board with playerIds and score, challenge components, if challenge
-     *  is private or not, string for challenge description, challenge code to join
+     *  name for challenge, leader Board with playerIds and score, challenge components, if challenge
+     *  is private or not, string for challenge description, challenge code to join,
+     *  int for challenge card background pic, int for medal pic.
      */
     private String name;
     private Map<Integer, Integer> leaderBoard;
@@ -22,26 +23,26 @@ public class Challenge {
     private boolean isPrivate;
     private String description;
     private int challengeCode;
-    private int mImageResource2;
-    private int mImageResource3;
+    private int challengeBackground;
+    private int medal;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
-                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description, int mImageResource2) {
+                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description, int challengeBackground) {
         this.name = name;
         this.leaderBoard = leaderBoard;
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
-        this.mImageResource2 = mImageResource2;
+        this.challengeBackground = challengeBackground;
     }
-    public Challenge(String name, int mImageResource2, int mImageResource3) {
+    public Challenge(String name, int challengeBackground, int medal) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.description = "You are first!";
-        this.mImageResource2 = mImageResource2;
-        this.mImageResource3 = mImageResource3;
+        this.challengeBackground = challengeBackground;
+        this.medal = medal;
     }
 
 
@@ -88,8 +89,8 @@ public class Challenge {
     public ArrayList<ChallengeComponent> getComponents() {
         return components;
     }
-    public void addComponent(ChallengeComponent component) {
-        this.components.add(component);
+
+    public void addComponent(ChallengeComponent component) { this.components.add(component);
     }
 
     public boolean isPrivate() {
@@ -112,12 +113,12 @@ public class Challenge {
         description = text;
     }
 
-    public int getmImageResource2() {
-        return mImageResource2;
+    public int getChallengeBackground() {
+        return challengeBackground;
     }
 
-    public int getmImageResource3() {
-        return mImageResource3;
+    public int getMedal() {
+        return medal;
     }
 
 
