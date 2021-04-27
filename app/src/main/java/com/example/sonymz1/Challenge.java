@@ -31,6 +31,7 @@ public class Challenge {
         this.isPrivate = isPrivate;
         this.description = description;
     }
+
     public Challenge(String name) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
@@ -50,6 +51,7 @@ public class Challenge {
     public void addPlayer(int playerId) {
         this.leaderBoard.put(playerId,0);
     }
+
     public void addPlayer(int playerId, int score) {
         this.leaderBoard.put(playerId, score);
     }
@@ -67,7 +69,7 @@ public class Challenge {
 
         // 2. Sort list with Collections.sort(), provide a custom Comparator
         //    Try switch the o1 o2 position for a different order
-        Collections.sort(list, (o1, o2) -> (o1.getValue()).compareTo(o2.getValue()));
+        Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
 
         // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
         Map<Integer, Integer> sortedMap = new LinkedHashMap<>();
@@ -82,6 +84,7 @@ public class Challenge {
     public ArrayList<ChallengeComponent> getComponents() {
         return components;
     }
+
     public void addComponent(ChallengeComponent component) {
         this.components.add(component);
     }
