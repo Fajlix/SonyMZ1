@@ -11,4 +11,8 @@
     <color name="second">#83DFB9</color>
     <color name="third">#C8EFDF</color>
     <color name="blue">#00ACFF</color>
+    <color name="logo_blue">#96DDFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="grey">#6F7380</color>
+    <color name="logo_green">#79DEB4</color>
 </resources>

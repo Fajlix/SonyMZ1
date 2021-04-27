@@ -20,7 +20,6 @@ import java.util.Map;
 /**
  * Adapter for populating the recyclerview for the leaderboard.
  *
- * TODO Fix so that the logged in user is shown in the leaderboard.
  * @author Wendy
  */
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {

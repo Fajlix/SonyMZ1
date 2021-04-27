@@ -5,6 +5,11 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.Map;
 
+/**
+ * The viewmodel for challenges.
+ *
+ * @author Wendy Pau
+ */
 public class ChallengeViewModel extends ViewModel {
 
     private Challenge challenge;
