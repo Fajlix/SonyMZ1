@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author Felix
+ * Class representing a component that calculates the time left until a challenge ends
  */
 public class DateComponent implements ChallengeComponent {
 
