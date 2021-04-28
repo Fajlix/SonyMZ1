@@ -10,40 +10,39 @@
         android:id="@+id/challengenatorPic"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="27dp"
         android:layout_marginBottom="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/createChallenge"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04000002"
         app:srcCompat="@mipmap/abcd_foreground" />
 
     <TextView
         android:id="@+id/createChallenge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:text="Create Challenge"
         android:textColor="#000000"
         android:textSize="36sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13999999" />
 
     <ImageView
         android:id="@+id/privateIcon"
         android:layout_width="115dp"
         android:layout_height="70dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/switch1"
-        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.927"
+        app:layout_constraintVertical_bias="0.898"
         app:srcCompat="@mipmap/ic_private_foreground" />
 
     <TextView
@@ -52,7 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="39dp"
         android:layout_marginLeft="39dp"
-        android:layout_marginTop="476dp"
         android:layout_marginEnd="307dp"
         android:layout_marginRight="307dp"
         android:fontFamily="@font/roboto"
@@ -60,24 +58,27 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.682" />
 
     <TextView
         android:id="@+id/addChallengers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="39dp"
-        android:layout_marginLeft="39dp"
-        android:layout_marginTop="550dp"
         android:text="Add challengers"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.754" />
 
     <ImageView
         android:id="@+id/hamburgerMenu"
@@ -85,14 +86,14 @@
         android:layout_height="36dp"
         android:layout_marginStart="350dp"
         android:layout_marginLeft="350dp"
-        android:layout_marginTop="34dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="143dp"
-        app:layout_constraintBottom_toTopOf="@+id/createChallengeName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002"
         app:srcCompat="@mipmap/ic_hamburger_menu_foreground" />
 
     <Switch
@@ -101,24 +102,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="330dp"
         android:layout_marginLeft="330dp"
-        android:layout_marginTop="632dp"
+        android:layout_marginTop="210dp"
         android:layout_marginEnd="35dp"
         android:layout_marginRight="35dp"
-        android:layout_marginBottom="72dp"
         android:textColorHighlight="#60C49A"
         android:textColorLink="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.825" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createChallengeName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="325dp"
         android:layout_height="40dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginLeft="39dp"
-        android:layout_marginTop="213dp"
         android:background="#FFFFFF"
         android:hint="Challenge name"
         android:textColorHint="#9B9B9B"
@@ -126,9 +126,12 @@
         app:boxBackgroundMode="filled"
         app:boxStrokeColor="#000000"
         app:boxStrokeErrorColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        app:layout_constraintVertical_bias="0.32999998">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -144,8 +147,7 @@
         android:id="@+id/createButton"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_marginTop="672dp"
-        android:layout_marginBottom="19dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/roboto"
         android:text="Create"
         android:textColor="#FFFFFF"
@@ -155,22 +157,24 @@
         app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createChallengeDescription"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="325dp"
         android:layout_height="168dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginLeft="39dp"
-        android:layout_marginTop="266dp"
         android:textColorHint="#9B9B9B"
         app:boxStrokeColor="#000000"
         app:boxStrokeWidth="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.43"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -188,7 +192,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="39dp"
         android:layout_marginLeft="39dp"
-        android:layout_marginTop="440dp"
         android:layout_marginEnd="207dp"
         android:layout_marginRight="207dp"
         android:layout_marginBottom="9dp"
@@ -196,10 +199,11 @@
         android:textColor="#60C49A"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/challengeSettings"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.64" />
 
     <Button
         android:id="@+id/presetButton"
