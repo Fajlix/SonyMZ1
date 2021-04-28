@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -86,9 +87,10 @@ public class ChallengePageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
+        vm = ViewModelProviders.of(getActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
 
+        /*
         vm.addPlayer(vm.getUser(1).getId(),6);
         vm.addPlayer(vm.getUser(2).getId(),5);
         vm.addPlayer(vm.getUser(3).getId(),10);
@@ -99,10 +101,14 @@ public class ChallengePageFragment extends Fragment {
         setParticipants();
         setInfoCard();
 
+         */
+
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
         view.findViewById(R.id.addScoreButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                vm.blaBla();
+
                 NavHostFragment.findNavController(ChallengePageFragment.this)
                         .navigate(R.id.action_challengePageFragment_to_addingScorePage);
             }
