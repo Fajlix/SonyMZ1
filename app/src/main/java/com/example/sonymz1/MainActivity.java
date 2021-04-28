@@ -36,8 +36,6 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-    private TextView settingsTxt;
-    private ImageView settingsImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        settingsTxt = findViewById(R.id.settingsTxt);
-        settingsImg = findViewById(R.id.settingsImg);
 
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
@@ -61,23 +56,14 @@ public class MainActivity extends AppCompatActivity {
 
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
 
-        //Config navigation drawer with NavController.
+        // config navigation drawer with NavController.
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(navigationView,navController);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-
-        findViewById(R.id.nav_settings).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO the change doesn´t stay
-                settingsTxt.setTextColor(getResources().getColor(R.color.logo_green));
-                settingsImg.setColorFilter(getResources().getColor(R.color.logo_green));
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-        });
     }
 
     @Override
@@ -88,10 +74,20 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            settingsTxt.setTextColor(Color.BLACK);
-            settingsImg.setColorFilter(Color.BLACK);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * When the drawer menu design is open and the Back button is pressed, only close the drawer
+     * instead of the current home activity. Then, if the user presses the Back button again,
+     * the home activity should be closed.
+     */
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else super.onBackPressed();
     }
 }
