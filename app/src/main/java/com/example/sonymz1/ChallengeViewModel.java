@@ -38,7 +38,16 @@ public class ChallengeViewModel extends ViewModel {
     public String getName(){
         return challenge.getName();
     }
+
     public String getDescription(){
         return challenge.getDescription();
+    }
+
+    public int getNumOfPlayers(){
+        return users.size();
+    }
+
+    public boolean isPrivate(){
+        return challenge.isPrivate();
     }
 }

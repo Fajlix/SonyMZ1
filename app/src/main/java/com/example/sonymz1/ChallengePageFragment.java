@@ -31,7 +31,7 @@ import java.util.Map;
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
     private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg;
-    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt;
+    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt;
     private RecyclerView rvcLeaderboard, rvcParticipants;
     private ConstraintLayout participantsView;
 
@@ -195,9 +195,18 @@ public class ChallengePageFragment extends Fragment {
         challengeNameTxt = view.findViewById(R.id.challengeNameView);
         descriptionTxt = view.findViewById(R.id.descriptionTextView);
         challengeInfoImg = view.findViewById(R.id.challengeInfoImgView);
+        numOfParticipants = view.findViewById(R.id.playerNumView);
+        privacyTxt = view.findViewById(R.id.privacyTextView);
     }
     private void setInfoCard(){
         challengeNameTxt.setText(vm.getName());
         descriptionTxt.setText(vm.getDescription());
+        numOfParticipants.setText(String.valueOf(vm.getNumOfPlayers()));
+        if(vm.isPrivate()){
+            privacyTxt.setText("Private");
+        }
+        else{
+            privacyTxt.setText("Public");
+        }
     }
 }
