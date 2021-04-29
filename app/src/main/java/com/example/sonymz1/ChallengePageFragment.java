@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,8 +30,8 @@ import java.util.Map;
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
-    private ImageView userImg1, userImg2, userImg3, backBtn;
-    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg;
+    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt;
     private RecyclerView rvcLeaderboard, rvcParticipants;
     private ConstraintLayout participantsView;
 
@@ -90,6 +91,16 @@ public class ChallengePageFragment extends Fragment {
         setPedestal();
         setLeaderboard();
         setParticipants();
+        setInfoCard();
+
+        //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
+        view.findViewById(R.id.addScoreButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(ChallengePageFragment.this)
+                        .navigate(R.id.action_challengePageFragment_to_addingScorePage);
+            }
+        });
     }
 
     /**
@@ -174,5 +185,14 @@ public class ChallengePageFragment extends Fragment {
         participantsView = view.findViewById(R.id.particiantsView);
         backBtn = view.findViewById(R.id.backBtn);
         rvcParticipants = view.findViewById(R.id.rvcParticipants);
+
+        //-------------------------------------------------------
+        challengeNameTxt = view.findViewById(R.id.challengeNameView);
+        descriptionTxt = view.findViewById(R.id.descriptionTextView);
+        challengeInfoImg = view.findViewById(R.id.challengeInfoImgView);
+    }
+    private void setInfoCard(){
+        challengeNameTxt.setText(vm.getName());
+        descriptionTxt.setText(vm.getDescription());
     }
 }

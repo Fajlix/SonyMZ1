@@ -16,9 +16,11 @@ public class ChallengeViewModel extends ViewModel {
     private MutableLiveData<Map<Integer, Integer>> leaderBoard;
 
     public ChallengeViewModel() {
+
+        this.challenge = new Challenge("Challenge");
+        this.challenge.setDescription("Run 100km before any of the other challengers");
         this.users = db.getUserMap();
         this.mainUser = getUsers().get(2);
-        this.challenge = new Challenge("Challenge");
         this.leaderBoard = new MutableLiveData<>();
         leaderBoard.setValue(challenge.getLeaderBoard());
 
@@ -52,5 +54,11 @@ public class ChallengeViewModel extends ViewModel {
         CounterComponent scoreComp= (CounterComponent)(challenge.getComponents().get(0));
         scoreComp.addCount(mainUser.getId(),score);
         update();
+
+    public String getName(){
+        return challenge.getName();
+    }
+    public String getDescription(){
+        return challenge.getDescription();
     }
 }

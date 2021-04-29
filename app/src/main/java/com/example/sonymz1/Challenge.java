@@ -37,6 +37,7 @@ public class Challenge implements ScoreUpdateListener{
         this.isPrivate = isPrivate;
         this.description = description;
     }
+
     public Challenge(String name) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
@@ -56,6 +57,7 @@ public class Challenge implements ScoreUpdateListener{
     public void addPlayer(int playerId) {
         this.leaderBoard.put(playerId,0);
     }
+
     public void addPlayer(int playerId, int score) {
         this.leaderBoard.put(playerId, score);
     }
@@ -88,6 +90,7 @@ public class Challenge implements ScoreUpdateListener{
     public ArrayList<ChallengeComponent> getComponents() {
         return components;
     }
+
     public void addComponent(ChallengeComponent component) {
         this.components.add(component);
     }
