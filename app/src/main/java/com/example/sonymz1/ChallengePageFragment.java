@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class ChallengePageFragment extends Fragment {
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt;
     private RecyclerView rvcLeaderboard, rvcParticipants;
     private ConstraintLayout participantsView;
+    private Button addScoreButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -134,13 +136,16 @@ public class ChallengePageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     participantsView.setVisibility(View.VISIBLE);
+                    addScoreButton.setVisibility(View.GONE);
                 }
+
             });
 
             backBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     participantsView.setVisibility(View.GONE);
+                    addScoreButton.setVisibility(View.VISIBLE);
                 }
             });
         }else moreBtn.setVisibility(View.GONE);
@@ -190,6 +195,7 @@ public class ChallengePageFragment extends Fragment {
         participantsView = view.findViewById(R.id.particiantsView);
         backBtn = view.findViewById(R.id.backBtn);
         rvcParticipants = view.findViewById(R.id.rvcParticipants);
+        addScoreButton = view.findViewById(R.id.addScoreButton);
 
         //-------------------------------------------------------
         challengeNameTxt = view.findViewById(R.id.challengeNameView);
