@@ -107,6 +107,14 @@ public class ChallengePageFragment extends Fragment {
                         .navigate(R.id.action_challengePageFragment_to_addingScorePage);
             }
         });
+        //Should instead trigger editView, for now just for testing it instead navigates like the addScoreButton
+        view.findViewById(R.id.editBtnView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(ChallengePageFragment.this)
+                        .navigate(R.id.action_challengePageFragment_to_addingScorePage);
+            }
+        });
     }
 
     /**

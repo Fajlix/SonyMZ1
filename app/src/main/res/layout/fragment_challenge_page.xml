@@ -163,17 +163,17 @@
 
     <TextView
         android:id="@+id/challengeNameView"
-        android:layout_width="326dp"
-        android:layout_height="39dp"
+        android:layout_width="281dp"
+        android:layout_height="37dp"
         android:text="Challenge Name"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.303"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.565" />
+        app:layout_constraintVertical_bias="0.563" />
 
     <Button
         android:id="@+id/addScoreButton"
@@ -254,6 +254,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.788" />
+
+    <ImageView
+        android:id="@+id/editBtnView"
+        android:layout_width="36dp"
+        android:layout_height="39dp"
+        android:src="@drawable/edit_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.566" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/particiantsView"
