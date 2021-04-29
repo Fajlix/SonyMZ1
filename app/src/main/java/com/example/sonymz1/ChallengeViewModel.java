@@ -48,12 +48,13 @@ public class ChallengeViewModel extends ViewModel {
         leaderBoard.setValue(challenge.getLeaderBoard());
     }
     public Map<Integer, User> getUsers() { return users; }
-    public void addScore(int score){
+    public void addScore(int score) {
         //TODO maybe fix?
         //We have to know what type of challenge it is so that we can add the right type of score
-        CounterComponent scoreComp= (CounterComponent)(challenge.getComponents().get(0));
-        scoreComp.addCount(mainUser.getId(),score);
+        CounterComponent scoreComp = (CounterComponent) (challenge.getComponents().get(0));
+        scoreComp.addCount(mainUser.getId(), score);
         update();
+    }
 
     public String getName(){
         return challenge.getName();
