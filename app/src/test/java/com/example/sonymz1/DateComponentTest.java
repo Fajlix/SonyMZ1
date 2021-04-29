@@ -1,5 +1,7 @@
 package com.example.sonymz1;
 
+import com.example.sonymz1.Components.DateComponent;
+
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -8,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
-public class EndDateTest {
+public class DateComponentTest {
     @Test
     public void timeLeftTest()
     {
@@ -20,9 +22,9 @@ public class EndDateTest {
         int daysLeft = calendar.get(Calendar.DAY_OF_MONTH) - currentDay;
         assertEquals(daysLeft,1);
         ms += TimeUnit.DAYS.toMillis(daysLeft);
-        EndDate endDate = new EndDate(ms);
+        DateComponent dateComponent = new DateComponent(ms);
         String expectedString = "00:23:59:59";
-        assertEquals(endDate.getValue(),expectedString);
-        System.out.println(endDate.getValue());
+        assertEquals(dateComponent.getValue(),expectedString);
+        System.out.println(dateComponent.getValue());
     }
 }

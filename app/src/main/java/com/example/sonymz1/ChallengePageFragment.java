@@ -88,12 +88,6 @@ public class ChallengePageFragment extends Fragment {
 
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
-
-        vm.addPlayer(vm.getUser(1).getId(),6);
-        vm.addPlayer(vm.getUser(2).getId(),5);
-        vm.addPlayer(vm.getUser(3).getId(),10);
-        vm.addPlayer(vm.getUser(4).getId(),4);
-
         setPedestal();
         setLeaderboard();
         setParticipants();
@@ -115,7 +109,7 @@ public class ChallengePageFragment extends Fragment {
     private void setParticipants(){
         rvcParticipants.setLayoutManager(new LinearLayoutManager(getContext()));
         ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,
-                vm.getLeaderboard().getValue());
+                vm.getLeaderBoard().getValue());
         rvcParticipants.setAdapter(participantsAdapter);
     }
 
@@ -125,11 +119,12 @@ public class ChallengePageFragment extends Fragment {
     private void setLeaderboard(){
         rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
         LeaderboardAdapter leaderboardAdapter = new LeaderboardAdapter(this,
-                vm.getLeaderboard().getValue());
+                vm.getLeaderBoard().getValue());
         rvcLeaderboard.setAdapter(leaderboardAdapter);
 
-        if(vm.getLeaderboard().getValue().size() > 3){
+        if(vm.getLeaderBoard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
+            System.out.println(vm.getLeaderBoard().getValue().get(vm.getMainUser().getId()));
             moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -150,7 +145,7 @@ public class ChallengePageFragment extends Fragment {
      * Set the top 3 users info on the pedestal.
      */
     private void setPedestal(){
-        vm.getLeaderboard().observe(getViewLifecycleOwner(), leaderboard -> {
+        vm.getLeaderBoard().observe(getViewLifecycleOwner(), leaderboard -> {
             List<Map.Entry<Integer, Integer>> leaderboardList =
                     new LinkedList<>(leaderboard.entrySet());
 
