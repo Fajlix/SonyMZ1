@@ -14,24 +14,25 @@ public class ChallengeViewModel extends ViewModel {
     private MutableLiveData<Map<Integer, Integer>> leaderboard;
 
     public ChallengeViewModel() {
-        /*this.challenge = new Challenge("Challenge");
+        this.challenge = new Challenge("Challenge");
         this.challenge.setDescription("Run 100km before any of the other challengers");
         this.users = db.getUserMap();
         this.mainUser = getUsers().get(2);
         this.leaderboard = new MutableLiveData<>();
         leaderboard.setValue(challenge.getLeaderBoard());
 
-         */
+
     }
 
     /**
      * Method for communication between Model and View, in this case Challenge and CreateChallengeFragment
      */
-    public void createChallenge() {
-        challenge = new Challenge("ta på mig");
-        blaBla();
-        //challenge.setDescription(createChallengeFragment.getDescription());
-        //challenge.setPrivate(createChallengeFragment.isPrivate());
+    public void createChallenge(String name, String description,boolean isPrivate, int[] playerIds) {
+        challenge = new Challenge(name);
+        challenge.setDescription(description);
+        challenge.setPrivate(isPrivate);
+
+        addPlayers(playerIds);
         //TODO Add challengers
     }
 
@@ -43,18 +44,20 @@ public class ChallengeViewModel extends ViewModel {
     /**
      * Because we can add multiple users in the fragment but only one user at a time in the model
      *
-     * @param playerIDs
+     * @param playerIDs an array of integers which all represents a player
      */
     private void addPlayers(int[] playerIDs) {
-        for (int i = 0; i < playerIDs.length; i++) {
-            challenge.addPlayer(playerIDs[i]);
+        for (int playerID : playerIDs) {
+            challenge.addPlayer(playerID);
         }
     }
 
-    public MutableLiveData<Map<Integer, Integer>> getLeaderboard() { return leaderboard; }
+
+    public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() { return leaderboard; }
 
     public User getUser(int index) {return getUsers().get(index);}
 
+    //TODO This should not be here
     public User getMainUser() { return mainUser; }
 
     public Map<Integer, User> getUsers() { return users; }
@@ -69,10 +72,5 @@ public class ChallengeViewModel extends ViewModel {
 
     public Boolean isPrivate() {
         return challenge.isPrivate();
-    }
-
-    public void blaBla()
-    {
-        System.out.println(challenge.getName());
     }
 }
