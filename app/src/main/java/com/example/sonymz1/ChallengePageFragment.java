@@ -35,11 +35,11 @@ import java.util.Map;
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
-    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderboard, rvcParticipants;
-    private ConstraintLayout participantsView;
+    private ConstraintLayout participantsView, editView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -109,11 +109,17 @@ public class ChallengePageFragment extends Fragment {
             }
         });
         //Should instead trigger editView, for now just for testing it instead navigates like the addScoreButton
-        view.findViewById(R.id.editBtnView).setOnClickListener(new View.OnClickListener() {
+        editBtnImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(ChallengePageFragment.this)
-                        .navigate(R.id.action_challengePageFragment_to_addingScorePage);
+                if(editView.getVisibility() == View.GONE){
+                    editView.setVisibility(View.VISIBLE);
+                    editBtnImg.setRotation(90);
+                }
+                else{
+                    editView.setVisibility(View.GONE);
+                    editBtnImg.setRotation(0);
+                }
             }
         });
     }
@@ -209,6 +215,8 @@ public class ChallengePageFragment extends Fragment {
         privacyTxt = view.findViewById(R.id.privacyTextView);
         progressBar = view.findViewById(R.id.progressBarView);
         progressBarTxt = view.findViewById(R.id.progressBarTextView);
+        editBtnImg = view.findViewById(R.id.editBtnView);
+        editView = view.findViewById(R.id.editInfoView);
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setInfoCard(){
@@ -225,13 +233,20 @@ public class ChallengePageFragment extends Fragment {
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void progressBarSetup(){
+        //Give progressbar the right color
         progressBar.setProgressTintList(ColorStateList.valueOf(Color.rgb(0, 172, 255)));
 
+        //Setup for progressbar if there is a goal to track
         if(vm.getEndGoal() > 0){
             progressBarTxt.setText(vm.getMainUserScore() + "/" + vm.getEndGoal());
 
             progressBar.setMax(vm.getEndGoal());
             progressBar.setProgress(vm.getMainUserScore());
+        }
+        //If there is no goal to track
+        else{
+            progressBar.setVisibility(View.GONE);
+            progressBarTxt.setVisibility(View.GONE);
         }
     }
 }
