@@ -267,6 +267,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.566" />
 
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="328dp"
+        android:layout_height="18dp"
+        android:background="#00FFFFFF"
+        android:max="100"
+        android:progress="30"
+        android:scaleY="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.731" />
+
+    <TextView
+        android:id="@+id/progressBarTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Progress"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.733" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/particiantsView"
         android:layout_width="match_parent"

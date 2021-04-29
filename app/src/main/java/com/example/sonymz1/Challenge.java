@@ -126,6 +126,13 @@ public class Challenge implements ScoreUpdateListener{
         }
         return false;
     }
+    public int getGoalScore(){
+        ScoreComponent scoreComponent = getScoreComponent();
+        if (scoreComponent != null){
+            return scoreComponent.getGoalScore();
+        }
+        return 0;
+    }
     //Just returns the scoreComponent of all the components
     private ScoreComponent getScoreComponent(){
         for (ChallengeComponent cc :

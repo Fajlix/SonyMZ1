@@ -1,9 +1,13 @@
 package com.example.sonymz1;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.LinkedList;
@@ -31,7 +36,8 @@ import java.util.Map;
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
     private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg;
-    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt;
+    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
+    private ProgressBar progressBar;
     private RecyclerView rvcLeaderboard, rvcParticipants;
     private ConstraintLayout participantsView;
 
@@ -82,6 +88,7 @@ public class ChallengePageFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_challenge_page, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -200,7 +207,10 @@ public class ChallengePageFragment extends Fragment {
         challengeInfoImg = view.findViewById(R.id.challengeInfoImgView);
         numOfParticipants = view.findViewById(R.id.playerNumView);
         privacyTxt = view.findViewById(R.id.privacyTextView);
+        progressBar = view.findViewById(R.id.progressBarView);
+        progressBarTxt = view.findViewById(R.id.progressBarTextView);
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setInfoCard(){
         challengeNameTxt.setText(vm.getName());
         descriptionTxt.setText(vm.getDescription());
@@ -210,6 +220,18 @@ public class ChallengePageFragment extends Fragment {
         }
         else{
             privacyTxt.setText("Public");
+        }
+        progressBarSetup();
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void progressBarSetup(){
+        progressBar.setProgressTintList(ColorStateList.valueOf(Color.rgb(0, 172, 255)));
+
+        if(vm.getEndGoal() > 0){
+            progressBarTxt.setText(vm.getMainUserScore() + "/" + vm.getEndGoal());
+
+            progressBar.setMax(vm.getEndGoal());
+            progressBar.setProgress(vm.getMainUserScore());
         }
     }
 }

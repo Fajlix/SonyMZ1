@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.CounterComponent;
+import com.example.sonymz1.Components.DistanceComponent;
 
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class ChallengeViewModel extends ViewModel {
     public ChallengeViewModel() {
 
         this.challenge = new Challenge("Challenge");
-        this.challenge.setDescription("Run 100km before any of the other challengers");
+        this.challenge.setDescription("Run 10km before any of the other challengers");
         this.users = db.getUserMap();
         this.mainUser = getUsers().get(2);
         this.leaderBoard = new MutableLiveData<>();
@@ -32,6 +33,10 @@ public class ChallengeViewModel extends ViewModel {
         addPlayer(getUser(2).getId(),5);
         addPlayer(getUser(3).getId(),10);
         addPlayer(getUser(4).getId(),4);
+
+        DistanceComponent comp = new DistanceComponent(getMainUserScore(), this.challenge);
+        comp.setGoalDistance(10);
+        this.challenge.addComponent(comp);
     }
 
     public void addPlayer(int playerId, int score){
@@ -70,5 +75,13 @@ public class ChallengeViewModel extends ViewModel {
 
     public boolean isPrivate(){
         return challenge.isPrivate();
+    }
+
+    public int getMainUserScore(){
+        return challenge.getLeaderBoard().get(mainUser.getId());
+    }
+
+    public int getEndGoal(){
+        return challenge.getGoalScore();
     }
 }
