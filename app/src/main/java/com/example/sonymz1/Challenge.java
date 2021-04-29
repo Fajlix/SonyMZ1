@@ -1,5 +1,8 @@
 package com.example.sonymz1;
 
+import com.example.sonymz1.Components.ChallengeComponent;
+import com.example.sonymz1.Components.ScoreComponent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,8 +13,10 @@ import java.util.Map;
 
 /**
  * @author Felix
+ * Class representing a challenge and information about a challenge e.g users, their scores, chalenge
+ * name etc.
  */
-public class Challenge {
+public class Challenge implements ScoreUpdateListener{
     /**
      * name for challenge, leader Board with playerIds and score, challenge components, if challenge
      *  is private or not, string for challenge description, challenge code to join
@@ -22,6 +27,7 @@ public class Challenge {
     private boolean isPrivate;
     private String description;
     private int challengeCode;
+
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
                      ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
@@ -103,5 +109,31 @@ public class Challenge {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public void updateScore(int mainUserId,int score) {
+        //TODO getcurrentuserID
+        leaderBoard.put(mainUserId,score);
+
+    }
+    public boolean checkIfGoalReached(){
+        ScoreComponent scoreComponent = getScoreComponent();
+        if (scoreComponent != null){
+            int bestUser = leaderBoard.keySet().iterator().next();
+            int currentScore = leaderBoard.get(bestUser);
+            return currentScore >= scoreComponent.getGoalScore();
+        }
+        return false;
+    }
+    //Just returns the scoreComponent of all the components
+    private ScoreComponent getScoreComponent(){
+        for (ChallengeComponent cc :
+                components) {
+            if (cc instanceof ScoreComponent){
+                return (ScoreComponent) cc;
+            }
+        }
+        return null;
     }
 }
