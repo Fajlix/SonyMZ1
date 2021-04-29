@@ -70,7 +70,7 @@ public class FirstFragment extends Fragment {
             public void onItemClick(int position) {
              challengeList.get(position).changeText("Clicked");
              rAdapter.notifyItemChanged(position);
-             // Temp on click for test
+             // Temp on click for test will change to navigate to specific challenge when it exists
             }
         });
     }

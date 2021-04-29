@@ -19,6 +19,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Toolbar.TitleText.ActiveChallenges" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">21sp</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:shadowColor">#2C000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">10</item>
+
+    </style>
+
 
 
     <style name="Theme.SonyMZ1.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
