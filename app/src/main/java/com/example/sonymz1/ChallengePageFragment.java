@@ -257,6 +257,10 @@ public class ChallengePageFragment extends Fragment {
         confirmNameChangeBtn = view.findViewById(R.id.confirmChallengeNameChangeBtn);
         cancelNameChangeBtn = view.findViewById(R.id.cancelChallengeNameChangeBtn);
         infoCardName = view.findViewById(R.id.editChallengeNameView);
+        infoCardDescription = view.findViewById(R.id.editChallengeDescriptionView);
+        infoCardParticipantsNum = view.findViewById(R.id.editChallengeParticipantsNumView);
+        infoCardPrivacy = view.findViewById(R.id.editChallengePrivacyView);
+        infoCardCode = view.findViewById(R.id.editChallengeCodeView);
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setInfoCard(){
@@ -264,13 +268,22 @@ public class ChallengePageFragment extends Fragment {
         infoCardName.setText(vm.getName());
 
         descriptionTxt.setText(vm.getDescription());
+        infoCardDescription.setText(vm.getDescription());
+
         numOfParticipants.setText(String.valueOf(vm.getNumOfPlayers()));
+        infoCardParticipantsNum.setText(String.valueOf(vm.getNumOfPlayers()));
+
         if(vm.isPrivate()){
             privacyTxt.setText("Private");
+            infoCardPrivacy.setText("Private");
         }
         else{
             privacyTxt.setText("Public");
+            infoCardPrivacy.setText("Public");
         }
+
+        infoCardCode.setText(vm.getCode());
+
         progressBarSetup();
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

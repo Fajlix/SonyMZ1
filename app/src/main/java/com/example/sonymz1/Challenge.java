@@ -103,6 +103,8 @@ public class Challenge implements ScoreUpdateListener{
         return description;
     }
 
+    public int getChallengeCode(){ return challengeCode;}
+
     public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
