@@ -111,6 +111,10 @@ public class Challenge implements ScoreUpdateListener{
         this.description = description;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
     @Override
     public void updateScore(int mainUserId,int score) {
         //TODO getcurrentuserID

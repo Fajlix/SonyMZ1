@@ -84,4 +84,8 @@ public class ChallengeViewModel extends ViewModel {
     public int getEndGoal(){
         return challenge.getGoalScore();
     }
+
+    public void setChallengeName(String name){
+        challenge.setName(name);
+    }
 }
