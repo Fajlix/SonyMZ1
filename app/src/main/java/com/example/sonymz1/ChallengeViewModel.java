@@ -15,25 +15,36 @@ public class ChallengeViewModel extends ViewModel {
     private Challenge challenge;
     private User mainUser;
     private Map<Integer,User> users;
-    private AllUsers db = new AllUsers();
-    private MutableLiveData<Map<Integer, Integer>> leaderboard;
+    private AllUsers db = AllUsers.getInstance();
+    private MutableLiveData<Map<Integer, Integer>> leaderboard = new MutableLiveData<>();
 
     public ChallengeViewModel() {
-        this.challenge = new Challenge("Challenge");
+        this.challenge = new Challenge("Challenge"); // Temp set
         this.users = db.getUserMap();
-        this.mainUser = getUsers().get(2);
-        this.leaderboard = new MutableLiveData<>();
-        leaderboard.setValue(challenge.getLeaderBoard());
+        this.mainUser = getUsers().get(0); // Temp set
+        challenge.addPlayer(mainUser.getId(),2); // Should be set in Challenge class
     }
 
-    public void addPlayer(int playerId, int score){
+    /**
+     * Temporary method to add other challengers score.
+     * @param playerId challengers id
+     * @param score challengers score to add
+     */
+    public void addTestScore(int playerId, int score){
         challenge.addPlayer(playerId, score);
         leaderboard.setValue(challenge.getLeaderBoard());
     }
 
-    public MutableLiveData<Map<Integer, Integer>> getLeaderboard() { return leaderboard; }
+    /**
+     * Method for the main user to update their score.
+     * @param score score to add
+     */
+    public void addScore(int score){
+        challenge.addPlayer(mainUser.getId(), score);
+        leaderboard.setValue(challenge.getLeaderBoard());
+    }
 
-    public User getUser(int index) {return getUsers().get(index);}
+    public MutableLiveData<Map<Integer, Integer>> getLeaderboard() { return leaderboard; }
 
     public User getMainUser() { return mainUser; }
 

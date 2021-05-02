@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Adapter for populating the recyclerview for the leaderboard.
+ * Adapter for populating the recyclerview with 3 challengers where the user are in the leaderboard.
  *
- * @author Wendy
+ * @author Wendy Pau
  */
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
     private Map<Integer,Integer> leaderboard;
@@ -48,22 +48,48 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         LinkedList<Integer> leaderboardList = new LinkedList<>(leaderboard.keySet());
         int rank = leaderboardList.indexOf(user.getId()) + 1;
         StringBuilder sb = new StringBuilder();
-        //Get the challenger above and below the user.
-        switch (position) {
-            case 0:
-                user = vm.getUsers().get(leaderboardList.get(rank-2));
-                sb.append(rank-1);
-                break;
-            case 1:
-                user = vm.getUsers().get(leaderboardList.get(rank-1));
-                sb.append(rank);
-                CardView cardView = (CardView) holder.itemView;
-                cardView.setCardBackgroundColor(Color.WHITE);
-                break;
-            case 2:
-                user = vm.getUsers().get(leaderboardList.get(rank));
-                sb.append(rank+1);
-                break;
+
+        if (rank == 1){ // if main user is first
+            sb.append(rank);
+            CardView cardView = (CardView) holder.itemView;
+            cardView.setCardBackgroundColor(Color.WHITE);
+        }
+        else if (rank == leaderboardList.size()){   // if main user is last
+            switch (position) {
+                case 0:
+                    user = vm.getUsers().get(leaderboardList.get(rank-3));
+                    sb.append(rank-2);
+                    break;
+                case 1:
+                    user = vm.getUsers().get(leaderboardList.get(rank-2));
+                    sb.append(rank-1);
+                    break;
+                case 2:
+                    user = vm.getUsers().get(leaderboardList.get(rank-1));
+                    sb.append(rank);
+                    CardView cardView = (CardView) holder.itemView;
+                    cardView.setCardBackgroundColor(Color.WHITE);
+                    break;
+            }
+        }
+        else {
+            //Get the challenger above and below the main user.
+            switch (position) {
+                case 0:
+                    user = vm.getUsers().get(leaderboardList.get(rank - 2));
+                    sb.append(rank - 1);
+                    break;
+                case 1:
+                    user = vm.getUsers().get(leaderboardList.get(rank - 1));
+                    sb.append(rank);
+                    CardView cardView = (CardView) holder.itemView;
+                    cardView.setCardBackgroundColor(Color.WHITE);
+                    break;
+                case 2:
+                    user = vm.getUsers().get(leaderboardList.get(rank));
+                    sb.append(rank + 1);
+                    break;
+            }
         }
 
         //Give the right rank end thing.
@@ -81,7 +107,13 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public int getItemCount() {
-        return 3;
+        if (leaderboard.size() == 1) {
+            return 1;
+        }
+        else if (leaderboard.size() == 2){
+            return 2;
+        }
+        else return 3;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

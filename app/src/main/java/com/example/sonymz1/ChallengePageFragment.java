@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,6 +30,7 @@ import java.util.Map;
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
+    private CardView pedestal2, pedestal3;
     private ImageView userImg1, userImg2, userImg3, backBtn;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn;
     private RecyclerView rvcLeaderboard, rvcParticipants;
@@ -88,10 +90,12 @@ public class ChallengePageFragment extends Fragment {
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
 
-        vm.addPlayer(vm.getUser(1).getId(),6);
-        vm.addPlayer(vm.getUser(2).getId(),5);
-        vm.addPlayer(vm.getUser(3).getId(),10);
-        vm.addPlayer(vm.getUser(4).getId(),4);
+        // temp code to test leaderboard
+        int score = 0;
+        for (Integer key : vm.getUsers().keySet()) {
+            score += 2;
+            vm.addTestScore(key,score);
+        }
 
         setPedestal();
         setLeaderboard();
@@ -144,23 +148,40 @@ public class ChallengePageFragment extends Fragment {
                     new LinkedList<>(leaderboard.entrySet());
 
             if (leaderboardList.size() > 2) {
-                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
-                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
-                userImg3.setImageResource(vm.getUsers().get(leaderboardList.get(2).getKey()).getProfilePic());
-                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
-                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
-                progressTxt3.setText(String.valueOf(leaderboardList.get(2).getValue()));
+                setUserOnPedestal(userImg1,progressTxt1,
+                        vm.getUsers().get(leaderboardList.get(0).getKey()),leaderboardList.get(0).getValue());
+                setUserOnPedestal(userImg2,progressTxt2,
+                        vm.getUsers().get(leaderboardList.get(1).getKey()),leaderboardList.get(1).getValue());
+                setUserOnPedestal(userImg3,progressTxt3,
+                        vm.getUsers().get(leaderboardList.get(2).getKey()),leaderboardList.get(2).getValue());
+                pedestal2.setVisibility(View.VISIBLE);
+                pedestal3.setVisibility(View.VISIBLE);
             }
             else if (leaderboardList.size() == 2) {
-                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
-                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
-                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
-                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
+                setUserOnPedestal(userImg1,progressTxt1,
+                        vm.getUsers().get(leaderboardList.get(0).getKey()),leaderboardList.get(0).getValue());
+                setUserOnPedestal(userImg2,progressTxt2,
+                        vm.getUsers().get(leaderboardList.get(1).getKey()),leaderboardList.get(1).getValue());
+                pedestal3.setVisibility(View.GONE);
             }else {
-                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
-                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+                setUserOnPedestal(userImg1,progressTxt1,
+                        vm.getUsers().get(leaderboardList.get(0).getKey()),leaderboardList.get(0).getValue());
+                pedestal2.setVisibility(View.GONE);
+                pedestal3.setVisibility(View.GONE);
             }
         });
+    }
+
+    /**
+     * Set the ImageView and TextView for the pedestal.
+     * @param img the ImageView to set
+     * @param txt the TextView to set
+     * @param user the user
+     * @param score the users score
+     */
+    private void setUserOnPedestal(ImageView img, TextView txt, User user, int score){
+        img.setImageResource(user.getProfilePic());
+        txt.setText(String.valueOf(score));
     }
 
     /**
@@ -168,6 +189,8 @@ public class ChallengePageFragment extends Fragment {
      * @param view the fragments view.
      */
     private void initializeViews(View view){
+        pedestal2 = view.findViewById(R.id.pedestal2);
+        pedestal3 = view.findViewById(R.id.pedestal3);
         userImg1 = view.findViewById(R.id.user_img1);
         userImg2 = view.findViewById(R.id.user_img2);
         userImg3 = view.findViewById(R.id.user_img3);
