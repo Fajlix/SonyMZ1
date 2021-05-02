@@ -310,7 +310,7 @@
             android:id="@+id/editInfoView"
             android:layout_width="359dp"
             android:layout_height="294dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

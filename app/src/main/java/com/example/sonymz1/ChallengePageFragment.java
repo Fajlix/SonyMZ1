@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -42,6 +43,7 @@ public class ChallengePageFragment extends Fragment {
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
     private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn;
+    private Switch privacySwitch;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderboard, rvcParticipants;
     private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
@@ -182,6 +184,19 @@ public class ChallengePageFragment extends Fragment {
                 descriptionChangeBox.setText("");
             }
         });
+
+        privacySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(vm.isPrivate()){
+                    vm.setPrivacy(false);
+                }
+                else{
+                    vm.setPrivacy(true);
+                }
+                setInfoCard();
+            }
+        });
     }
 
     /**
@@ -281,6 +296,7 @@ public class ChallengePageFragment extends Fragment {
         adminView = view.findViewById(R.id.editChallengeAdminView);
         editChallengeNameBtnImg = view.findViewById(R.id.editChallengeNameBtn);
         editChallengeDescriptionBtnImg = view.findViewById(R.id.editChallengeDescriptionBtn);
+        privacySwitch = view.findViewById(R.id.privacySwitch);
 
         editNameView = view.findViewById(R.id.editInfoNameView);
         nameChangeBox = view.findViewById(R.id.nameChangeTextInput);
@@ -312,10 +328,12 @@ public class ChallengePageFragment extends Fragment {
         if(vm.isPrivate()){
             privacyTxt.setText("Private");
             infoCardPrivacy.setText("Private");
+            privacySwitch.setChecked(true);
         }
         else{
             privacyTxt.setText("Public");
             infoCardPrivacy.setText("Public");
+            privacySwitch.setChecked(false);
         }
 
         infoCardCode.setText(vm.getCode());

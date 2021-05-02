@@ -25,6 +25,7 @@ public class ChallengeViewModel extends ViewModel {
         this.leaderBoard = new MutableLiveData<>();
         leaderBoard.setValue(challenge.getLeaderBoard());
 
+        setPrivacy(true);
         addFakeData();
         this.challenge.addComponent(new CounterComponent(this.leaderBoard.getValue().get(mainUser.getId()),this.challenge));
     }
@@ -91,6 +92,10 @@ public class ChallengeViewModel extends ViewModel {
 
     public void setDescription(String desc){
         challenge.setDescription(desc);
+    }
+
+    public void setPrivacy(boolean aPrivate){
+        challenge.setPrivate(aPrivate);
     }
 
     public String getCode(){
