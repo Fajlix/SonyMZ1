@@ -128,6 +128,7 @@ public class Challenge implements ScoreUpdateListener{
 
     public void setName(String name){
         this.name = name;
+    }
 
     public void changeText(String text){
         description = text;
