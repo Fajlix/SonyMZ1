@@ -88,6 +88,11 @@ public class ChallengeViewModel extends ViewModel {
     public void setChallengeName(String name){
         challenge.setName(name);
     }
+
+    public void setDescription(String desc){
+        challenge.setDescription(desc);
+    }
+
     public String getCode(){
         return String.valueOf(challenge.getChallengeCode());
     }

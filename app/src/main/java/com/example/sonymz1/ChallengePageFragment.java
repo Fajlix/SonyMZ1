@@ -38,14 +38,14 @@ import java.util.Map;
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
-    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
-    private Button confirmNameChangeBtn, cancelNameChangeBtn;
+    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderboard, rvcParticipants;
-    private ConstraintLayout participantsView, editView, adminView, editNameView;
-    private TextInputEditText nameChangeBox;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
+    private TextInputEditText nameChangeBox, descriptionChangeBox;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -126,6 +126,7 @@ public class ChallengePageFragment extends Fragment {
                 else{
                     adminView.setVisibility(View.GONE);
                     editNameView.setVisibility(View.GONE);
+                    editDescriptionView.setVisibility(View.GONE);
                     editBtnImg.setRotation(0);
                 }
             }
@@ -153,6 +154,32 @@ public class ChallengePageFragment extends Fragment {
                 editView.setVisibility(View.VISIBLE);
                 editNameView.setVisibility((View.GONE));
                 nameChangeBox.setText("");
+            }
+        });
+
+        editChallengeDescriptionBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editView.setVisibility(View.GONE);
+                editDescriptionView.setVisibility((View.VISIBLE));
+            }
+        });
+        cancelDescriptionChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editView.setVisibility(View.VISIBLE);
+                editDescriptionView.setVisibility((View.GONE));
+                descriptionChangeBox.setText("");
+            }
+        });
+        confirmDescriptionChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vm.setDescription(descriptionChangeBox.getText().toString());
+                setInfoCard();
+                editView.setVisibility(View.VISIBLE);
+                editDescriptionView.setVisibility((View.GONE));
+                descriptionChangeBox.setText("");
             }
         });
     }
@@ -248,14 +275,23 @@ public class ChallengePageFragment extends Fragment {
         privacyTxt = view.findViewById(R.id.privacyTextView);
         progressBar = view.findViewById(R.id.progressBarView);
         progressBarTxt = view.findViewById(R.id.progressBarTextView);
+
         editBtnImg = view.findViewById(R.id.editBtnView);
         editView = view.findViewById(R.id.editInfoView);
         adminView = view.findViewById(R.id.editChallengeAdminView);
         editChallengeNameBtnImg = view.findViewById(R.id.editChallengeNameBtn);
+        editChallengeDescriptionBtnImg = view.findViewById(R.id.editChallengeDescriptionBtn);
+
         editNameView = view.findViewById(R.id.editInfoNameView);
         nameChangeBox = view.findViewById(R.id.nameChangeTextInput);
         confirmNameChangeBtn = view.findViewById(R.id.confirmChallengeNameChangeBtn);
         cancelNameChangeBtn = view.findViewById(R.id.cancelChallengeNameChangeBtn);
+
+        editDescriptionView = view.findViewById(R.id.editInfoDescriptionView);
+        descriptionChangeBox = view.findViewById(R.id.descriptionChangeTextInput);
+        confirmDescriptionChangeBtn = view.findViewById(R.id.confirmDescriptionChangeBtn);
+        cancelDescriptionChangeBtn = view.findViewById(R.id.cancelDescriptionChangeBtn);
+
         infoCardName = view.findViewById(R.id.editChallengeNameView);
         infoCardDescription = view.findViewById(R.id.editChallengeDescriptionView);
         infoCardParticipantsNum = view.findViewById(R.id.editChallengeParticipantsNumView);
