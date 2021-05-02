@@ -4,36 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/startgradient"
     android:orientation="vertical"
     tools:context=".FirstFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/startgradient">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/blue"
+                app:contentScrim="@color/black"
+                app:expandedTitleMarginStart="20dp"
+                app:expandedTitleMarginBottom="5dp"
+                app:expandedTitleTextAppearance="@style/Toolbar.TitleText.ActiveChallenges"
+                app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.ActiveChallenges"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:title="@string/active_challenges">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    app:layout_collapseMode="pin" />
+
+                <TextView
+                    android:id="@+id/welcomeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="108dp"
+                    android:fontFamily="@font/roboto"
+                    android:shadowColor="#2F060707"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="10"
+                    android:text="@string/welcome_text"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvc_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="180dp"
             android:paddingLeft="6dp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:itemCount="3"
 
             tools:layout_editor_absoluteX="168dp"
             tools:listitem="@layout/challenge_card" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addChallengeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="20dp"
             android:src="@mipmap/button_add_challenge_foreground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.947"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.974" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:fabCustomSize="65dp"
+            app:backgroundTint="@color/teal_200"
+            app:maxImageSize="70dp"
+            app:elevation="10dp"
+            app:tint="@null"
+           />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

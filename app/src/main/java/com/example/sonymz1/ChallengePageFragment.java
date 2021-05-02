@@ -51,6 +51,7 @@ public class ChallengePageFragment extends Fragment {
     private RecyclerView rvcLeaderboard, rvcParticipants;
     private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
+    private Button addScoreButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -237,13 +238,16 @@ public class ChallengePageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     participantsView.setVisibility(View.VISIBLE);
+                    addScoreButton.setVisibility(View.GONE);
                 }
+
             });
 
             backBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     participantsView.setVisibility(View.GONE);
+                    addScoreButton.setVisibility(View.VISIBLE);
                 }
             });
         }else moreBtn.setVisibility(View.GONE);
@@ -293,6 +297,7 @@ public class ChallengePageFragment extends Fragment {
         participantsView = view.findViewById(R.id.particiantsView);
         backBtn = view.findViewById(R.id.backBtn);
         rvcParticipants = view.findViewById(R.id.rvcParticipants);
+        addScoreButton = view.findViewById(R.id.addScoreButton);
 
         //-------------------------------------------------------
         challengeNameTxt = view.findViewById(R.id.challengeNameView);
