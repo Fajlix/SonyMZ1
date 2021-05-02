@@ -18,8 +18,9 @@ import java.util.Map;
  */
 public class Challenge implements ScoreUpdateListener{
     /**
-     * name for challenge, leader Board with playerIds and score, challenge components, if challenge
-     *  is private or not, string for challenge description, challenge code to join
+     *  name for challenge, leader Board with playerIds and score, challenge components, if challenge
+     *  is private or not, string for challenge description, challenge code to join,
+     *  int for challenge card background pic, int for medal pic.
      */
     private String name;
     private Map<Integer, Integer> leaderBoard;
@@ -27,24 +28,36 @@ public class Challenge implements ScoreUpdateListener{
     private boolean isPrivate;
     private String description;
     private int challengeCode;
+    private int challengeBackground;
+    private int medal;
 
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
-                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
+                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description, int challengeBackground) {
         this.name = name;
         this.leaderBoard = leaderBoard;
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
+        this.challengeBackground = challengeBackground;
     }
-
-    public Challenge(String name) {
+    public Challenge(String name, int challengeBackground, int medal) {
+        this.name = name;
+        this.leaderBoard = new HashMap<>();
+        this.components = new ArrayList<>();
+        this.isPrivate = false;
+        this.description = "You are first!";
+        this.challengeBackground = challengeBackground;
+        this.medal = medal;
+    }
+      public Challenge(String name) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.description = "";
-    }
+      }
+
 
     public String getName() {
         return name;
@@ -109,6 +122,19 @@ public class Challenge implements ScoreUpdateListener{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public void changeText(String text){
+        description = text;
+    }
+
+    public int getChallengeBackground() {
+        return challengeBackground;
+    }
+
+    public int getMedal() {
+        return medal;
     }
 
     @Override
