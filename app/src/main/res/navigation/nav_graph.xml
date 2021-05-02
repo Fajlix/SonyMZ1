@@ -18,5 +18,14 @@
         android:id="@+id/challengePageFragment"
         android:name="com.example.sonymz1.ChallengePageFragment"
         android:label="fragment_challenge_page"
-        tools:layout="@layout/fragment_challenge_page" />
+        tools:layout="@layout/fragment_challenge_page" >
+        <action
+            android:id="@+id/action_challengePageFragment_to_addingScorePage"
+            app:destination="@id/addingScorePage" />
+    </fragment>
+    <fragment
+        android:id="@+id/addingScorePage"
+        android:name="com.example.sonymz1.AddingScorePage"
+        android:label="fragment_adding_score_page"
+        tools:layout="@layout/fragment_adding_score_page" />
 </navigation>
