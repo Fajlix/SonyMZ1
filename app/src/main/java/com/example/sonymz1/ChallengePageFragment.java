@@ -2,18 +2,38 @@ package com.example.sonymz1;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ChallengePageFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * @author Wendy P, Jonathan S.
  */
 public class ChallengePageFragment extends Fragment {
+    private ChallengeViewModel vm;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg;
+    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt;
+    private RecyclerView rvcLeaderboard, rvcParticipants;
+    private ConstraintLayout participantsView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +80,119 @@ public class ChallengePageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_challenge_page, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
+        initializeViews(view);
+        setPedestal();
+        setLeaderboard();
+        setParticipants();
+        setInfoCard();
+
+        //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
+        view.findViewById(R.id.addScoreButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(ChallengePageFragment.this)
+                        .navigate(R.id.action_challengePageFragment_to_addingScorePage);
+            }
+        });
+    }
+
+    /**
+     * Show all the participants
+     */
+    private void setParticipants(){
+        rvcParticipants.setLayoutManager(new LinearLayoutManager(getContext()));
+        ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,
+                vm.getLeaderBoard().getValue());
+        rvcParticipants.setAdapter(participantsAdapter);
+    }
+
+    /**
+     * Populate the leaderboard with participants.
+     */
+    private void setLeaderboard(){
+        rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
+        LeaderboardAdapter leaderboardAdapter = new LeaderboardAdapter(this,
+                vm.getLeaderBoard().getValue());
+        rvcLeaderboard.setAdapter(leaderboardAdapter);
+
+        if(vm.getLeaderBoard().getValue().size() > 3){
+            moreBtn.setVisibility(View.VISIBLE);
+            System.out.println(vm.getLeaderBoard().getValue().get(vm.getMainUser().getId()));
+            moreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    participantsView.setVisibility(View.VISIBLE);
+                }
+            });
+
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    participantsView.setVisibility(View.GONE);
+                }
+            });
+        }else moreBtn.setVisibility(View.GONE);
+    }
+
+    /**
+     * Set the top 3 users info on the pedestal.
+     */
+    private void setPedestal(){
+        vm.getLeaderBoard().observe(getViewLifecycleOwner(), leaderboard -> {
+            List<Map.Entry<Integer, Integer>> leaderboardList =
+                    new LinkedList<>(leaderboard.entrySet());
+
+            if (leaderboardList.size() > 2) {
+                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
+                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
+                userImg3.setImageResource(vm.getUsers().get(leaderboardList.get(2).getKey()).getProfilePic());
+                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
+                progressTxt3.setText(String.valueOf(leaderboardList.get(2).getValue()));
+            }
+            else if (leaderboardList.size() == 2) {
+                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
+                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
+                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
+            }else {
+                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
+                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+            }
+        });
+    }
+
+    /**
+     * Instantiate all the required views.
+     * @param view the fragments view.
+     */
+    private void initializeViews(View view){
+        userImg1 = view.findViewById(R.id.user_img1);
+        userImg2 = view.findViewById(R.id.user_img2);
+        userImg3 = view.findViewById(R.id.user_img3);
+        progressTxt1 = view.findViewById(R.id.progressTxt1);
+        progressTxt2 = view.findViewById(R.id.progressTxt2);
+        progressTxt3 = view.findViewById(R.id.progressTxt3);
+        rvcLeaderboard = view.findViewById(R.id.rvcLeaderboard);
+        moreBtn = view.findViewById(R.id.moreBtn);
+        participantsView = view.findViewById(R.id.particiantsView);
+        backBtn = view.findViewById(R.id.backBtn);
+        rvcParticipants = view.findViewById(R.id.rvcParticipants);
+
+        //-------------------------------------------------------
+        challengeNameTxt = view.findViewById(R.id.challengeNameView);
+        descriptionTxt = view.findViewById(R.id.descriptionTextView);
+        challengeInfoImg = view.findViewById(R.id.challengeInfoImgView);
+    }
+    private void setInfoCard(){
+        challengeNameTxt.setText(vm.getName());
+        descriptionTxt.setText(vm.getDescription());
     }
 }
