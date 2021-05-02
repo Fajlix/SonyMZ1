@@ -52,6 +52,12 @@ public class FirstFragment extends Fragment {
 
     private void createChallengeList() {
         challengeList = new ArrayList<>();
+        LocalDatabase db = LocalDatabase.getInstance();
+        if (db.getChallenges() != null) {
+            for (Challenge challenge : db.getChallenges()) {
+                challengeList.add(new ChallengeItem(R.drawable.arrow, R.drawable.run_challenge, R.drawable.medal, challenge.getName(), challenge.getDescription()));
+            }
+        }
         challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challange name","You are first!"));
         challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
         challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
@@ -68,6 +74,14 @@ public class FirstFragment extends Fragment {
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                LocalDatabase db = LocalDatabase.getInstance();
+                for (Challenge challenge : db.getChallenges()){
+                    if (challenge.getName().equals(challengeList.get(position).getmText1())){
+                        db.setActiveChallenge(challenge);
+                        break;
+                    }
+                }
+
              challengeList.get(position).changeText("Clicked");
              rAdapter.notifyItemChanged(position);
              // Temp on click for test

@@ -5,23 +5,26 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.Map;
 
+/**
+ * @author Felix ,Viktor J
+ * A class responsible for the communication between the challenges and views.
+ */
 public class ChallengeViewModel extends ViewModel {
 
     private Challenge challenge;
     private User mainUser;
     private Map<Integer,User> users;
     private AllUsers db = new AllUsers();
-    private MutableLiveData<Map<Integer, Integer>> leaderboard;
+    private MutableLiveData<Map<Integer, Integer>> leaderBoard;
 
     public ChallengeViewModel() {
-        this.challenge = new Challenge("Challenge");
-        this.challenge.setDescription("Run 100km before any of the other challengers");
+        this.challenge = LocalDatabase.getInstance().getActiveChallenge();
         this.users = db.getUserMap();
         this.mainUser = getUsers().get(2);
-        this.leaderboard = new MutableLiveData<>();
-        leaderboard.setValue(challenge.getLeaderBoard());
-
-
+        this.leaderBoard = new MutableLiveData<>();
+        if (challenge !=null){
+        leaderBoard.setValue(challenge.getLeaderBoard());
+        }
     }
 
     /**
@@ -31,14 +34,17 @@ public class ChallengeViewModel extends ViewModel {
         challenge = new Challenge(name);
         challenge.setDescription(description);
         challenge.setPrivate(isPrivate);
-
+        challenge.setCreatorId(mainUser.getId());
         addPlayers(playerIds);
+        addPlayer(1,20);
+        setLeaderBoard();
+        LocalDatabase.getInstance().addChallenge(challenge);
         //TODO Add challengers
     }
 
     public void addPlayer(int playerId, int score){
         challenge.addPlayer(playerId, score);
-        leaderboard.setValue(challenge.getLeaderBoard());
+        setLeaderBoard();
     }
 
     /**
@@ -50,10 +56,11 @@ public class ChallengeViewModel extends ViewModel {
         for (int playerID : playerIDs) {
             challenge.addPlayer(playerID);
         }
+        setLeaderBoard();
     }
 
 
-    public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() { return leaderboard; }
+    public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() { return leaderBoard; }
 
     public User getUser(int index) {return getUsers().get(index);}
 
@@ -72,5 +79,10 @@ public class ChallengeViewModel extends ViewModel {
 
     public Boolean isPrivate() {
         return challenge.isPrivate();
+    }
+    public void setLeaderBoard(){
+        if (challenge !=null){
+            leaderBoard.setValue(challenge.getLeaderBoard());
+        }
     }
 }

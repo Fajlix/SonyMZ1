@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Felix
@@ -21,7 +22,9 @@ public class Challenge {
     private ArrayList<ChallengeComponent> components;
     private boolean isPrivate;
     private String description;
-    private int challengeCode;
+    private String challengeCode;
+    private int creatorId;
+    private int[] adminIds;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
                      ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
@@ -38,6 +41,8 @@ public class Challenge {
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.description = "";
+        this.challengeCode = generateCode(4);
+        System.out.println(challengeCode);
     }
 
     public String getName() {
@@ -54,6 +59,28 @@ public class Challenge {
 
     public void addPlayer(int playerId, int score) {
         this.leaderBoard.put(playerId, score);
+    }
+
+
+    /**
+     *
+     * @param length the length of the randomly generated code
+     * @return returns a random string of characters A-Z of the length specified
+     */
+    private String generateCode(int length){
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            char c = (char)(r.nextInt(26) + 'A');
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+    public void setCreatorId(int creatorId){
+        this.creatorId = creatorId;
+    }
+    public int getCreatorId(){
+        return creatorId;
     }
 
     /**
@@ -103,5 +130,8 @@ public class Challenge {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getChallengeCode(){
+        return challengeCode;
     }
 }
