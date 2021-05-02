@@ -1,9 +1,16 @@
 package com.example.sonymz1;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,7 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,10 +42,15 @@ import java.util.Map;
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
-    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg;
-    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg;
+    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
+    private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
+    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn;
+    private Switch privacySwitch;
+    private ProgressBar progressBar;
     private RecyclerView rvcLeaderboard, rvcParticipants;
-    private ConstraintLayout participantsView;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
+    private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,6 +100,7 @@ public class ChallengePageFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_challenge_page, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -101,6 +118,96 @@ public class ChallengePageFragment extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(ChallengePageFragment.this)
                         .navigate(R.id.action_challengePageFragment_to_addingScorePage);
+            }
+        });
+        //Should instead trigger editView, for now just for testing it instead navigates like the addScoreButton
+        editBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(adminView.getVisibility() == View.GONE){
+                    adminView.setVisibility(View.VISIBLE);
+                    editView.setVisibility(View.VISIBLE);
+                    editBtnImg.setRotation(90);
+                }
+                else{
+                    adminView.setVisibility(View.GONE);
+                    editNameView.setVisibility(View.GONE);
+                    editDescriptionView.setVisibility(View.GONE);
+                    editBtnImg.setRotation(0);
+                }
+            }
+        });
+        editChallengeNameBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editView.setVisibility(View.GONE);
+                editNameView.setVisibility((View.VISIBLE));
+            }
+        });
+        cancelNameChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editView.setVisibility(View.VISIBLE);
+                editNameView.setVisibility((View.GONE));
+                nameChangeBox.setText("");
+            }
+        });
+        confirmNameChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vm.setChallengeName(nameChangeBox.getText().toString());
+                setInfoCard();
+                editView.setVisibility(View.VISIBLE);
+                editNameView.setVisibility((View.GONE));
+                nameChangeBox.setText("");
+            }
+        });
+
+        editChallengeDescriptionBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editView.setVisibility(View.GONE);
+                editDescriptionView.setVisibility((View.VISIBLE));
+            }
+        });
+        cancelDescriptionChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editView.setVisibility(View.VISIBLE);
+                editDescriptionView.setVisibility((View.GONE));
+                descriptionChangeBox.setText("");
+            }
+        });
+        confirmDescriptionChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vm.setDescription(descriptionChangeBox.getText().toString());
+                setInfoCard();
+                editView.setVisibility(View.VISIBLE);
+                editDescriptionView.setVisibility((View.GONE));
+                descriptionChangeBox.setText("");
+            }
+        });
+
+        privacySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(vm.isPrivate()){
+                    vm.setPrivacy(false);
+                }
+                else{
+                    vm.setPrivacy(true);
+                }
+                setInfoCard();
+            }
+        });
+
+        editChallengeCopyCodeBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager copyPastaMaker = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Challenge code", vm.getCode());
+                copyPastaMaker.setPrimaryClip(clip);
             }
         });
     }
@@ -196,9 +303,77 @@ public class ChallengePageFragment extends Fragment {
         challengeNameTxt = view.findViewById(R.id.challengeNameView);
         descriptionTxt = view.findViewById(R.id.descriptionTextView);
         challengeInfoImg = view.findViewById(R.id.challengeInfoImgView);
+        numOfParticipants = view.findViewById(R.id.playerNumView);
+        privacyTxt = view.findViewById(R.id.privacyTextView);
+        progressBar = view.findViewById(R.id.progressBarView);
+        progressBarTxt = view.findViewById(R.id.progressBarTextView);
+
+        editBtnImg = view.findViewById(R.id.editBtnView);
+        editView = view.findViewById(R.id.editInfoView);
+        adminView = view.findViewById(R.id.editChallengeAdminView);
+        editChallengeNameBtnImg = view.findViewById(R.id.editChallengeNameBtn);
+        editChallengeDescriptionBtnImg = view.findViewById(R.id.editChallengeDescriptionBtn);
+        privacySwitch = view.findViewById(R.id.privacySwitch);
+        editChallengeCopyCodeBtnImg = view.findViewById(R.id.editChallengeCopyCodeBtn);
+
+        editNameView = view.findViewById(R.id.editInfoNameView);
+        nameChangeBox = view.findViewById(R.id.nameChangeTextInput);
+        confirmNameChangeBtn = view.findViewById(R.id.confirmChallengeNameChangeBtn);
+        cancelNameChangeBtn = view.findViewById(R.id.cancelChallengeNameChangeBtn);
+
+        editDescriptionView = view.findViewById(R.id.editInfoDescriptionView);
+        descriptionChangeBox = view.findViewById(R.id.descriptionChangeTextInput);
+        confirmDescriptionChangeBtn = view.findViewById(R.id.confirmDescriptionChangeBtn);
+        cancelDescriptionChangeBtn = view.findViewById(R.id.cancelDescriptionChangeBtn);
+
+        infoCardName = view.findViewById(R.id.editChallengeNameView);
+        infoCardDescription = view.findViewById(R.id.editChallengeDescriptionView);
+        infoCardParticipantsNum = view.findViewById(R.id.editChallengeParticipantsNumView);
+        infoCardPrivacy = view.findViewById(R.id.editChallengePrivacyView);
+        infoCardCode = view.findViewById(R.id.editChallengeCodeView);
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setInfoCard(){
         challengeNameTxt.setText(vm.getName());
+        infoCardName.setText(vm.getName());
+
         descriptionTxt.setText(vm.getDescription());
+        infoCardDescription.setText(vm.getDescription());
+
+        numOfParticipants.setText(String.valueOf(vm.getNumOfPlayers()));
+        infoCardParticipantsNum.setText(String.valueOf(vm.getNumOfPlayers()));
+
+        if(vm.isPrivate()){
+            privacyTxt.setText("Private");
+            infoCardPrivacy.setText("Private");
+            privacySwitch.setChecked(true);
+        }
+        else{
+            privacyTxt.setText("Public");
+            infoCardPrivacy.setText("Public");
+            privacySwitch.setChecked(false);
+        }
+
+        infoCardCode.setText(vm.getCode());
+
+        progressBarSetup();
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void progressBarSetup(){
+        //Give progressbar the right color
+        progressBar.setProgressTintList(ColorStateList.valueOf(Color.rgb(0, 172, 255)));
+
+        //Setup for progressbar if there is a goal to track
+        if(vm.getEndGoal() > 0){
+            progressBarTxt.setText(vm.getMainUserScore() + "/" + vm.getEndGoal());
+
+            progressBar.setMax(vm.getEndGoal());
+            progressBar.setProgress(vm.getMainUserScore());
+        }
+        //If there is no goal to track
+        else{
+            progressBar.setVisibility(View.GONE);
+            progressBarTxt.setVisibility(View.GONE);
+        }
     }
 }

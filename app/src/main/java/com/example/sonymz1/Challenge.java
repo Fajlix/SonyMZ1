@@ -116,6 +116,8 @@ public class Challenge implements ScoreUpdateListener{
         return description;
     }
 
+    public int getChallengeCode(){ return challengeCode;}
+
     public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
@@ -124,6 +126,9 @@ public class Challenge implements ScoreUpdateListener{
         this.description = description;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
 
     public void changeText(String text){
         description = text;
@@ -151,6 +156,13 @@ public class Challenge implements ScoreUpdateListener{
             return currentScore >= scoreComponent.getGoalScore();
         }
         return false;
+    }
+    public int getGoalScore(){
+        ScoreComponent scoreComponent = getScoreComponent();
+        if (scoreComponent != null){
+            return scoreComponent.getGoalScore();
+        }
+        return 0;
     }
     //Just returns the scoreComponent of all the components
     private ScoreComponent getScoreComponent(){
