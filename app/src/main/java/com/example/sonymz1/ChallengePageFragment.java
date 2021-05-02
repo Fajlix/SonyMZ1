@@ -1,5 +1,8 @@
 package com.example.sonymz1;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -39,7 +42,7 @@ import java.util.Map;
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
-    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
     private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn;
@@ -197,6 +200,15 @@ public class ChallengePageFragment extends Fragment {
                 setInfoCard();
             }
         });
+
+        editChallengeCopyCodeBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager copyPastaMaker = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Challenge code", vm.getCode());
+                copyPastaMaker.setPrimaryClip(clip);
+            }
+        });
     }
 
     /**
@@ -297,6 +309,7 @@ public class ChallengePageFragment extends Fragment {
         editChallengeNameBtnImg = view.findViewById(R.id.editChallengeNameBtn);
         editChallengeDescriptionBtnImg = view.findViewById(R.id.editChallengeDescriptionBtn);
         privacySwitch = view.findViewById(R.id.privacySwitch);
+        editChallengeCopyCodeBtnImg = view.findViewById(R.id.editChallengeCopyCodeBtn);
 
         editNameView = view.findViewById(R.id.editInfoNameView);
         nameChangeBox = view.findViewById(R.id.nameChangeTextInput);
