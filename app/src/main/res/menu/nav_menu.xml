@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--What’s important here is that the ids of the menu items here match the ids
+        of the fragments in the nav_graph you set out earlier. After we set it up later, this will let the
+        system make the link between the menu items and the fragments.-->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/FirstFragment"

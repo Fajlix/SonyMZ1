@@ -33,7 +33,7 @@ public class ChallengePageFragment extends Fragment {
     private CardView pedestal2, pedestal3;
     private ImageView userImg1, userImg2, userImg3, backBtn;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn;
-    private RecyclerView rvcLeaderboard, rvcParticipants;
+    private RecyclerView rvcLeaderBoard, rvcParticipants;
     private ConstraintLayout participantsView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -98,7 +98,7 @@ public class ChallengePageFragment extends Fragment {
         }
 
         setPedestal();
-        setLeaderboard();
+        setLeaderBoard();
         setParticipants();
     }
 
@@ -108,20 +108,20 @@ public class ChallengePageFragment extends Fragment {
     private void setParticipants(){
         rvcParticipants.setLayoutManager(new LinearLayoutManager(getContext()));
         ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,
-                vm.getLeaderboard().getValue());
+                vm.getLeaderBoard().getValue());
         rvcParticipants.setAdapter(participantsAdapter);
     }
 
     /**
      * Populate the leaderboard with participants.
      */
-    private void setLeaderboard(){
-        rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
-        LeaderboardAdapter leaderboardAdapter = new LeaderboardAdapter(this,
-                vm.getLeaderboard().getValue());
-        rvcLeaderboard.setAdapter(leaderboardAdapter);
+    private void setLeaderBoard(){
+        rvcLeaderBoard.setLayoutManager(new LinearLayoutManager(getContext()));
+        LeaderBoardAdapter leaderBoardAdapter = new LeaderBoardAdapter(this,
+                vm.getLeaderBoard().getValue());
+        rvcLeaderBoard.setAdapter(leaderBoardAdapter);
 
-        if(vm.getLeaderboard().getValue().size() > 3){
+        if(vm.getLeaderBoard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
             moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,29 +143,29 @@ public class ChallengePageFragment extends Fragment {
      * Set the top 3 users info on the pedestal.
      */
     private void setPedestal(){
-        vm.getLeaderboard().observe(getViewLifecycleOwner(), leaderboard -> {
-            List<Map.Entry<Integer, Integer>> leaderboardList =
-                    new LinkedList<>(leaderboard.entrySet());
+        vm.getLeaderBoard().observe(getViewLifecycleOwner(), leaderBoard -> {
+            List<Map.Entry<Integer, Integer>> leaderBoardList =
+                    new LinkedList<>(leaderBoard.entrySet());
 
-            if (leaderboardList.size() > 2) {
+            if (leaderBoardList.size() > 2) {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsers().get(leaderboardList.get(0).getKey()),leaderboardList.get(0).getValue());
+                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
                 setUserOnPedestal(userImg2,progressTxt2,
-                        vm.getUsers().get(leaderboardList.get(1).getKey()),leaderboardList.get(1).getValue());
+                        vm.getUsers().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
                 setUserOnPedestal(userImg3,progressTxt3,
-                        vm.getUsers().get(leaderboardList.get(2).getKey()),leaderboardList.get(2).getValue());
+                        vm.getUsers().get(leaderBoardList.get(2).getKey()),leaderBoardList.get(2).getValue());
                 pedestal2.setVisibility(View.VISIBLE);
                 pedestal3.setVisibility(View.VISIBLE);
             }
-            else if (leaderboardList.size() == 2) {
+            else if (leaderBoardList.size() == 2) {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsers().get(leaderboardList.get(0).getKey()),leaderboardList.get(0).getValue());
+                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
                 setUserOnPedestal(userImg2,progressTxt2,
-                        vm.getUsers().get(leaderboardList.get(1).getKey()),leaderboardList.get(1).getValue());
+                        vm.getUsers().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
                 pedestal3.setVisibility(View.GONE);
             }else {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsers().get(leaderboardList.get(0).getKey()),leaderboardList.get(0).getValue());
+                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
                 pedestal2.setVisibility(View.GONE);
                 pedestal3.setVisibility(View.GONE);
             }
@@ -197,7 +197,7 @@ public class ChallengePageFragment extends Fragment {
         progressTxt1 = view.findViewById(R.id.progressTxt1);
         progressTxt2 = view.findViewById(R.id.progressTxt2);
         progressTxt3 = view.findViewById(R.id.progressTxt3);
-        rvcLeaderboard = view.findViewById(R.id.rvcLeaderboard);
+        rvcLeaderBoard = view.findViewById(R.id.rvcLeaderboard);
         moreBtn = view.findViewById(R.id.moreBtn);
         participantsView = view.findViewById(R.id.particiantsView);
         backBtn = view.findViewById(R.id.backBtn);

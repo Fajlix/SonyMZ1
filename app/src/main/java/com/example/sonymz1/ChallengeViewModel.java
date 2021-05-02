@@ -16,7 +16,7 @@ public class ChallengeViewModel extends ViewModel {
     private User mainUser;
     private Map<Integer,User> users;
     private AllUsers db = AllUsers.getInstance();
-    private MutableLiveData<Map<Integer, Integer>> leaderboard = new MutableLiveData<>();
+    private MutableLiveData<Map<Integer, Integer>> leaderBoard = new MutableLiveData<>();
 
     public ChallengeViewModel() {
         this.challenge = new Challenge("Challenge"); // Temp set
@@ -32,7 +32,7 @@ public class ChallengeViewModel extends ViewModel {
      */
     public void addTestScore(int playerId, int score){
         challenge.addPlayer(playerId, score);
-        leaderboard.setValue(challenge.getLeaderBoard());
+        leaderBoard.setValue(challenge.getLeaderBoard());
     }
 
     /**
@@ -41,10 +41,10 @@ public class ChallengeViewModel extends ViewModel {
      */
     public void addScore(int score){
         challenge.addPlayer(mainUser.getId(), score);
-        leaderboard.setValue(challenge.getLeaderBoard());
+        leaderBoard.setValue(challenge.getLeaderBoard());
     }
 
-    public MutableLiveData<Map<Integer, Integer>> getLeaderboard() { return leaderboard; }
+    public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() { return leaderBoard; }
 
     public User getMainUser() { return mainUser; }
 
