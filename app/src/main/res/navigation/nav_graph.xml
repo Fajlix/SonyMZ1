@@ -5,6 +5,9 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/FirstFragment">
 
+    <!--What’s important here is that the ids of the fragments here match the ids
+        of the menu items you set out earlier. After we set it up later, this will let the
+        system make the link between the menu items and the fragments.-->
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.sonymz1.FirstFragment"
@@ -13,6 +16,21 @@
         <action
             android:id="@+id/action_FirstFragment_to_challengePageFragment"
             app:destination="@id/challengePageFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_exploreFragment"
+            app:destination="@id/ExploreFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_contactsFragment"
+            app:destination="@id/ContactsFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_settingsFragment"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_aboutFragment"
+            app:destination="@id/AboutFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_FAQFragment2"
+            app:destination="@id/FAQFragment" />
         <action
             android:id="@+id/action_FirstFragment_to_createChallengeFragment"
             app:destination="@id/createChallengeFragment" />
@@ -26,6 +44,31 @@
             android:id="@+id/action_challengePageFragment_to_addingScorePage"
             app:destination="@id/addingScorePage" />
     </fragment>
+    <fragment
+        android:id="@+id/ExploreFragment"
+        android:name="com.example.sonymz1.ExploreFragment"
+        android:label="fragment_explore"
+        tools:layout="@layout/fragment_explore" />
+    <fragment
+        android:id="@+id/ContactsFragment"
+        android:name="com.example.sonymz1.ContactsFragment"
+        android:label="fragment_contacts"
+        tools:layout="@layout/fragment_contacts" />
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="com.example.sonymz1.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/AboutFragment"
+        android:name="com.example.sonymz1.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/FAQFragment"
+        android:name="com.example.sonymz1.FAQFragment"
+        android:label="fragment_f_a_q"
+        tools:layout="@layout/fragment_f_a_q" />
     <fragment
         android:id="@+id/addingScorePage"
         android:name="com.example.sonymz1.AddingScorePage"

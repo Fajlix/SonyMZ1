@@ -2,8 +2,12 @@ package com.example.sonymz1;
 
 import java.util.List;
 
+
 /**
- * @author Wendy
+ * Holds the user data. When a new user is created, a default profile pic is set. The user
+ * can change their profile pic later in the settings.
+ *
+ * @author Wendy Pau
  */
 public class User {
     private String username;
@@ -13,8 +17,8 @@ public class User {
 
     public User(String username, int id) {
         this.username = username;
+        this.profilePic = R.drawable.logo;
         this.id = id;
-        profilePic = R.drawable.logo;
     }
 
     public void setUsername(String username) { this.username = username; }

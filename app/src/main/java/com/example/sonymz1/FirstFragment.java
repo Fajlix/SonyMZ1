@@ -14,6 +14,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sonymz1.Adapters.ChallengeAdapter;
+
 import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {

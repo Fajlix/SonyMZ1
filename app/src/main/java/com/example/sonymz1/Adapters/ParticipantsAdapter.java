@@ -1,4 +1,4 @@
-package com.example.sonymz1;
+package com.example.sonymz1.Adapters;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -12,6 +12,11 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sonymz1.ChallengePageFragment;
+import com.example.sonymz1.ChallengeViewModel;
+import com.example.sonymz1.R;
+import com.example.sonymz1.User;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +27,13 @@ import java.util.Map;
  * @author Wendy P.
  */
 public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapter.ViewHolder> {
-    private Map<Integer,Integer> leaderboard;
+    private Map<Integer,Integer> leaderBoard;
     private ChallengePageFragment context;
     private ChallengeViewModel vm;
 
-    public ParticipantsAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderboard) {
+    public ParticipantsAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderBoard) {
         vm = new ViewModelProvider(context).get(ChallengeViewModel.class);
-        this.leaderboard = leaderboard;
+        this.leaderBoard = leaderBoard;
         this.context = context;
         notifyDataSetChanged();
     }
@@ -42,11 +47,11 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {
-        List<Map.Entry<Integer, Integer>> leaderboardList =
-                new LinkedList<>(leaderboard.entrySet());
-        User challenger = vm.getUsers().get(leaderboardList.get(position).getKey());
+        List<Map.Entry<Integer, Integer>> leaderBoardList =
+                new LinkedList<>(leaderBoard.entrySet());
+        User challenger = vm.getUsers().get(leaderBoardList.get(position).getKey());
         holder.username.setText(challenger.getUsername());
-        holder.scoreTxt.setText("Score: " + leaderboardList.get(position).getValue()); // add unit
+        holder.scoreTxt.setText("Score: " + leaderBoardList.get(position).getValue()); // add unit
         holder.userImg.setImageResource(challenger.getProfilePic());
 
         //Changes cards background colour for top 3 challengers.
@@ -74,7 +79,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
         }
 
         //Set blue colour to mark where the user is.
-        if (leaderboardList.get(position).getKey() == vm.getMainUser().getId()){
+        if (leaderBoardList.get(position).getKey() == vm.getMainUser().getId()){
             holder.rank.setTextColor(context.getResources().getColor(R.color.blue));
             holder.username.setTextColor(context.getResources().getColor(R.color.blue));
             holder.scoreTxt.setTextColor(context.getResources().getColor(R.color.blue));
@@ -82,7 +87,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     }
 
     @Override
-    public int getItemCount() { return leaderboard.size(); }
+    public int getItemCount() { return leaderBoard.size(); }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView username, scoreTxt, rank;

@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.sonymz1.Adapters.LeaderBoardAdapter;
+import com.example.sonymz1.Adapters.ParticipantsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
@@ -39,6 +42,7 @@ import java.util.Map;
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
+    private CardView pedestal2, pedestal3;
     private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
@@ -49,8 +53,6 @@ public class ChallengePageFragment extends Fragment {
     private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
-
-
 
     public ChallengePageFragment() {
         // Required empty public constructor
@@ -75,6 +77,14 @@ public class ChallengePageFragment extends Fragment {
 
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
+
+        // temp code to test leaderboard
+        int score = 0;
+        for (Integer key : vm.getUsers().keySet()) {
+            score += 2;
+            vm.addTestScore(key,score);
+        }
+
         setPedestal();
         setLeaderBoard();
         setParticipants();
@@ -164,8 +174,9 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setLeaderBoard(){
         rvcLeaderBoard.setLayoutManager(new LinearLayoutManager(getContext()));
-        LeaderboardAdapter leaderboardAdapter = new LeaderboardAdapter(this,
+        LeaderBoardAdapter leaderBoardAdapter = new LeaderBoardAdapter(this,
                 vm.getLeaderBoard().getValue());
+        rvcLeaderBoard.setAdapter(leaderBoardAdapter);
         if(vm.getLeaderBoard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
             System.out.println(vm.getLeaderBoard().getValue().get(vm.getMainUser().getId()));
@@ -188,26 +199,41 @@ public class ChallengePageFragment extends Fragment {
         vm.getLeaderBoard().observe(getViewLifecycleOwner(), leaderBoard -> {
             List<Map.Entry<Integer, Integer>> leaderBoardList =
                     new LinkedList<>(leaderBoard.entrySet());
-            if (leaderBoardList.size()>0) {
-
-                if (leaderBoardList.size() > 2) {
-                    userImg1.setImageResource(vm.getUsers().get(leaderBoardList.get(0).getKey()).getProfilePic());
-                    userImg2.setImageResource(vm.getUsers().get(leaderBoardList.get(1).getKey()).getProfilePic());
-                    userImg3.setImageResource(vm.getUsers().get(leaderBoardList.get(2).getKey()).getProfilePic());
-                    progressTxt1.setText(String.valueOf(leaderBoardList.get(0).getValue()));
-                    progressTxt2.setText(String.valueOf(leaderBoardList.get(1).getValue()));
-                    progressTxt3.setText(String.valueOf(leaderBoardList.get(2).getValue()));
-                } else if (leaderBoardList.size() == 2) {
-                    userImg1.setImageResource(vm.getUsers().get(leaderBoardList.get(0).getKey()).getProfilePic());
-                    userImg2.setImageResource(vm.getUsers().get(leaderBoardList.get(1).getKey()).getProfilePic());
-                    progressTxt1.setText(String.valueOf(leaderBoardList.get(0).getValue()));
-                    progressTxt2.setText(String.valueOf(leaderBoardList.get(1).getValue()));
-                } else {
-                    userImg1.setImageResource(vm.getUsers().get(leaderBoardList.get(0).getKey()).getProfilePic());
-                    progressTxt1.setText(String.valueOf(leaderBoardList.get(0).getValue()));
-                }
+            if (leaderBoardList.size() > 2) {
+                setUserOnPedestal(userImg1,progressTxt1,
+                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                setUserOnPedestal(userImg2,progressTxt2,
+                        vm.getUsers().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
+                setUserOnPedestal(userImg3,progressTxt3,
+                        vm.getUsers().get(leaderBoardList.get(2).getKey()),leaderBoardList.get(2).getValue());
+                pedestal2.setVisibility(View.VISIBLE);
+                pedestal3.setVisibility(View.VISIBLE);
+            }
+            else if (leaderBoardList.size() == 2) {
+                setUserOnPedestal(userImg1,progressTxt1,
+                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                setUserOnPedestal(userImg2,progressTxt2,
+                        vm.getUsers().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
+                pedestal3.setVisibility(View.GONE);
+            }else {
+                setUserOnPedestal(userImg1,progressTxt1,
+                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                pedestal2.setVisibility(View.GONE);
+                pedestal3.setVisibility(View.GONE);
             }
         });
+    }
+
+    /**
+     * Set the ImageView and TextView for the pedestal.
+     * @param img the ImageView to set
+     * @param txt the TextView to set
+     * @param user the user
+     * @param score the users score
+     */
+    private void setUserOnPedestal(ImageView img, TextView txt, User user, int score){
+        img.setImageResource(user.getProfilePic());
+        txt.setText(String.valueOf(score));
     }
 
     /**
@@ -215,6 +241,8 @@ public class ChallengePageFragment extends Fragment {
      * @param view the fragments view.
      */
     private void initializeViews(View view){
+        pedestal2 = view.findViewById(R.id.pedestal2);
+        pedestal3 = view.findViewById(R.id.pedestal3);
         userImg1 = view.findViewById(R.id.user_img1);
         userImg2 = view.findViewById(R.id.user_img2);
         userImg3 = view.findViewById(R.id.user_img3);
@@ -261,6 +289,7 @@ public class ChallengePageFragment extends Fragment {
         infoCardPrivacy = view.findViewById(R.id.editChallengePrivacyView);
         infoCardCode = view.findViewById(R.id.editChallengeCodeView);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setInfoCard(){
         challengeNameTxt.setText(vm.getName());
@@ -287,6 +316,7 @@ public class ChallengePageFragment extends Fragment {
 
         progressBarSetup();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void progressBarSetup(){
         //Give progressbar the right color

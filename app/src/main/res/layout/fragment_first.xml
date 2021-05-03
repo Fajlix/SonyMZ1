@@ -4,30 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/startgradient"
     android:orientation="vertical"
+    android:layout_marginTop="60dp"
     tools:context=".FirstFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/startgradient">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="100dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/blue"
-                app:contentScrim="@color/black"
-                app:expandedTitleMarginStart="20dp"
-                app:expandedTitleMarginBottom="5dp"
-                app:expandedTitleTextAppearance="@style/Toolbar.TitleText.ActiveChallenges"
                 app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.ActiveChallenges"
+                app:contentScrim="@color/black"
+                app:expandedTitleMarginBottom="5dp"
+                app:expandedTitleMarginStart="20dp"
+                app:expandedTitleTextAppearance="@style/Toolbar.TitleText.ActiveChallenges"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:title="@string/active_challenges">
 
@@ -42,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="108dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/roboto"
                     android:shadowColor="#2F060707"
                     android:shadowDx="1"
@@ -51,19 +49,11 @@
                     android:text="@string/welcome_text"
                     android:textColor="@color/white"
                     android:textSize="28sp"
-
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-
         </com.google.android.material.appbar.AppBarLayout>
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvc_list"

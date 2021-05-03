@@ -9,22 +9,24 @@ import com.example.sonymz1.Components.DistanceComponent;
 import java.util.Map;
 
 /**
- * @author Felix ,Viktor J
  * A class responsible for the communication between the challenges and views.
+ *
+ * @author Felix ,Viktor J, Wendy Pau
  */
 public class ChallengeViewModel extends ViewModel {
 
     private Challenge challenge;
     private User mainUser;
     private Map<Integer,User> users;
-    private AllUsers db = new AllUsers();
-    private MutableLiveData<Map<Integer, Integer>> leaderBoard;
+    private AllUsers db = AllUsers.getInstance();
+    private MutableLiveData<Map<Integer, Integer>> leaderBoard = new MutableLiveData<>();
 
     public ChallengeViewModel() {
+        LocalDatabase.getInstance().setActiveChallenge(new Challenge("ChallengeTest"));
         this.challenge = LocalDatabase.getInstance().getActiveChallenge();
         this.users = db.getUserMap();
-        this.mainUser = getUsers().get(2);
-        this.leaderBoard = new MutableLiveData<>();
+        this.mainUser = getUsers().get(0); // Temp set
+        challenge.addPlayer(mainUser.getId(),2); // Should be set in Challenge class
         setLeaderBoard();
     }
 
@@ -37,13 +39,26 @@ public class ChallengeViewModel extends ViewModel {
         challenge.setPrivate(isPrivate);
         challenge.setCreatorId(mainUser.getId());
         addPlayers(playerIds);
-        addPlayer(1,20);
+        //addPlayer(1, 20); It wont work on my setPedestal method
         setLeaderBoard();
         LocalDatabase.getInstance().addChallenge(challenge);
         //TODO Add challengers
-
     }
 
+    /**
+     * Temporary method to add other challengers score.
+     * @param playerId challengers id
+     * @param score challengers score to add
+     */
+    public void addTestScore(int playerId, int score){
+        challenge.addPlayer(playerId, score);
+        leaderBoard.setValue(challenge.getLeaderBoard());
+    }
+
+    /**
+     * Method for the main user to update their score.
+     * @param score score to add
+     */
     public void addPlayer(int playerId, int score){
         challenge.addPlayer(playerId, score);
         setLeaderBoard();
@@ -60,16 +75,9 @@ public class ChallengeViewModel extends ViewModel {
         }
         setLeaderBoard();
     }
-    public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() { return leaderBoard; }
 
-    public User getUser(int index) {return getUsers().get(index);}
+    private void update(){ leaderBoard.setValue(challenge.getLeaderBoard()); }
 
-    //TODO This should not be here
-    public User getMainUser() { return mainUser; }
-    private void update(){
-        leaderBoard.setValue(challenge.getLeaderBoard());
-    }
-    public Map<Integer, User> getUsers() { return users; }
     public void addScore(int score) {
         //TODO maybe fix?
         //We have to know what type of challenge it is so that we can add the right type of score
@@ -78,46 +86,35 @@ public class ChallengeViewModel extends ViewModel {
         update();
     }
 
-    public String getName(){
-        return challenge.getName();
-    }
-
-    public String getDescription(){
-        return challenge.getDescription();
-    }
-
-    public Boolean isPrivate() {
-        return challenge.isPrivate();
-    }
     public void setLeaderBoard() {
         if (challenge != null)
             leaderBoard.setValue(challenge.getLeaderBoard());
     }
-    public int getNumOfPlayers(){
-        return users.size();
-    }
 
-    public int getMainUserScore(){
-        return challenge.getLeaderBoard().get(mainUser.getId());
-    }
+    //TODO This should not be here
+    public User getMainUser() { return mainUser; }
 
-    public int getEndGoal(){
-        return challenge.getGoalScore();
-    }
+    public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() { return leaderBoard; }
 
-    public void setChallengeName(String name){
-        challenge.setName(name);
-    }
+    public Map<Integer, User> getUsers() { return users; }
 
-    public void setDescription(String desc){
-        challenge.setDescription(desc);
-    }
+    public String getName(){ return challenge.getName(); }
 
-    public void setPrivacy(boolean aPrivate){
-        challenge.setPrivate(aPrivate);
-    }
+    public String getDescription(){ return challenge.getDescription(); }
 
-    public String getCode(){
-        return String.valueOf(challenge.getChallengeCode());
-    }
+    public Boolean isPrivate() { return challenge.isPrivate(); }
+
+    public int getNumOfPlayers(){ return users.size(); }
+
+    public int getMainUserScore(){ return challenge.getLeaderBoard().get(mainUser.getId()); }
+
+    public int getEndGoal(){ return challenge.getGoalScore(); }
+
+    public void setChallengeName(String name){ challenge.setName(name); }
+
+    public void setDescription(String desc){ challenge.setDescription(desc); }
+
+    public void setPrivacy(boolean aPrivate){ challenge.setPrivate(aPrivate); }
+
+    public String getCode(){ return String.valueOf(challenge.getChallengeCode()); }
 }
