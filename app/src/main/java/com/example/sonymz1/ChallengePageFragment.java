@@ -1,79 +1,66 @@
 package com.example.sonymz1;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import com.example.sonymz1.Adapters.LeaderBoardAdapter;
+import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChallengePageFragment#newInstance} factory method to
- * create an instance of this fragment.
  *
  * @author Wendy P, Jonathan S.
  */
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
     private CardView pedestal2, pedestal3;
-    private ImageView userImg1, userImg2, userImg3, backBtn;
-    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg;
+    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
+    private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
+    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn;
+    private Switch privacySwitch;
+    private ProgressBar progressBar;
     private RecyclerView rvcLeaderBoard, rvcParticipants;
-    private ConstraintLayout participantsView;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
+    private TextInputEditText nameChangeBox, descriptionChangeBox;
+    private Button addScoreButton;
 
     public ChallengePageFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChallengePageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChallengePageFragment newInstance(String param1, String param2) {
-        ChallengePageFragment fragment = new ChallengePageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -83,6 +70,7 @@ public class ChallengePageFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_challenge_page, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -100,6 +88,75 @@ public class ChallengePageFragment extends Fragment {
         setPedestal();
         setLeaderBoard();
         setParticipants();
+        setInfoCard();
+
+        //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
+        view.findViewById(R.id.addScoreButton).setOnClickListener(
+                view1 -> NavHostFragment.findNavController(ChallengePageFragment.this)
+                .navigate(R.id.action_challengePageFragment_to_addingScorePage));
+        //Should instead trigger editView, for now just for testing it instead navigates like the addScoreButton
+        editBtnImg.setOnClickListener(view12 -> {
+            if(adminView.getVisibility() == View.GONE){
+                adminView.setVisibility(View.VISIBLE);
+                editView.setVisibility(View.VISIBLE);
+                editBtnImg.setRotation(90);
+            }
+            else{
+                adminView.setVisibility(View.GONE);
+                editNameView.setVisibility(View.GONE);
+                editDescriptionView.setVisibility(View.GONE);
+                editBtnImg.setRotation(0);
+            }
+        });
+        editChallengeNameBtnImg.setOnClickListener(view13 -> {
+            editView.setVisibility(View.GONE);
+            editNameView.setVisibility((View.VISIBLE));
+        });
+        cancelNameChangeBtn.setOnClickListener(view14 -> {
+            editView.setVisibility(View.VISIBLE);
+            editNameView.setVisibility((View.GONE));
+            nameChangeBox.setText("");
+        });
+        confirmNameChangeBtn.setOnClickListener(view15 -> {
+            vm.setChallengeName(nameChangeBox.getText().toString());
+            setInfoCard();
+            editView.setVisibility(View.VISIBLE);
+            editNameView.setVisibility((View.GONE));
+            nameChangeBox.setText("");
+        });
+
+        editChallengeDescriptionBtnImg.setOnClickListener(view16 -> {
+            editView.setVisibility(View.GONE);
+            editDescriptionView.setVisibility((View.VISIBLE));
+        });
+        cancelDescriptionChangeBtn.setOnClickListener(view17 -> {
+            editView.setVisibility(View.VISIBLE);
+            editDescriptionView.setVisibility((View.GONE));
+            descriptionChangeBox.setText("");
+        });
+        confirmDescriptionChangeBtn.setOnClickListener(view18 -> {
+            vm.setDescription(descriptionChangeBox.getText().toString());
+            setInfoCard();
+            editView.setVisibility(View.VISIBLE);
+            editDescriptionView.setVisibility((View.GONE));
+            descriptionChangeBox.setText("");
+        });
+
+        privacySwitch.setOnClickListener(view19 -> {
+            if(vm.isPrivate()){
+                vm.setPrivacy(false);
+            }
+            else{
+                vm.setPrivacy(true);
+            }
+            setInfoCard();
+        });
+
+        editChallengeCopyCodeBtnImg.setOnClickListener(view110 -> {
+            ClipboardManager copyPastaMaker = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Challenge code", vm.getCode());
+            copyPastaMaker.setPrimaryClip(clip);
+        });
     }
 
     /**
@@ -113,28 +170,24 @@ public class ChallengePageFragment extends Fragment {
     }
 
     /**
-     * Populate the leaderboard with participants.
+     * Populate the leaderBoard with participants.
      */
     private void setLeaderBoard(){
         rvcLeaderBoard.setLayoutManager(new LinearLayoutManager(getContext()));
         LeaderBoardAdapter leaderBoardAdapter = new LeaderBoardAdapter(this,
                 vm.getLeaderBoard().getValue());
         rvcLeaderBoard.setAdapter(leaderBoardAdapter);
-
         if(vm.getLeaderBoard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
-            moreBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    participantsView.setVisibility(View.VISIBLE);
-                }
+            System.out.println(vm.getLeaderBoard().getValue().get(vm.getMainUser().getId()));
+            moreBtn.setOnClickListener(v -> {
+                participantsView.setVisibility(View.VISIBLE);
+                addScoreButton.setVisibility(View.GONE);
             });
 
-            backBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    participantsView.setVisibility(View.GONE);
-                }
+            backBtn.setOnClickListener(v -> {
+                participantsView.setVisibility(View.GONE);
+                addScoreButton.setVisibility(View.VISIBLE);
             });
         }else moreBtn.setVisibility(View.GONE);
     }
@@ -146,7 +199,6 @@ public class ChallengePageFragment extends Fragment {
         vm.getLeaderBoard().observe(getViewLifecycleOwner(), leaderBoard -> {
             List<Map.Entry<Integer, Integer>> leaderBoardList =
                     new LinkedList<>(leaderBoard.entrySet());
-
             if (leaderBoardList.size() > 2) {
                 setUserOnPedestal(userImg1,progressTxt1,
                         vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
@@ -202,5 +254,85 @@ public class ChallengePageFragment extends Fragment {
         participantsView = view.findViewById(R.id.particiantsView);
         backBtn = view.findViewById(R.id.backBtn);
         rvcParticipants = view.findViewById(R.id.rvcParticipants);
+        addScoreButton = view.findViewById(R.id.addScoreButton);
+
+        //-------------------------------------------------------
+        challengeNameTxt = view.findViewById(R.id.challengeNameView);
+        descriptionTxt = view.findViewById(R.id.descriptionTextView);
+        challengeInfoImg = view.findViewById(R.id.challengeInfoImgView);
+        numOfParticipants = view.findViewById(R.id.playerNumView);
+        privacyTxt = view.findViewById(R.id.privacyTextView);
+        progressBar = view.findViewById(R.id.progressBarView);
+        progressBarTxt = view.findViewById(R.id.progressBarTextView);
+
+        editBtnImg = view.findViewById(R.id.editBtnView);
+        editView = view.findViewById(R.id.editInfoView);
+        adminView = view.findViewById(R.id.editChallengeAdminView);
+        editChallengeNameBtnImg = view.findViewById(R.id.editChallengeNameBtn);
+        editChallengeDescriptionBtnImg = view.findViewById(R.id.editChallengeDescriptionBtn);
+        privacySwitch = view.findViewById(R.id.privacySwitch);
+        editChallengeCopyCodeBtnImg = view.findViewById(R.id.editChallengeCopyCodeBtn);
+
+        editNameView = view.findViewById(R.id.editInfoNameView);
+        nameChangeBox = view.findViewById(R.id.nameChangeTextInput);
+        confirmNameChangeBtn = view.findViewById(R.id.confirmChallengeNameChangeBtn);
+        cancelNameChangeBtn = view.findViewById(R.id.cancelChallengeNameChangeBtn);
+
+        editDescriptionView = view.findViewById(R.id.editInfoDescriptionView);
+        descriptionChangeBox = view.findViewById(R.id.descriptionChangeTextInput);
+        confirmDescriptionChangeBtn = view.findViewById(R.id.confirmDescriptionChangeBtn);
+        cancelDescriptionChangeBtn = view.findViewById(R.id.cancelDescriptionChangeBtn);
+
+        infoCardName = view.findViewById(R.id.editChallengeNameView);
+        infoCardDescription = view.findViewById(R.id.editChallengeDescriptionView);
+        infoCardParticipantsNum = view.findViewById(R.id.editChallengeParticipantsNumView);
+        infoCardPrivacy = view.findViewById(R.id.editChallengePrivacyView);
+        infoCardCode = view.findViewById(R.id.editChallengeCodeView);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setInfoCard(){
+        challengeNameTxt.setText(vm.getName());
+        infoCardName.setText(vm.getName());
+
+        descriptionTxt.setText(vm.getDescription());
+        infoCardDescription.setText(vm.getDescription());
+
+        numOfParticipants.setText(String.valueOf(vm.getNumOfPlayers()));
+        infoCardParticipantsNum.setText(String.valueOf(vm.getNumOfPlayers()));
+
+        if(vm.isPrivate()){
+            privacyTxt.setText("Private");
+            infoCardPrivacy.setText("Private");
+            privacySwitch.setChecked(true);
+        }
+        else{
+            privacyTxt.setText("Public");
+            infoCardPrivacy.setText("Public");
+            privacySwitch.setChecked(false);
+        }
+
+        infoCardCode.setText(vm.getCode());
+
+        progressBarSetup();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void progressBarSetup(){
+        //Give progressbar the right color
+        progressBar.setProgressTintList(ColorStateList.valueOf(Color.rgb(0, 172, 255)));
+
+        //Setup for progressbar if there is a goal to track
+        if(vm.getEndGoal() > 0){
+            progressBarTxt.setText(vm.getMainUserScore() + "/" + vm.getEndGoal());
+
+            progressBar.setMax(vm.getEndGoal());
+            progressBar.setProgress(vm.getMainUserScore());
+        }
+        //If there is no goal to track
+        else{
+            progressBar.setVisibility(View.GONE);
+            progressBarTxt.setVisibility(View.GONE);
+        }
     }
 }

@@ -1,0 +1,250 @@
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <com.google.android.material.appbar.AppBarLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:theme=\"@style/Theme.SonyMZ1.AppBarOverlay\">\r\n\r\n        <androidx.appcompat.widget.Toolbar\r\n            android:id=\"@+id/toolbar\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"?attr/actionBarSize\"\r\n            android:background=\"?attr/colorPrimary\"\r\n            app:popupTheme=\"@style/Theme.SonyMZ1.PopupOverlay\" />\r\n\r\n    </com.google.android.material.appbar.AppBarLayout>\r\n\r\n    <include layout=\"@layout/content_main\" />\r\n\r\n</androidx.coordinatorlayout.widget.CoordinatorLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 8d806a8d86a4723d277e609b7565fb46e540763f)
++++ app/src/main/res/layout/activity_main.xml	(date 1619445370734)
+@@ -1,25 +1,55 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:id="@+id/drawer_layout"
++    tools:openDrawer="end"
+     tools:context=".MainActivity">
+ 
+-    <com.google.android.material.appbar.AppBarLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:theme="@style/Theme.SonyMZ1.AppBarOverlay">
++    <androidx.constraintlayout.widget.ConstraintLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent">
++
++        <com.google.android.material.appbar.AppBarLayout
++            android:id="@+id/appBarLayout"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:theme="@style/Theme.SonyMZ1.AppBarOverlay"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toTopOf="parent">
+ 
+-        <androidx.appcompat.widget.Toolbar
+-            android:id="@+id/toolbar"
+-            android:layout_width="match_parent"
+-            android:layout_height="?attr/actionBarSize"
+-            android:background="?attr/colorPrimary"
+-            app:popupTheme="@style/Theme.SonyMZ1.PopupOverlay" />
++            <androidx.appcompat.widget.Toolbar
++                android:id="@+id/toolbar"
++                android:layout_width="match_parent"
++                android:layout_height="?attr/actionBarSize"
++                android:background="?attr/colorPrimary"
++                app:popupTheme="@style/Theme.SonyMZ1.PopupOverlay" />
+ 
+-    </com.google.android.material.appbar.AppBarLayout>
++        </com.google.android.material.appbar.AppBarLayout>
+ 
+-    <include layout="@layout/content_main" />
++
++        <fragment
++            android:id="@+id/nav_host_fragment"
++            android:name="androidx.navigation.fragment.NavHostFragment"
++            android:layout_width="0dp"
++            android:layout_height="0dp"
++            app:defaultNavHost="true"
++            app:layout_constraintBottom_toBottomOf="parent"
++            app:layout_constraintLeft_toLeftOf="parent"
++            app:layout_constraintRight_toRightOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
++            app:navGraph="@navigation/nav_graph" />
++    </androidx.constraintlayout.widget.ConstraintLayout>
++
++    <com.google.android.material.navigation.NavigationView
++        android:id="@+id/nav_view"
++        android:layout_width="wrap_content"
++        android:layout_height="match_parent"
++        android:layout_gravity="start"
++        android:fitsSystemWindows="true"
++        app:menu="@menu/activity_main_drawer" />
+ 
+-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file
++</androidx.drawerlayout.widget.DrawerLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/sonymz1/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sonymz1;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\r\nimport com.google.android.material.snackbar.Snackbar;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\n\r\nimport android.view.View;\r\n\r\nimport android.view.Menu;\r\nimport android.view.MenuItem;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n        Toolbar toolbar = findViewById(R.id.toolbar);\r\n        setSupportActionBar(toolbar);\r\n\r\n    }\r\n\r\n    @Override\r\n    public boolean onCreateOptionsMenu(Menu menu) {\r\n        // Inflate the menu; this adds items to the action bar if it is present.\r\n        getMenuInflater().inflate(R.menu.menu_main, menu);\r\n        return true;\r\n    }\r\n\r\n    @Override\r\n    public boolean onOptionsItemSelected(MenuItem item) {\r\n        // Handle action bar item clicks here. The action bar will\r\n        // automatically handle clicks on the Home/Up button, so long\r\n        // as you specify a parent activity in AndroidManifest.xml.\r\n        int id = item.getItemId();\r\n\r\n        //noinspection SimplifiableIfStatement\r\n        if (id == R.id.action_settings) {\r\n            return true;\r\n        }\r\n\r\n        return super.onOptionsItemSelected(item);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sonymz1/MainActivity.java	(revision 8d806a8d86a4723d277e609b7565fb46e540763f)
++++ app/src/main/java/com/example/sonymz1/MainActivity.java	(date 1619445687433)
+@@ -3,10 +3,15 @@
+ import android.os.Bundle;
+ 
+ import com.google.android.material.floatingactionbutton.FloatingActionButton;
++import com.google.android.material.navigation.NavigationView;
+ import com.google.android.material.snackbar.Snackbar;
+ 
++import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.appcompat.widget.Toolbar;
++import androidx.core.view.GravityCompat;
++import androidx.drawerlayout.widget.DrawerLayout;
++import androidx.navigation.fragment.NavHostFragment;
+ 
+ import android.view.View;
+ 
+Index: app/src/main/res/menu/activity_main_drawer.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/activity_main_drawer.xml	(date 1619445504023)
++++ app/src/main/res/menu/activity_main_drawer.xml	(date 1619445504023)
+@@ -0,0 +1,27 @@
++<?xml version="1.0" encoding="utf-8"?>
++<menu xmlns:android="http://schemas.android.com/apk/res/android">
++    <group >
++        <item
++            android:id="@+id/nav_home"
++            android:icon="@drawable/home"
++            android:title="Home" />
++        <item
++            android:id="@+id/nav_explore"
++            android:icon="@drawable/explore"
++            android:title="Explore" />
++        <item
++            android:id="@+id/nav_contact"
++            android:icon="@drawable/contact"
++            android:title="Contact" />
++        <item
++            android:id="@+id/nav_about"
++            android:title="About Us" />
++        <item
++            android:id="@+id/nav_faq"
++            android:title="FAQ" />
++    </group>
++    <item
++        android:id="@+id/nav_settings"
++        android:icon="@drawable/settings"
++        android:title="Settings" />
++</menu>
+\ No newline at end of file
+Index: app/src/main/java/com/example/sonymz1/ChallengePageFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sonymz1;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.constraintlayout.widget.ConstraintLayout;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.lifecycle.ViewModelProvider;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport java.util.LinkedList;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Use the {@link ChallengePageFragment#newInstance} factory method to\r\n * create an instance of this fragment.\r\n *\r\n * @author Wendy P, Jonathan S.\r\n */\r\npublic class ChallengePageFragment extends Fragment {\r\n    private ChallengeViewModel vm;\r\n    private ImageView userImg1, userImg2, userImg3, backBtn;\r\n    private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn;\r\n    private RecyclerView rvcLeaderboard, rvcParticipants;\r\n    private ConstraintLayout participantsView;\r\n\r\n    // TODO: Rename parameter arguments, choose names that match\r\n    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER\r\n    private static final String ARG_PARAM1 = \"param1\";\r\n    private static final String ARG_PARAM2 = \"param2\";\r\n\r\n    // TODO: Rename and change types of parameters\r\n    private String mParam1;\r\n    private String mParam2;\r\n\r\n    public ChallengePageFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    /**\r\n     * Use this factory method to create a new instance of\r\n     * this fragment using the provided parameters.\r\n     *\r\n     * @param param1 Parameter 1.\r\n     * @param param2 Parameter 2.\r\n     * @return A new instance of fragment ChallengePageFragment.\r\n     */\r\n    // TODO: Rename and change types and number of parameters\r\n    public static ChallengePageFragment newInstance(String param1, String param2) {\r\n        ChallengePageFragment fragment = new ChallengePageFragment();\r\n        Bundle args = new Bundle();\r\n        args.putString(ARG_PARAM1, param1);\r\n        args.putString(ARG_PARAM2, param2);\r\n        fragment.setArguments(args);\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            mParam1 = getArguments().getString(ARG_PARAM1);\r\n            mParam2 = getArguments().getString(ARG_PARAM2);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_challenge_page, container, false);\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);\r\n        initializeViews(view);\r\n\r\n        vm.addPlayer(vm.getUser(1).getId(),6);\r\n        vm.addPlayer(vm.getUser(2).getId(),5);\r\n        vm.addPlayer(vm.getUser(3).getId(),10);\r\n        vm.addPlayer(vm.getUser(4).getId(),4);\r\n\r\n        setPedestal();\r\n        setLeaderboard();\r\n        setParticipants();\r\n    }\r\n\r\n    /**\r\n     * Show all the participants\r\n     */\r\n    private void setParticipants(){\r\n        rvcParticipants.setLayoutManager(new LinearLayoutManager(getContext()));\r\n        ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,\r\n                vm.getLeaderboard().getValue());\r\n        rvcParticipants.setAdapter(participantsAdapter);\r\n    }\r\n\r\n    /**\r\n     * Populate the leaderboard with participants.\r\n     */\r\n    private void setLeaderboard(){\r\n        rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));\r\n        LeaderboardAdapter leaderboardAdapter = new LeaderboardAdapter(this,\r\n                vm.getLeaderboard().getValue());\r\n        rvcLeaderboard.setAdapter(leaderboardAdapter);\r\n\r\n        if(vm.getLeaderboard().getValue().size() > 3){\r\n            moreBtn.setVisibility(View.VISIBLE);\r\n            moreBtn.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View v) {\r\n                    participantsView.setVisibility(View.VISIBLE);\r\n                }\r\n            });\r\n\r\n            backBtn.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View v) {\r\n                    participantsView.setVisibility(View.GONE);\r\n                }\r\n            });\r\n        }else moreBtn.setVisibility(View.GONE);\r\n    }\r\n\r\n    /**\r\n     * Set the top 3 users info on the pedestal.\r\n     */\r\n    private void setPedestal(){\r\n        vm.getLeaderboard().observe(getViewLifecycleOwner(), leaderboard -> {\r\n            List<Map.Entry<Integer, Integer>> leaderboardList =\r\n                    new LinkedList<>(leaderboard.entrySet());\r\n\r\n            if (leaderboardList.size() > 2) {\r\n                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());\r\n                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());\r\n                userImg3.setImageResource(vm.getUsers().get(leaderboardList.get(2).getKey()).getProfilePic());\r\n                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));\r\n                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));\r\n                progressTxt3.setText(String.valueOf(leaderboardList.get(2).getValue()));\r\n            }\r\n            else if (leaderboardList.size() == 2) {\r\n                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());\r\n                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());\r\n                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));\r\n                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));\r\n            }else {\r\n                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());\r\n                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));\r\n            }\r\n        });\r\n    }\r\n\r\n    /**\r\n     * Instantiate all the required views.\r\n     * @param view the fragments view.\r\n     */\r\n    private void initializeViews(View view){\r\n        userImg1 = view.findViewById(R.id.user_img1);\r\n        userImg2 = view.findViewById(R.id.user_img2);\r\n        userImg3 = view.findViewById(R.id.user_img3);\r\n        progressTxt1 = view.findViewById(R.id.progressTxt1);\r\n        progressTxt2 = view.findViewById(R.id.progressTxt2);\r\n        progressTxt3 = view.findViewById(R.id.progressTxt3);\r\n        rvcLeaderboard = view.findViewById(R.id.rvcLeaderboard);\r\n        moreBtn = view.findViewById(R.id.moreBtn);\r\n        participantsView = view.findViewById(R.id.particiantsView);\r\n        backBtn = view.findViewById(R.id.backBtn);\r\n        rvcParticipants = view.findViewById(R.id.rvcParticipants);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sonymz1/ChallengePageFragment.java	(revision 8d806a8d86a4723d277e609b7565fb46e540763f)
++++ app/src/main/java/com/example/sonymz1/ChallengePageFragment.java	(date 1619109590413)
+@@ -16,6 +16,9 @@
+ import android.widget.ImageView;
+ import android.widget.TextView;
+ 
++import com.example.sonymz1.Adapters.LeaderboardAdapter;
++import com.example.sonymz1.Adapters.ParticipantsAdapter;
++
+ import java.util.LinkedList;
+ import java.util.List;
+ import java.util.Map;
+Index: app/src/main/java/com/example/sonymz1/ChallengeViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sonymz1;\r\n\r\nimport androidx.lifecycle.MutableLiveData;\r\nimport androidx.lifecycle.ViewModel;\r\n\r\nimport java.util.Map;\r\n\r\npublic class ChallengeViewModel extends ViewModel {\r\n\r\n    private Challenge challenge;\r\n    private User mainUser;\r\n    private Map<Integer,User> users;\r\n    private AllUsers db = new AllUsers();\r\n    private MutableLiveData<Map<Integer, Integer>> leaderboard;\r\n\r\n    public ChallengeViewModel() {\r\n        this.challenge = new Challenge(\"Challenge\");\r\n        this.users = db.getUserMap();\r\n        this.mainUser = getUsers().get(2);\r\n        this.leaderboard = new MutableLiveData<>();\r\n        leaderboard.setValue(challenge.getLeaderBoard());\r\n    }\r\n\r\n    public void addPlayer(int playerId, int score){\r\n        challenge.addPlayer(playerId, score);\r\n        leaderboard.setValue(challenge.getLeaderBoard());\r\n    }\r\n\r\n    public MutableLiveData<Map<Integer, Integer>> getLeaderboard() { return leaderboard; }\r\n\r\n    public User getUser(int index) {return getUsers().get(index);}\r\n\r\n    public User getMainUser() { return mainUser; }\r\n\r\n    public Map<Integer, User> getUsers() { return users; }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sonymz1/ChallengeViewModel.java	(revision 8d806a8d86a4723d277e609b7565fb46e540763f)
++++ app/src/main/java/com/example/sonymz1/ChallengeViewModel.java	(date 1619109590400)
+@@ -5,6 +5,11 @@
+ 
+ import java.util.Map;
+ 
++/**
++ * ViewModel class for challenge side.
++ *
++ * @author Wendy P.
++ */
+ public class ChallengeViewModel extends ViewModel {
+ 
+     private Challenge challenge;
+@@ -21,6 +26,11 @@
+         leaderboard.setValue(challenge.getLeaderBoard());
+     }
+ 
++    /**
++     * Add a challenger and their score to the leaderboard and update the leaderboard.
++     * @param playerId The challenger id.
++     * @param score The challengers score.
++     */
+     public void addPlayer(int playerId, int score){
+         challenge.addPlayer(playerId, score);
+         leaderboard.setValue(challenge.getLeaderBoard());
+Index: app/src/main/java/com/example/sonymz1/ParticipantsAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sonymz1;\r\n\r\nimport android.app.Activity;\r\nimport android.graphics.Color;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.cardview.widget.CardView;\r\nimport androidx.lifecycle.ViewModelProvider;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport java.util.LinkedList;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\n/**\r\n * Adapter for populating the recyclerview with all the participants.\r\n *\r\n * @author Wendy P.\r\n */\r\npublic class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapter.ViewHolder> {\r\n    private Map<Integer,Integer> leaderboard;\r\n    private ChallengePageFragment context;\r\n    private ChallengeViewModel vm;\r\n\r\n    public ParticipantsAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderboard) {\r\n        vm = new ViewModelProvider(context).get(ChallengeViewModel.class);\r\n        this.leaderboard = leaderboard;\r\n        this.context = context;\r\n        notifyDataSetChanged();\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public ParticipantsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.participants, parent,false);\r\n        return new ViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {\r\n        List<Map.Entry<Integer, Integer>> leaderboardList =\r\n                new LinkedList<>(leaderboard.entrySet());\r\n        User challenger = vm.getUsers().get(leaderboardList.get(position).getKey());\r\n        holder.username.setText(challenger.getUsername());\r\n        holder.scoreTxt.setText(\"Score: \" + leaderboardList.get(position).getValue()); // add unit\r\n        holder.userImg.setImageResource(challenger.getProfilePic());\r\n\r\n        //Changes cards background colour for top 3 challengers.\r\n        CardView cardView = (CardView) holder.itemView;\r\n        switch (position) {\r\n            case 0:\r\n                holder.rank.setText(1 + \"st\");\r\n                holder.rank.setTextColor(Color.WHITE);\r\n                holder.username.setTextColor(Color.WHITE);\r\n                holder.scoreTxt.setTextColor(Color.WHITE);\r\n                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.first));\r\n                break;\r\n            case 1:\r\n                holder.rank.setText(2 + \"nd\");\r\n                holder.rank.setTextColor(Color.WHITE);\r\n                holder.username.setTextColor(Color.WHITE);\r\n                holder.scoreTxt.setTextColor(Color.WHITE);\r\n                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.second));\r\n                break;\r\n            case 2:\r\n                holder.rank.setText(3 + \"rd\");\r\n                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.third));\r\n                break;\r\n            default: holder.rank.setText(position+1 + \"th\"); break;\r\n        }\r\n\r\n        //Set blue colour to mark where the user is.\r\n        if (leaderboardList.get(position).getKey() == vm.getMainUser().getId()){\r\n            holder.rank.setTextColor(context.getResources().getColor(R.color.blue));\r\n            holder.username.setTextColor(context.getResources().getColor(R.color.blue));\r\n            holder.scoreTxt.setTextColor(context.getResources().getColor(R.color.blue));\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() { return leaderboard.size(); }\r\n\r\n    public class ViewHolder extends RecyclerView.ViewHolder{\r\n        TextView username, scoreTxt, rank;\r\n        ImageView userImg;\r\n\r\n        public ViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n            username = itemView.findViewById(R.id.usernameTxt);\r\n            scoreTxt = itemView.findViewById(R.id.scoreTxt);\r\n            rank = itemView.findViewById(R.id.rankTxt2);\r\n            userImg = itemView.findViewById(R.id.participantImg);\r\n        }\r\n    }\r\n}\r\n
+===================================================================
+--- app/src/main/java/com/example/sonymz1/ParticipantsAdapter.java	(revision 8d806a8d86a4723d277e609b7565fb46e540763f)
++++ app/src/main/java/com/example/sonymz1/Adapters/ParticipantsAdapter.java	(date 1619109590418)
+@@ -1,6 +1,5 @@
+-package com.example.sonymz1;
++package com.example.sonymz1.Adapters;
+ 
+-import android.app.Activity;
+ import android.graphics.Color;
+ import android.view.LayoutInflater;
+ import android.view.View;
+@@ -13,6 +12,11 @@
+ import androidx.lifecycle.ViewModelProvider;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.example.sonymz1.ChallengePageFragment;
++import com.example.sonymz1.ChallengeViewModel;
++import com.example.sonymz1.R;
++import com.example.sonymz1.User;
++
+ import java.util.LinkedList;
+ import java.util.List;
+ import java.util.Map;
+Index: app/src/main/java/com/example/sonymz1/LeaderboardAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sonymz1;\r\n\r\nimport android.app.Activity;\r\nimport android.graphics.Color;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.cardview.widget.CardView;\r\nimport androidx.lifecycle.ViewModelProvider;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport java.util.LinkedList;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\n/**\r\n * Adapter for populating the recyclerview for the leaderboard.\r\n *\r\n * TODO Fix so that the logged in user is shown in the leaderboard.\r\n * @author Wendy\r\n */\r\npublic class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {\r\n    private Map<Integer,Integer> leaderboard;\r\n    private ChallengePageFragment context;\r\n    private ChallengeViewModel vm;\r\n\r\n    public LeaderboardAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderboard) {\r\n        vm = new ViewModelProvider(context).get(ChallengeViewModel.class);\r\n        this.leaderboard = leaderboard;\r\n        this.context = context;\r\n        notifyDataSetChanged();\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View view = LayoutInflater.from(parent.getContext())\r\n                .inflate(R.layout.leaderboard_user, parent, false);\r\n        return new ViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {\r\n        User user = vm.getMainUser();\r\n        LinkedList<Integer> leaderboardList = new LinkedList<>(leaderboard.keySet());\r\n        int rank = leaderboardList.indexOf(user.getId()) + 1;\r\n        StringBuilder sb = new StringBuilder();\r\n        //Get the challenger above and below the user.\r\n        switch (position) {\r\n            case 0:\r\n                user = vm.getUsers().get(leaderboardList.get(rank-2));\r\n                sb.append(rank-1);\r\n                break;\r\n            case 1:\r\n                user = vm.getUsers().get(leaderboardList.get(rank-1));\r\n                sb.append(rank);\r\n                CardView cardView = (CardView) holder.itemView;\r\n                cardView.setCardBackgroundColor(Color.WHITE);\r\n                break;\r\n            case 2:\r\n                user = vm.getUsers().get(leaderboardList.get(rank));\r\n                sb.append(rank+1);\r\n                break;\r\n        }\r\n\r\n        //Give the right rank end thing.\r\n        switch (sb.toString()) {\r\n            case \"1\": sb.append(\"st\"); break;\r\n            case \"2\": sb.append(\"nd\"); break;\r\n            case \"3\": sb.append(\"rd\"); break;\r\n            default: sb.append(\"th\"); break;\r\n        }\r\n        holder.rank.setText(sb.toString());\r\n        holder.usernametxt.setText(user.getUsername());\r\n        holder.progressTxt.setText(String.valueOf(leaderboard.get(user.getId()))); // add unit\r\n        holder.userImg.setImageResource(user.getProfilePic());\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return 3;\r\n    }\r\n\r\n    public class ViewHolder extends RecyclerView.ViewHolder{\r\n        TextView usernametxt, progressTxt, rank;\r\n        ImageView userImg;\r\n\r\n        public ViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n            usernametxt = itemView.findViewById(R.id.username);\r\n            progressTxt = itemView.findViewById(R.id.userProgressTxt);\r\n            rank = itemView.findViewById(R.id.rankTxt);\r\n            userImg = itemView.findViewById(R.id.userImg);\r\n        }\r\n    }\r\n}\r\n
+===================================================================
+--- app/src/main/java/com/example/sonymz1/LeaderboardAdapter.java	(revision 8d806a8d86a4723d277e609b7565fb46e540763f)
++++ app/src/main/java/com/example/sonymz1/Adapters/LeaderboardAdapter.java	(date 1619109590406)
+@@ -1,6 +1,5 @@
+-package com.example.sonymz1;
++package com.example.sonymz1.Adapters;
+ 
+-import android.app.Activity;
+ import android.graphics.Color;
+ import android.view.LayoutInflater;
+ import android.view.View;
+@@ -13,8 +12,12 @@
+ import androidx.lifecycle.ViewModelProvider;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.example.sonymz1.ChallengePageFragment;
++import com.example.sonymz1.ChallengeViewModel;
++import com.example.sonymz1.R;
++import com.example.sonymz1.User;
++
+ import java.util.LinkedList;
+-import java.util.List;
+ import java.util.Map;
+ 
+ /**

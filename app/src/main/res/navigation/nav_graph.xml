@@ -31,12 +31,19 @@
         <action
             android:id="@+id/action_FirstFragment_to_FAQFragment2"
             app:destination="@id/FAQFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_createChallengeFragment"
+            app:destination="@id/createChallengeFragment" />
     </fragment>
     <fragment
         android:id="@+id/challengePageFragment"
         android:name="com.example.sonymz1.ChallengePageFragment"
         android:label="fragment_challenge_page"
-        tools:layout="@layout/fragment_challenge_page" />
+        tools:layout="@layout/fragment_challenge_page" >
+        <action
+            android:id="@+id/action_challengePageFragment_to_addingScorePage"
+            app:destination="@id/addingScorePage" />
+    </fragment>
     <fragment
         android:id="@+id/ExploreFragment"
         android:name="com.example.sonymz1.ExploreFragment"
@@ -62,4 +69,17 @@
         android:name="com.example.sonymz1.FAQFragment"
         android:label="fragment_f_a_q"
         tools:layout="@layout/fragment_f_a_q" />
+    <fragment
+        android:id="@+id/addingScorePage"
+        android:name="com.example.sonymz1.AddingScorePage"
+        android:label="fragment_adding_score_page"
+        tools:layout="@layout/fragment_adding_score_page" />
+    <fragment
+        android:id="@+id/createChallengeFragment"
+        android:name="com.example.sonymz1.CreateChallengeFragment"
+        android:label="CreateChallengeFragment" >
+        <action
+            android:id="@+id/action_createChallengeFragment_to_challengePageFragment"
+            app:destination="@id/challengePageFragment" />
+    </fragment>
 </navigation>

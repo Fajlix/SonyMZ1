@@ -14,13 +14,14 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sonymz1.Adapters.ChallengeAdapter;
+
 import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
-    private ArrayList<ChallengeItem> challengeList;
-
+    private ArrayList<Challenge> challengeList;
     private TextView challengeName, progressTxt;
-    private ImageView arrow, medal, backgroundPic;
+    private ImageView medal, backgroundPic;
     private RecyclerView recyclerView;
     private ChallengeAdapter rAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -36,7 +37,6 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initiateView(view);
-
         createChallengeList();
         initiateView(view);
         buildRecyclerView();
@@ -45,20 +45,32 @@ public class FirstFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+                        .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
             }
         });
     }
 
+    /**
+     * Populate challengeList, currently temporary test cards.
+     */
     private void createChallengeList() {
         challengeList = new ArrayList<>();
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challange name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
-        challengeList.add(new ChallengeItem(R.drawable.arrow,R.drawable.run_challenge, R.drawable.medal,"Challenge name","You are first!"));
+        LocalDatabase db = LocalDatabase.getInstance();
+        if (db.getChallenges() != null) {
+            for (Challenge challenge : db.getChallenges()) {
+                challengeList.add(new Challenge(challenge.getName(), R.drawable.run_challenge, R.drawable.medal));
+            }
+        }
+        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
+        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
+        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
+        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
+        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
     }
 
+    /**
+     * method to setup recyclerview that contains challengecards.
+     */
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -68,19 +80,32 @@ public class FirstFragment extends Fragment {
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                LocalDatabase db = LocalDatabase.getInstance();
+                for (Challenge challenge : db.getChallenges()){
+                    if (challenge.equals(challengeList.get(position))){
+                        db.setActiveChallenge(challenge);
+                        break;
+                    }
+                }
+
              challengeList.get(position).changeText("Clicked");
              rAdapter.notifyItemChanged(position);
-             NavHostFragment.findNavController(FirstFragment.this)
-                     .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+             // Temp on click for test will change to navigate to specific challenge when it exists
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
             }
         });
     }
+
+    /**
+     * method to initiate views.
+     * @param view
+     */
 
     private void initiateView(View view) {
         recyclerView = view.findViewById(R.id.rvc_list);
         challengeName = view.findViewById(R.id.challengeName);
         progressTxt = view.findViewById(R.id.progressTxt);
-        arrow = view.findViewById(R.id.arrow);
         medal = view.findViewById(R.id.medal);
         backgroundPic = view.findViewById(R.id.backgroundPic);
     }
