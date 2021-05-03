@@ -53,6 +53,12 @@ public class FirstFragment extends Fragment {
      */
     private void createChallengeList() {
         challengeList = new ArrayList<>();
+        LocalDatabase db = LocalDatabase.getInstance();
+        if (db.getChallenges() != null) {
+            for (Challenge challenge : db.getChallenges()) {
+                challengeList.add(new Challenge(challenge.getName(), R.drawable.run_challenge, R.drawable.medal));
+            }
+        }
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
@@ -72,6 +78,14 @@ public class FirstFragment extends Fragment {
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                LocalDatabase db = LocalDatabase.getInstance();
+                for (Challenge challenge : db.getChallenges()){
+                    if (challenge.equals(challengeList.get(position))){
+                        db.setActiveChallenge(challenge);
+                        break;
+                    }
+                }
+
              challengeList.get(position).changeText("Clicked");
              rAdapter.notifyItemChanged(position);
              // Temp on click for test will change to navigate to specific challenge when it exists

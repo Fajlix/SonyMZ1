@@ -34,9 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChallengePageFragment#newInstance} factory method to
- * create an instance of this fragment.
  *
  * @author Wendy P, Jonathan S.
  */
@@ -48,49 +45,20 @@ public class ChallengePageFragment extends Fragment {
     private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn;
     private Switch privacySwitch;
     private ProgressBar progressBar;
-    private RecyclerView rvcLeaderboard, rvcParticipants;
+    private RecyclerView rvcLeaderBoard, rvcParticipants;
     private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public ChallengePageFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChallengePageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChallengePageFragment newInstance(String param1, String param2) {
-        ChallengePageFragment fragment = new ChallengePageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -108,107 +76,76 @@ public class ChallengePageFragment extends Fragment {
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
         setPedestal();
-        setLeaderboard();
+        setLeaderBoard();
         setParticipants();
         setInfoCard();
 
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
-        view.findViewById(R.id.addScoreButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(ChallengePageFragment.this)
-                        .navigate(R.id.action_challengePageFragment_to_addingScorePage);
-            }
-        });
+        view.findViewById(R.id.addScoreButton).setOnClickListener(
+                view1 -> NavHostFragment.findNavController(ChallengePageFragment.this)
+                .navigate(R.id.action_challengePageFragment_to_addingScorePage));
         //Should instead trigger editView, for now just for testing it instead navigates like the addScoreButton
-        editBtnImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(adminView.getVisibility() == View.GONE){
-                    adminView.setVisibility(View.VISIBLE);
-                    editView.setVisibility(View.VISIBLE);
-                    editBtnImg.setRotation(90);
-                }
-                else{
-                    adminView.setVisibility(View.GONE);
-                    editNameView.setVisibility(View.GONE);
-                    editDescriptionView.setVisibility(View.GONE);
-                    editBtnImg.setRotation(0);
-                }
-            }
-        });
-        editChallengeNameBtnImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editView.setVisibility(View.GONE);
-                editNameView.setVisibility((View.VISIBLE));
-            }
-        });
-        cancelNameChangeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        editBtnImg.setOnClickListener(view12 -> {
+            if(adminView.getVisibility() == View.GONE){
+                adminView.setVisibility(View.VISIBLE);
                 editView.setVisibility(View.VISIBLE);
-                editNameView.setVisibility((View.GONE));
-                nameChangeBox.setText("");
+                editBtnImg.setRotation(90);
+            }
+            else{
+                adminView.setVisibility(View.GONE);
+                editNameView.setVisibility(View.GONE);
+                editDescriptionView.setVisibility(View.GONE);
+                editBtnImg.setRotation(0);
             }
         });
-        confirmNameChangeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vm.setChallengeName(nameChangeBox.getText().toString());
-                setInfoCard();
-                editView.setVisibility(View.VISIBLE);
-                editNameView.setVisibility((View.GONE));
-                nameChangeBox.setText("");
-            }
+        editChallengeNameBtnImg.setOnClickListener(view13 -> {
+            editView.setVisibility(View.GONE);
+            editNameView.setVisibility((View.VISIBLE));
+        });
+        cancelNameChangeBtn.setOnClickListener(view14 -> {
+            editView.setVisibility(View.VISIBLE);
+            editNameView.setVisibility((View.GONE));
+            nameChangeBox.setText("");
+        });
+        confirmNameChangeBtn.setOnClickListener(view15 -> {
+            vm.setChallengeName(nameChangeBox.getText().toString());
+            setInfoCard();
+            editView.setVisibility(View.VISIBLE);
+            editNameView.setVisibility((View.GONE));
+            nameChangeBox.setText("");
         });
 
-        editChallengeDescriptionBtnImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editView.setVisibility(View.GONE);
-                editDescriptionView.setVisibility((View.VISIBLE));
-            }
+        editChallengeDescriptionBtnImg.setOnClickListener(view16 -> {
+            editView.setVisibility(View.GONE);
+            editDescriptionView.setVisibility((View.VISIBLE));
         });
-        cancelDescriptionChangeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editView.setVisibility(View.VISIBLE);
-                editDescriptionView.setVisibility((View.GONE));
-                descriptionChangeBox.setText("");
-            }
+        cancelDescriptionChangeBtn.setOnClickListener(view17 -> {
+            editView.setVisibility(View.VISIBLE);
+            editDescriptionView.setVisibility((View.GONE));
+            descriptionChangeBox.setText("");
         });
-        confirmDescriptionChangeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vm.setDescription(descriptionChangeBox.getText().toString());
-                setInfoCard();
-                editView.setVisibility(View.VISIBLE);
-                editDescriptionView.setVisibility((View.GONE));
-                descriptionChangeBox.setText("");
-            }
+        confirmDescriptionChangeBtn.setOnClickListener(view18 -> {
+            vm.setDescription(descriptionChangeBox.getText().toString());
+            setInfoCard();
+            editView.setVisibility(View.VISIBLE);
+            editDescriptionView.setVisibility((View.GONE));
+            descriptionChangeBox.setText("");
         });
 
-        privacySwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(vm.isPrivate()){
-                    vm.setPrivacy(false);
-                }
-                else{
-                    vm.setPrivacy(true);
-                }
-                setInfoCard();
+        privacySwitch.setOnClickListener(view19 -> {
+            if(vm.isPrivate()){
+                vm.setPrivacy(false);
             }
+            else{
+                vm.setPrivacy(true);
+            }
+            setInfoCard();
         });
 
-        editChallengeCopyCodeBtnImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClipboardManager copyPastaMaker = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Challenge code", vm.getCode());
-                copyPastaMaker.setPrimaryClip(clip);
-            }
+        editChallengeCopyCodeBtnImg.setOnClickListener(view110 -> {
+            ClipboardManager copyPastaMaker = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Challenge code", vm.getCode());
+            copyPastaMaker.setPrimaryClip(clip);
         });
     }
 
@@ -223,32 +160,23 @@ public class ChallengePageFragment extends Fragment {
     }
 
     /**
-     * Populate the leaderboard with participants.
+     * Populate the leaderBoard with participants.
      */
-    private void setLeaderboard(){
-        rvcLeaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
+    private void setLeaderBoard(){
+        rvcLeaderBoard.setLayoutManager(new LinearLayoutManager(getContext()));
         LeaderboardAdapter leaderboardAdapter = new LeaderboardAdapter(this,
                 vm.getLeaderBoard().getValue());
-        rvcLeaderboard.setAdapter(leaderboardAdapter);
-
         if(vm.getLeaderBoard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
             System.out.println(vm.getLeaderBoard().getValue().get(vm.getMainUser().getId()));
-            moreBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    participantsView.setVisibility(View.VISIBLE);
-                    addScoreButton.setVisibility(View.GONE);
-                }
-
+            moreBtn.setOnClickListener(v -> {
+                participantsView.setVisibility(View.VISIBLE);
+                addScoreButton.setVisibility(View.GONE);
             });
 
-            backBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    participantsView.setVisibility(View.GONE);
-                    addScoreButton.setVisibility(View.VISIBLE);
-                }
+            backBtn.setOnClickListener(v -> {
+                participantsView.setVisibility(View.GONE);
+                addScoreButton.setVisibility(View.VISIBLE);
             });
         }else moreBtn.setVisibility(View.GONE);
     }
@@ -257,26 +185,27 @@ public class ChallengePageFragment extends Fragment {
      * Set the top 3 users info on the pedestal.
      */
     private void setPedestal(){
-        vm.getLeaderBoard().observe(getViewLifecycleOwner(), leaderboard -> {
-            List<Map.Entry<Integer, Integer>> leaderboardList =
-                    new LinkedList<>(leaderboard.entrySet());
+        vm.getLeaderBoard().observe(getViewLifecycleOwner(), leaderBoard -> {
+            List<Map.Entry<Integer, Integer>> leaderBoardList =
+                    new LinkedList<>(leaderBoard.entrySet());
+            if (leaderBoardList.size()>0) {
 
-            if (leaderboardList.size() > 2) {
-                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
-                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
-                userImg3.setImageResource(vm.getUsers().get(leaderboardList.get(2).getKey()).getProfilePic());
-                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
-                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
-                progressTxt3.setText(String.valueOf(leaderboardList.get(2).getValue()));
-            }
-            else if (leaderboardList.size() == 2) {
-                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
-                userImg2.setImageResource(vm.getUsers().get(leaderboardList.get(1).getKey()).getProfilePic());
-                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
-                progressTxt2.setText(String.valueOf(leaderboardList.get(1).getValue()));
-            }else {
-                userImg1.setImageResource(vm.getUsers().get(leaderboardList.get(0).getKey()).getProfilePic());
-                progressTxt1.setText(String.valueOf(leaderboardList.get(0).getValue()));
+                if (leaderBoardList.size() > 2) {
+                    userImg1.setImageResource(vm.getUsers().get(leaderBoardList.get(0).getKey()).getProfilePic());
+                    userImg2.setImageResource(vm.getUsers().get(leaderBoardList.get(1).getKey()).getProfilePic());
+                    userImg3.setImageResource(vm.getUsers().get(leaderBoardList.get(2).getKey()).getProfilePic());
+                    progressTxt1.setText(String.valueOf(leaderBoardList.get(0).getValue()));
+                    progressTxt2.setText(String.valueOf(leaderBoardList.get(1).getValue()));
+                    progressTxt3.setText(String.valueOf(leaderBoardList.get(2).getValue()));
+                } else if (leaderBoardList.size() == 2) {
+                    userImg1.setImageResource(vm.getUsers().get(leaderBoardList.get(0).getKey()).getProfilePic());
+                    userImg2.setImageResource(vm.getUsers().get(leaderBoardList.get(1).getKey()).getProfilePic());
+                    progressTxt1.setText(String.valueOf(leaderBoardList.get(0).getValue()));
+                    progressTxt2.setText(String.valueOf(leaderBoardList.get(1).getValue()));
+                } else {
+                    userImg1.setImageResource(vm.getUsers().get(leaderBoardList.get(0).getKey()).getProfilePic());
+                    progressTxt1.setText(String.valueOf(leaderBoardList.get(0).getValue()));
+                }
             }
         });
     }
@@ -292,7 +221,7 @@ public class ChallengePageFragment extends Fragment {
         progressTxt1 = view.findViewById(R.id.progressTxt1);
         progressTxt2 = view.findViewById(R.id.progressTxt2);
         progressTxt3 = view.findViewById(R.id.progressTxt3);
-        rvcLeaderboard = view.findViewById(R.id.rvcLeaderboard);
+        rvcLeaderBoard = view.findViewById(R.id.rvcLeaderboard);
         moreBtn = view.findViewById(R.id.moreBtn);
         participantsView = view.findViewById(R.id.particiantsView);
         backBtn = view.findViewById(R.id.backBtn);

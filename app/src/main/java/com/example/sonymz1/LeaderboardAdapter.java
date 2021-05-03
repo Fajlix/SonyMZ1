@@ -48,22 +48,32 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         int rank = leaderboardList.indexOf(user.getId()) + 1;
         StringBuilder sb = new StringBuilder();
         //Get the challenger above and below the user.
-        switch (position) {
-            case 0:
-                user = vm.getUsers().get(leaderboardList.get(rank-2));
-                sb.append(rank-1);
-                break;
-            case 1:
-                user = vm.getUsers().get(leaderboardList.get(rank-1));
-                sb.append(rank);
-                CardView cardView = (CardView) holder.itemView;
-                cardView.setCardBackgroundColor(Color.WHITE);
-                break;
-            case 2:
-                user = vm.getUsers().get(leaderboardList.get(rank));
-                sb.append(rank+1);
-                break;
+        if(rank>2){
+
+            switch (position) {
+                case 0:
+                    user = vm.getUsers().get(leaderboardList.get(rank - 2));
+                    sb.append(rank - 1);
+                    break;
+                case 1:
+                    user = vm.getUsers().get(leaderboardList.get(rank - 1));
+                    sb.append(rank);
+                    CardView cardView = (CardView) holder.itemView;
+                    cardView.setCardBackgroundColor(Color.WHITE);
+                    break;
+                case 2:
+                    user = vm.getUsers().get(leaderboardList.get(rank));
+                    sb.append(rank + 1);
+                    break;
+            }
+
         }
+        else if (leaderboardList.size() > 2)
+        {
+            user = vm.getUsers().get(leaderboardList.get(position));
+            sb.append(position+1);
+        }
+
 
         //Give the right rank end thing.
         switch (sb.toString()) {

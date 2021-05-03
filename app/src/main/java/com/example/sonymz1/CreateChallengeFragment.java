@@ -9,6 +9,9 @@ import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 //import androidx.lifecycle.ViewModelProviders;
@@ -16,9 +19,12 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
-    private Switch isPrivate;
+    private Switch privateSwitch;
     private ChallengeViewModel challengeVM;
 
     public CreateChallengeFragment() {
@@ -28,29 +34,36 @@ public class CreateChallengeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-    //    challengeVM = ViewModelProviders.of(this).get(ChallengeViewModel.class);
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.create_challenge, container, false);
+        return inflater.inflate(R.layout.fragment_create_challenge, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        challengeVM = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
 
-      /*  challengeDescriptionTextBox = view.findViewById(R.id.challengeDescriptionTextBox);
+        challengeDescriptionTextBox = view.findViewById(R.id.challengeDescriptionTextBox);
         challengeNameTextBox = view.findViewById(R.id.challengeNameTextBox);
-        isPrivate = view.findViewById(R.id.isPrivate);*/
+        privateSwitch = view.findViewById(R.id.isPrivate);
 
-        view.findViewById(R.id.createButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              //  challengeVM.createChallenge();
+        view.findViewById(R.id.createButton).setOnClickListener(view1 -> {
+             String name = challengeNameTextBox.getText().toString();
+             String description = challengeDescriptionTextBox.getText().toString();
+             boolean isPrivate = privateSwitch.isChecked();
+             //TODO SHOULD DEFINETLY NOT EXIST
 
-                NavHostFragment.findNavController(CreateChallengeFragment.this)
-                        .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
+            Map<Integer, User> users = challengeVM.getUsers();
+            int[] playerIds = new int[users.size()];
+            int index = 0;
+            for(Integer key : users.keySet()){
+                playerIds[index] = key;
+                index++;
             }
+             challengeVM.createChallenge(name, description, isPrivate, playerIds);
+
+            NavHostFragment.findNavController(CreateChallengeFragment.this)
+                    .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
         });
     }
 
@@ -66,6 +79,6 @@ public class CreateChallengeFragment extends Fragment {
 
     public Boolean isPrivate ()
     {
-        return isPrivate.isChecked();
+        return privateSwitch.isChecked();
     }
 }
