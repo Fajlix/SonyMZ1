@@ -1,5 +1,8 @@
 package com.example.sonymz1;
 
+import com.example.sonymz1.Components.ChallengeComponent;
+import com.example.sonymz1.Components.ScoreComponent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,11 +14,14 @@ import java.util.Random;
 
 /**
  * @author Felix
+ * Class representing a challenge and information about a challenge e.g users, their scores, chalenge
+ * name etc.
  */
-public class Challenge {
+public class Challenge implements ScoreUpdateListener{
     /**
-     * name for challenge, leader Board with playerIds and score, challenge components, if challenge
-     *  is private or not, string for challenge description, challenge code to join
+     *  name for challenge, leader Board with playerIds and score, challenge components, if challenge
+     *  is private or not, string for challenge description, challenge code to join,
+     *  int for challenge card background pic, int for medal pic.
      */
     private String name;
     private Map<Integer, Integer> leaderBoard;
@@ -25,25 +31,36 @@ public class Challenge {
     private String challengeCode;
     private int creatorId;
     private int[] adminIds;
+    private int challengeBackground;
+    private int medal;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
-                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description) {
+                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description, int challengeBackground) {
         this.name = name;
         this.leaderBoard = leaderBoard;
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
+        this.challengeBackground = challengeBackground;
     }
-
-    public Challenge(String name) {
+    public Challenge(String name, int challengeBackground, int medal) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.description = "";
         this.challengeCode = generateCode(4);
-        System.out.println(challengeCode);
+        this.challengeBackground = challengeBackground;
+        this.medal = medal;
     }
+      public Challenge(String name) {
+        this.name = name;
+        this.leaderBoard = new HashMap<>();
+        this.components = new ArrayList<>();
+        this.isPrivate = false;
+        this.description = "";
+      }
+
 
     public String getName() {
         return name;
@@ -124,6 +141,7 @@ public class Challenge {
         return description;
     }
 
+
     public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
@@ -131,7 +149,56 @@ public class Challenge {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getChallengeCode(){
+    public String getChallengeCode() {
         return challengeCode;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void changeText(String text){
+        description = text;
+    }
+
+    public int getChallengeBackground() {
+        return challengeBackground;
+    }
+
+    public int getMedal() {
+        return medal;
+    }
+
+    @Override
+    public void updateScore(int mainUserId,int score) {
+        //TODO getcurrentuserID
+        leaderBoard.put(mainUserId,score);
+
+    }
+    public boolean checkIfGoalReached(){
+        ScoreComponent scoreComponent = getScoreComponent();
+        if (scoreComponent != null){
+            int bestUser = leaderBoard.keySet().iterator().next();
+            int currentScore = leaderBoard.get(bestUser);
+            return currentScore >= scoreComponent.getGoalScore();
+        }
+        return false;
+    }
+    public int getGoalScore(){
+        ScoreComponent scoreComponent = getScoreComponent();
+        if (scoreComponent != null){
+            return scoreComponent.getGoalScore();
+        }
+        return 0;
+    }
+    //Just returns the scoreComponent of all the components
+    private ScoreComponent getScoreComponent(){
+        for (ChallengeComponent cc :
+                components) {
+            if (cc instanceof ScoreComponent){
+                return (ScoreComponent) cc;
+            }
+        }
+        return null;
     }
 }

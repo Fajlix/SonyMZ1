@@ -1,6 +1,5 @@
 package com.example.sonymz1;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;

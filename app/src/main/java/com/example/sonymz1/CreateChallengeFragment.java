@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+//import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -18,10 +22,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
-    private SwitchCompat privateSwitch;
+    private Switch privateSwitch;
     private ChallengeViewModel challengeVM;
 
     public CreateChallengeFragment() {
@@ -31,8 +34,6 @@ public class CreateChallengeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_challenge, container, false);
     }
@@ -65,5 +66,19 @@ public class CreateChallengeFragment extends Fragment {
                     .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
         });
     }
-}
 
+    public String getName ()
+    {
+        return challengeNameTextBox.getText().toString();
+    }
+
+    public String getDescription ()
+    {
+        return challengeDescriptionTextBox.getText().toString();
+    }
+
+    public Boolean isPrivate ()
+    {
+        return privateSwitch.isChecked();
+    }
+}

@@ -1,6 +1,5 @@
 package com.example.sonymz1;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
