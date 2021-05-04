@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.CounterComponent;
-import com.example.sonymz1.Components.DistanceComponent;
 
 import java.util.Map;
 
@@ -17,16 +16,13 @@ public class ChallengeViewModel extends ViewModel {
 
     private Challenge challenge;
     private User mainUser;
-    private Map<Integer,User> users;
-    private AllUsers db = AllUsers.getInstance();
+    private Map<Integer,User> usersMap;
+    private AllUsers usersDB;
     private MutableLiveData<Map<Integer, Integer>> leaderBoard = new MutableLiveData<>();
 
     public ChallengeViewModel() {
         LocalDatabase.getInstance().setActiveChallenge(new Challenge("ChallengeTest"));
         this.challenge = LocalDatabase.getInstance().getActiveChallenge();
-        this.users = db.getUserMap();
-        this.mainUser = getUsers().get(0); // Temp set
-        challenge.addPlayer(mainUser.getId(),2); // Should be set in Challenge class
         setLeaderBoard();
     }
 
@@ -91,12 +87,28 @@ public class ChallengeViewModel extends ViewModel {
             leaderBoard.setValue(challenge.getLeaderBoard());
     }
 
-    //TODO This should not be here
+    public void setMainUser(int mainUserID) {
+        usersDB.setMainUser(mainUserID);
+        this.mainUser = usersDB.getMainUser();
+    }
+
+    public void addMainUser(String username) {
+        usersDB.addMainUser(username);
+        mainUser = usersDB.getMainUser();
+    }
+
+    public AllUsers getUsersDB() { return usersDB; }
+
+    public void setUsersDB(AllUsers usersDB) {
+        this.usersDB = usersDB;
+        this.usersMap = usersDB.getUserMap();
+    }
+
     public User getMainUser() { return mainUser; }
 
     public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() { return leaderBoard; }
 
-    public Map<Integer, User> getUsers() { return users; }
+    public Map<Integer, User> getUsersMap() { return usersMap; }
 
     public String getName(){ return challenge.getName(); }
 
@@ -104,7 +116,7 @@ public class ChallengeViewModel extends ViewModel {
 
     public Boolean isPrivate() { return challenge.isPrivate(); }
 
-    public int getNumOfPlayers(){ return users.size(); }
+    public int getNumOfPlayers(){ return usersMap.size(); }
 
     public int getMainUserScore(){ return challenge.getLeaderBoard().get(mainUser.getId()); }
 

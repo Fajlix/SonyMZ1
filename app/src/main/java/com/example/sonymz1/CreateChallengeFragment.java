@@ -9,9 +9,6 @@ import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 //import androidx.lifecycle.ViewModelProviders;
@@ -19,8 +16,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
@@ -53,7 +48,7 @@ public class CreateChallengeFragment extends Fragment {
              boolean isPrivate = privateSwitch.isChecked();
              //TODO SHOULD DEFINETLY NOT EXIST
 
-            Map<Integer, User> users = challengeVM.getUsers();
+            Map<Integer, User> users = challengeVM.getUsersMap();
             int[] playerIds = new int[users.size()];
             int index = 0;
             for(Integer key : users.keySet()){

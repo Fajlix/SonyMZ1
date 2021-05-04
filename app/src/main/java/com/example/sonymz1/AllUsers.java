@@ -10,19 +10,12 @@ import java.util.Random;
  * @author Wendy Pau
  */
 public class AllUsers {
-    private static AllUsers instance;
     private Map<Integer,User> userMap;
+    private User mainUser;
 
     public AllUsers() {
         this.userMap = new HashMap<>();
-        fillWithUsers();
-    }
-
-    public static AllUsers getInstance(){
-        if (AllUsers.instance == null){
-            AllUsers.instance = new AllUsers();
-        }
-        return AllUsers.instance;
+        //fillWithUsers();
     }
 
     /**
@@ -51,6 +44,12 @@ public class AllUsers {
         userMap.put(user.getId(),user);
     }
 
+    public void addMainUser(String name){
+        int id = getUniqueID();
+        mainUser = new User(name,id);
+        userMap.put(id,mainUser);
+    }
+
     /**
      * Genereate a random unique positive number that doesn´t exist in the map of users already.
      * @return a unique positive id
@@ -63,6 +62,10 @@ public class AllUsers {
         }
         return id;
     }
+
+    public User getMainUser() { return mainUser; }
+
+    public void setMainUser(int mainUserID) { this.mainUser = userMap.get(mainUserID); }
 
     public Map<Integer, User> getUserMap() { return userMap; }
 }

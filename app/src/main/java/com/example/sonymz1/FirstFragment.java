@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +21,14 @@ import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
     private ArrayList<Challenge> challengeList;
-    private TextView challengeName, progressTxt;
+    private TextView challengeName, progressTxt, welcomeTxt;
     private ImageView medal, backgroundPic;
     private RecyclerView recyclerView;
     private ChallengeAdapter rAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private CardView card;
 
+    ChallengeViewModel vm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,8 +40,10 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initiateView(view);
         createChallengeList();
-        initiateView(view);
         buildRecyclerView();
+
+        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
+        welcomeTxt.setText("Welcome "+ vm.getMainUser().getUsername());
 
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +107,7 @@ public class FirstFragment extends Fragment {
      */
 
     private void initiateView(View view) {
+        welcomeTxt = view.findViewById(R.id.welcomeText);
         recyclerView = view.findViewById(R.id.rvc_list);
         challengeName = view.findViewById(R.id.challengeName);
         progressTxt = view.findViewById(R.id.progressTxt);

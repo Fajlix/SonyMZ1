@@ -49,7 +49,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {
         List<Map.Entry<Integer, Integer>> leaderBoardList =
                 new LinkedList<>(leaderBoard.entrySet());
-        User challenger = vm.getUsers().get(leaderBoardList.get(position).getKey());
+        User challenger = vm.getUsersMap().get(leaderBoardList.get(position).getKey());
         holder.username.setText(challenger.getUsername());
         holder.scoreTxt.setText("Score: " + leaderBoardList.get(position).getValue()); // add unit
         holder.userImg.setImageResource(challenger.getProfilePic());

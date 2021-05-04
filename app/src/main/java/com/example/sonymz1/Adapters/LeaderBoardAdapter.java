@@ -60,15 +60,15 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
         else if (rank == leaderBoardList.size()){   // if main user is last
             switch (position) {
                 case 0:
-                    user = vm.getUsers().get(leaderBoardList.get(rank-3));
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank-3));
                     sb.append(rank-2);
                     break;
                 case 1:
-                    user = vm.getUsers().get(leaderBoardList.get(rank-2));
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank-2));
                     sb.append(rank-1);
                     break;
                 case 2:
-                    user = vm.getUsers().get(leaderBoardList.get(rank-1));
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank-1));
                     sb.append(rank);
                     CardView cardView = (CardView) holder.itemView;
                     cardView.setCardBackgroundColor(Color.WHITE);
@@ -79,17 +79,17 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
             //Get the challenger above and below the main user.
             switch (position) {
                 case 0:
-                    user = vm.getUsers().get(leaderBoardList.get(rank - 2));
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank - 2));
                     sb.append(rank - 1);
                     break;
                 case 1:
-                    user = vm.getUsers().get(leaderBoardList.get(rank - 1));
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank - 1));
                     sb.append(rank);
                     CardView cardView = (CardView) holder.itemView;
                     cardView.setCardBackgroundColor(Color.WHITE);
                     break;
                 case 2:
-                    user = vm.getUsers().get(leaderBoardList.get(rank));
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank));
                     sb.append(rank + 1);
                     break;
             }
