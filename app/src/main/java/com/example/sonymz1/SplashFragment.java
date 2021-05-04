@@ -57,9 +57,9 @@ public class SplashFragment extends Fragment {
             sp = getActivity().getSharedPreferences("myPreferences", MODE_PRIVATE);
         }
 
-        // Uncomment if you want to go to login page again.
-        //Integer userID = null;
         Integer userID = sp.getInt("id", -1);
+        // Uncomment if you want to go to login page again.
+        //userID = null;
 
         // if user already exists. Set user to main user.
         if (userID != null && userID != -1) {

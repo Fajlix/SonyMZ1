@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.example.sonymz1.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
@@ -174,7 +175,7 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setLeaderBoard(){
         rvcLeaderBoard.setLayoutManager(new LinearLayoutManager(getContext()));
-        LeaderBoardAdapter leaderBoardAdapter = new LeaderBoardAdapter(this,
+        LeaderBoardAdapter leaderBoardAdapter = new LeaderBoardAdapter(requireActivity(),
                 vm.getLeaderBoard().getValue());
         rvcLeaderBoard.setAdapter(leaderBoardAdapter);
         if(vm.getLeaderBoard().getValue().size() > 3){

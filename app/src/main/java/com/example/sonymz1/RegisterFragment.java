@@ -60,7 +60,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // check if user has written their name
-                if (!nameEditText.getText().equals("")){
+                if (!nameEditText.getText().toString().equals("")){
 
                     if (sp == null){
                         sp = getContext().getSharedPreferences("myPreferences",MODE_PRIVATE);
@@ -71,6 +71,8 @@ public class RegisterFragment extends Fragment {
                     vm.addMainUser(nameEditText.getText().toString());
                     spEditor.putInt("id", vm.getMainUser().getId());
                     spEditor.commit();
+
+                    view.clearFocus();
 
                     NavHostFragment.findNavController(RegisterFragment.this)
                             .navigate(R.id.action_loginFragment_to_FirstFragment);

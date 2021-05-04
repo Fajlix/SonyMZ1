@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.Adapters.ChallengeAdapter;
+import com.example.sonymz1.Database.LocalDatabase;
+import com.example.sonymz1.Model.Challenge;
 
 import java.util.ArrayList;
 

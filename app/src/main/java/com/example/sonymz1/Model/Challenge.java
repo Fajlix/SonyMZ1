@@ -1,7 +1,8 @@
-package com.example.sonymz1;
+package com.example.sonymz1.Model;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.ScoreComponent;
+import com.example.sonymz1.ScoreUpdateListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import java.util.Random;
  * Class representing a challenge and information about a challenge e.g users, their scores, chalenge
  * name etc.
  */
-public class Challenge implements ScoreUpdateListener{
+public class Challenge implements ScoreUpdateListener {
     /**
      *  name for challenge, leader Board with playerIds and score, challenge components, if challenge
      *  is private or not, string for challenge description, challenge code to join,

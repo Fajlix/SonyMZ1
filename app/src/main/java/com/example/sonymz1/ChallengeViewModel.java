@@ -4,6 +4,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.CounterComponent;
+import com.example.sonymz1.Database.AllUsers;
+import com.example.sonymz1.Database.LocalDatabase;
+import com.example.sonymz1.Model.Challenge;
+import com.example.sonymz1.Model.User;
 
 import java.util.Map;
 
@@ -89,7 +93,7 @@ public class ChallengeViewModel extends ViewModel {
 
     public void setMainUser(int mainUserID) {
         usersDB.setMainUser(mainUserID);
-        this.mainUser = usersDB.getMainUser();
+        mainUser = usersDB.getMainUser();
     }
 
     public void addMainUser(String username) {

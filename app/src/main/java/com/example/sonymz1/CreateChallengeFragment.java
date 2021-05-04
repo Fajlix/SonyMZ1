@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 //import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.sonymz1.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Map;
@@ -56,6 +57,9 @@ public class CreateChallengeFragment extends Fragment {
                 index++;
             }
              challengeVM.createChallenge(name, description, isPrivate, playerIds);
+
+            // Close the keyboard
+            view.clearFocus();
 
             NavHostFragment.findNavController(CreateChallengeFragment.this)
                     .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);

@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.ChallengePageFragment;
 import com.example.sonymz1.ChallengeViewModel;
 import com.example.sonymz1.R;
-import com.example.sonymz1.User;
+import com.example.sonymz1.Model.User;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -27,13 +28,11 @@ import java.util.Map;
  */
 public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHolder> {
     private Map<Integer,Integer> leaderBoard;
-    private ChallengePageFragment context;
     private ChallengeViewModel vm;
 
-    public LeaderBoardAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderBoard) {
-        vm = new ViewModelProvider(context).get(ChallengeViewModel.class);
+    public LeaderBoardAdapter(FragmentActivity fragActivity, Map<Integer, Integer> leaderBoard) {
+        vm = new ViewModelProvider(fragActivity).get(ChallengeViewModel.class);
         this.leaderBoard = leaderBoard;
-        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -53,9 +52,21 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
         StringBuilder sb = new StringBuilder();
 
         if (rank == 1){ // if main user is first
-            sb.append(rank);
-            CardView cardView = (CardView) holder.itemView;
-            cardView.setCardBackgroundColor(Color.WHITE);
+            switch (position) {
+                case 0:
+                    sb.append(rank);
+                    CardView cardView = (CardView) holder.itemView;
+                    cardView.setCardBackgroundColor(Color.WHITE);
+                    break;
+                case 1:
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank));
+                    sb.append(rank+1);
+                    break;
+                case 2:
+                    user = vm.getUsersMap().get(leaderBoardList.get(rank+1));
+                    sb.append(rank+2);
+                    break;
+            }
         }
         else if (rank == leaderBoardList.size()){   // if main user is last
             switch (position) {
