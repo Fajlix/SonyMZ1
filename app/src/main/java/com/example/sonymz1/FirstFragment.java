@@ -58,14 +58,16 @@ public class FirstFragment extends Fragment {
         LocalDatabase db = LocalDatabase.getInstance();
         if (db.getChallenges() != null) {
             for (Challenge challenge : db.getChallenges()) {
-                challengeList.add(new Challenge(challenge.getName(), R.drawable.run_challenge, R.drawable.medal));
+                challengeList.addAll(db.getChallenges());
             }
         }
+        /*challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
+        */
+
     }
 
     /**

@@ -41,7 +41,7 @@ public class Challenge implements ScoreUpdateListener{
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
-        this.challengeBackground = challengeBackground;
+        this.challengeBackground = R.drawable.run_challenge;
     }
     public Challenge(String name, int challengeBackground, int medal) {
         this.name = name;
@@ -50,7 +50,7 @@ public class Challenge implements ScoreUpdateListener{
         this.isPrivate = false;
         this.description = "";
         this.challengeCode = generateCode(4);
-        this.challengeBackground = challengeBackground;
+        this.challengeBackground = R.drawable.run_challenge;
         this.medal = medal;
     }
       public Challenge(String name) {
@@ -59,6 +59,7 @@ public class Challenge implements ScoreUpdateListener{
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.description = "";
+        this.challengeBackground = R.drawable.run_challenge;
       }
 
 

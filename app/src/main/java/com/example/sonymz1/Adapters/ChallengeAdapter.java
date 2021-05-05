@@ -44,7 +44,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
 
         public ExampleViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            background = itemView.findViewById(R.id.backgroundPic);
+          background = itemView.findViewById(R.id.backgroundPic);
             medal = itemView.findViewById(R.id.medal);
             challengeName = itemView.findViewById(R.id.challengeName);
             progressText = itemView.findViewById(R.id.progressTxt);
@@ -69,7 +69,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
       }
     }
 
-    public ChallengeAdapter(ArrayList<Challenge> challengeList){ // här skall bytas till challenge
+    public ChallengeAdapter(ArrayList<Challenge> challengeList){
        mChallengeList = challengeList;
     }
 
@@ -84,6 +84,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
           Challenge currentItem = mChallengeList.get(position);
+          holder.challengeName.setText(currentItem.getName());
           holder.background.setImageResource(currentItem.getChallengeBackground());
           holder.medal.setImageResource(currentItem.getMedal());
           holder.progressText.setText(currentItem.getDescription());
