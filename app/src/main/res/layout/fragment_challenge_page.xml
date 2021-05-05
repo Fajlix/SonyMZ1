@@ -266,7 +266,7 @@
         android:id="@+id/editChallengeAdminView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/challengeInfoImgView"
         app:layout_constraintEnd_toEndOf="@+id/challengeInfoImgView"
         app:layout_constraintStart_toStartOf="@+id/challengeInfoImgView"
@@ -286,7 +286,7 @@
             android:id="@+id/editInfoView"
             android:layout_width="359dp"
             android:layout_height="294dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -625,6 +625,84 @@
                     android:layout_height="139dp"
                     android:hint="Description" />
             </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editInfoParticipantsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Participants"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.132"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.093" />
+
+            <Button
+                android:id="@+id/cancelRemovalBtn"
+                android:layout_width="106dp"
+                android:layout_height="38dp"
+                android:text="Cancel"
+                app:backgroundTint="#F6716F"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.141"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.939" />
+
+            <Button
+                android:id="@+id/confirmRemovalBtn"
+                android:layout_width="106dp"
+                android:layout_height="38dp"
+                android:text="Confirm"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#79DEB4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.847"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.939" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/participantsScrollView"
+                android:layout_width="291dp"
+                android:layout_height="138dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.48"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.418"
+                tools:listitem="@layout/infocard_user" />
+
+            <CheckBox
+                android:id="@+id/selectAllBox"
+                android:layout_width="157dp"
+                android:layout_height="41dp"
+                android:text="     Select all"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.175"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.79" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
