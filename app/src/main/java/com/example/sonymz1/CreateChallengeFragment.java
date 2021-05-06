@@ -5,25 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
-
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-//import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
-
 import com.google.android.material.textfield.TextInputEditText;
-
 import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
+
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
     private Switch privateSwitch;
@@ -62,11 +52,7 @@ public class CreateChallengeFragment extends Fragment {
                 playerIds[index] = key;
                 index++;
             }
-            try {
                 challengeVM.createChallenge(name, description, isPrivate, playerIds);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
             NavHostFragment.findNavController(CreateChallengeFragment.this)
                     .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);

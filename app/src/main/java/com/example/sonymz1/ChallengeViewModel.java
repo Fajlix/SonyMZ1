@@ -2,18 +2,7 @@ package com.example.sonymz1;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.sonymz1.Components.CounterComponent;
-import com.example.sonymz1.Components.DistanceComponent;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Map;
 
 /**
@@ -41,7 +30,7 @@ public class ChallengeViewModel extends ViewModel {
     /**
      * Method for communication between Model and View, in this case Challenge and CreateChallengeFragment
      */
-    public void createChallenge(String name, String description,boolean isPrivate, int[] playerIds) throws JSONException {
+    public void createChallenge(String name, String description,boolean isPrivate, int[] playerIds) {
         challenge = new Challenge(name);
         challenge.setDescription(description);
         challenge.setPrivate(isPrivate);
@@ -49,8 +38,7 @@ public class ChallengeViewModel extends ViewModel {
         addPlayers(playerIds);
         //addPlayer(1, 20); It wont work on my setPedestal method
         setLeaderBoard();
-        saveData(challenge);
-        LocalDatabase.getInstance().addChallenge(challenge);
+        OnlineDatabase.getInstance().saveChallenge(challenge);
         //TODO Add challengers
     }
 
@@ -62,13 +50,6 @@ public class ChallengeViewModel extends ViewModel {
     public void addTestScore(int playerId, int score){
         challenge.addPlayer(playerId, score);
         leaderBoard.setValue(challenge.getLeaderBoard());
-    }
-    public void saveData(Challenge challenge){
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(challenge);
-        Map map = gson.fromJson(jsonStr, Map.class);
-        System.out.println(jsonStr);
-        FirebaseDatabase.getInstance().getReference().child("Challenges").child(challenge.getChallengeCode()).setValue(map);
     }
 
     /**

@@ -2,11 +2,6 @@ package com.example.sonymz1;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.ScoreComponent;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -178,7 +173,7 @@ public class Challenge implements ScoreUpdateListener {
 
     @Override
     public void updateScore(int mainUserId,int score) {
-        //TODO getcurrentuserID
+        //TODO getCurrentuserID
         leaderBoard.put(mainUserId,score);
 
     }
