@@ -15,6 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.Adapters.ChallengeAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -41,13 +47,9 @@ public class FirstFragment extends Fragment {
         initiateView(view);
         buildRecyclerView();
 
-        view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
-            }
-        });
+
+        view.findViewById(R.id.addChallengeButton).setOnClickListener(view1 -> NavHostFragment.findNavController(FirstFragment.this)
+                .navigate(R.id.action_FirstFragment_to_createChallengeFragment));
     }
 
     /**
@@ -56,9 +58,29 @@ public class FirstFragment extends Fragment {
     private void createChallengeList() {
         challengeList = new ArrayList<>();
         LocalDatabase db = LocalDatabase.getInstance();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Challenges");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Gson gson = new Gson();
+                    String jsonStr = gson.toJson(snapshot.getValue());
+                    Challenge challenge = gson.fromJson(jsonStr, Challenge.class);
+                    System.out.println(challenge.getName());
+                    challengeList.add(challenge);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         if (db.getChallenges() != null) {
             for (Challenge challenge : db.getChallenges()) {
-                challengeList.add(new Challenge(challenge.getName(), R.drawable.run_challenge, R.drawable.medal));
+
+
+                //challengeList.add(new Challenge(challenge.getName(), R.drawable.run_challenge, R.drawable.medal));
             }
         }
         challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));

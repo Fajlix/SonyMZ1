@@ -3,6 +3,10 @@ package com.example.sonymz1;
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.ScoreComponent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +21,7 @@ import java.util.Random;
  * Class representing a challenge and information about a challenge e.g users, their scores, chalenge
  * name etc.
  */
-public class Challenge implements ScoreUpdateListener{
+public class Challenge implements ScoreUpdateListener {
     /**
      *  name for challenge, leader Board with playerIds and score, challenge components, if challenge
      *  is private or not, string for challenge description, challenge code to join,
@@ -58,7 +62,10 @@ public class Challenge implements ScoreUpdateListener{
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
+        this.challengeCode = generateCode(4);
         this.description = "";
+        this.medal = R.drawable.medal;
+        this.challengeBackground =R.drawable.run_challenge;
       }
 
 
@@ -190,6 +197,7 @@ public class Challenge implements ScoreUpdateListener{
             return scoreComponent.getGoalScore();
         }
         return 0;
+
     }
     //Just returns the scoreComponent of all the components
     private ScoreComponent getScoreComponent(){

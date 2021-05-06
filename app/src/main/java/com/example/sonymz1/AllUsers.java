@@ -1,5 +1,8 @@
 package com.example.sonymz1;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -35,6 +38,24 @@ public class AllUsers {
         addUser("User 4");
         addUser("User 5");
         addUser("User 6");
+        saveUsers(userMap);
+
+    }
+    public void saveData(User user){
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(user);
+        Map map = gson.fromJson(jsonStr, Map.class);
+        System.out.println(jsonStr);
+        FirebaseDatabase.getInstance().getReference().child("Challenges").child(String.valueOf(user.getId())).setValue(map);
+    }
+    public void saveUsers(Map<Integer,User> userMap){
+        Gson gson = new Gson();
+        for (int key : userMap.keySet()) {
+            String jsonStr = gson.toJson(userMap.get(key));
+            Map map = gson.fromJson(jsonStr, Map.class);
+            System.out.println(jsonStr);
+            FirebaseDatabase.getInstance().getReference().child("Users").child(String.valueOf(userMap.get(key).getId())).setValue(map);
+        }
     }
 
     public void addTestUser(String name, int id){
