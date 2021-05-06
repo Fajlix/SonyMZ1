@@ -30,8 +30,10 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.example.sonymz1.Adapters.RemoveParticipantsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,7 @@ public class ChallengePageFragment extends Fragment {
     private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
+    private RecyclerView removePList;
 
     public ChallengePageFragment() {
         // Required empty public constructor
@@ -89,12 +92,13 @@ public class ChallengePageFragment extends Fragment {
         setLeaderBoard();
         setParticipants();
         setInfoCard();
+        setRemoveParticipants();
 
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
         view.findViewById(R.id.addScoreButton).setOnClickListener(
                 view1 -> NavHostFragment.findNavController(ChallengePageFragment.this)
                 .navigate(R.id.action_challengePageFragment_to_addingScorePage));
-        //Should instead trigger editView, for now just for testing it instead navigates like the addScoreButton
+
         editBtnImg.setOnClickListener(view12 -> {
             if(adminView.getVisibility() == View.GONE){
                 adminView.setVisibility(View.VISIBLE);
@@ -167,6 +171,19 @@ public class ChallengePageFragment extends Fragment {
         ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,
                 vm.getLeaderBoard().getValue());
         rvcParticipants.setAdapter(participantsAdapter);
+    }
+
+    private void setRemoveParticipants(){
+        ArrayList<User> users = new ArrayList<>(vm.getUsers().values());
+
+        for (int i = 0; i < users.size(); i++) {
+            if(users.get(i).getId() == vm.getCreatorId()){
+                users.remove(i);
+                break;
+            }
+        }
+        removePList.setLayoutManager(new LinearLayoutManager(getContext()));
+        removePList.setAdapter(new RemoveParticipantsAdapter(users));
     }
 
     /**
@@ -288,6 +305,8 @@ public class ChallengePageFragment extends Fragment {
         infoCardParticipantsNum = view.findViewById(R.id.editChallengeParticipantsNumView);
         infoCardPrivacy = view.findViewById(R.id.editChallengePrivacyView);
         infoCardCode = view.findViewById(R.id.editChallengeCodeView);
+
+        removePList = view.findViewById(R.id.participantsScrollView);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

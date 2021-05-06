@@ -117,4 +117,6 @@ public class ChallengeViewModel extends ViewModel {
     public void setPrivacy(boolean aPrivate){ challenge.setPrivate(aPrivate); }
 
     public String getCode(){ return String.valueOf(challenge.getChallengeCode()); }
+
+    public int getCreatorId(){return challenge.getCreatorId();}
 }

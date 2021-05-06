@@ -652,6 +652,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.093" />
 
+            <TextView
+                android:id="@+id/challengeHostView"
+                android:layout_width="292dp"
+                android:layout_height="23dp"
+                android:text="Host"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.217" />
+
             <Button
                 android:id="@+id/cancelRemovalBtn"
                 android:layout_width="106dp"
@@ -681,28 +693,26 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/participantsScrollView"
-                android:layout_width="291dp"
-                android:layout_height="138dp"
+                android:layout_width="292dp"
+                android:layout_height="102dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.48"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.418"
+                app:layout_constraintVertical_bias="0.42000002"
                 tools:listitem="@layout/infocard_user" />
 
             <CheckBox
                 android:id="@+id/selectAllBox"
-                android:layout_width="157dp"
-                android:layout_height="41dp"
-                android:text="     Select all"
+                android:layout_width="292dp"
+                android:layout_height="32dp"
+                android:text="Select all"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.175"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.79" />
+                app:layout_constraintVertical_bias="0.686" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
