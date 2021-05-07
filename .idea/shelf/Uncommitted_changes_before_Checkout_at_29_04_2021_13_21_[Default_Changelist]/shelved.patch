@@ -1,3 +1,0 @@
-diff --git app/src/main/res/layout/create_challenge.xml app/src/main/res/layout/fragment_create_challenge.xml
-rename from app/src/main/res/layout/create_challenge.xml
-rename to app/src/main/res/layout/fragment_create_challenge.xml
