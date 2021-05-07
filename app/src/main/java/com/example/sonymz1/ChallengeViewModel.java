@@ -83,6 +83,9 @@ public class ChallengeViewModel extends ViewModel {
         //We have to know what type of challenge it is so that we can add the right type of score
         CounterComponent scoreComp = (CounterComponent) (challenge.getComponents().get(0));
         scoreComp.addCount(mainUser.getId(), score);
+        if(challenge.checkIfGoalReached()){
+            challenge.setFinished(true);
+        }
         update();
     }
 

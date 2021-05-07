@@ -54,15 +54,8 @@ public class FirstFragment extends Fragment {
      * Method to populate challengeList
      */
     private void createChallengeList() {
-        challengeList = new ArrayList<>();
         LocalDatabase db = LocalDatabase.getInstance();
-        if (db.getChallenges() != null) {
-            for (Challenge challenge : db.getChallenges()) {
-                challengeList.addAll(db.getChallenges());
-            }
-        }
-
-
+        challengeList = db.getChallenges();
     }
 
     /**
@@ -71,7 +64,7 @@ public class FirstFragment extends Fragment {
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        rAdapter = new ChallengeAdapter(challengeList);
+        rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(rAdapter);
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
@@ -85,9 +78,6 @@ public class FirstFragment extends Fragment {
                     }
                 }
 
-                challengeList.get(position).setFinished(true);
-                /*challengeList.add(challengeList.get(position));
-                challengeList.remove(position);*/
              rAdapter.notifyItemChanged(position);
              // Temp on click for test will change to navigate to specific challenge when it exists
                 NavHostFragment.findNavController(FirstFragment.this)
