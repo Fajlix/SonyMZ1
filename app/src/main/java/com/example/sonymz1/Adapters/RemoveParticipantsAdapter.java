@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class RemoveParticipantsAdapter extends RecyclerView.Adapter<RemoveParticipantsAdapter.ViewHolder>{
     private ArrayList<User> users;
+    private ArrayList<Integer> checkedUserIDs = new ArrayList<>();
     private boolean isAllSelected = false;
     public RemoveParticipantsAdapter(ArrayList<User> users){
         this.users = users;
@@ -35,11 +36,15 @@ public class RemoveParticipantsAdapter extends RecyclerView.Adapter<RemovePartic
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
+        System.out.println(users.toString());
         holder.checkbox.setText(user.getUsername());
+        holder.userId = user.getId();
         if (!isAllSelected){
             holder.checkbox.setChecked(false);
         }
-        else  holder.checkbox.setChecked(true);
+        else  {
+            holder.checkbox.setChecked(true);
+        }
     }
 
     @Override
@@ -49,23 +54,40 @@ public class RemoveParticipantsAdapter extends RecyclerView.Adapter<RemovePartic
 
     public void selectAll(){
         isAllSelected = true;
+        checkedUserIDs = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            checkedUserIDs.add(users.get(i).getId());
+        }
         notifyDataSetChanged();
     }
     public void unSelectAll(){
         isAllSelected = false;
+        checkedUserIDs = new ArrayList<>();
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Integer> getCheckedUserIDs() {
+
+        return checkedUserIDs;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox checkbox;
+        Integer userId;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             checkbox = itemView.findViewById(R.id.removeCheckBox);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            checkbox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    checkbox.setChecked(!checkbox.isChecked());
+
+                    if(checkbox.isChecked()){
+                        checkedUserIDs.add(userId);
+                    }
+                    else{
+                        checkedUserIDs.remove(userId);
+                    }
                 }
             });
         }

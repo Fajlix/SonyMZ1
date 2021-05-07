@@ -51,6 +51,10 @@ public class AllUsers {
         userMap.put(user.getId(),user);
     }
 
+    public void removeUser(int userId){
+        userMap.remove(userId);
+    }
+
     /**
      * Genereate a random unique positive number that doesn´t exist in the map of users already.
      * @return a unique positive id

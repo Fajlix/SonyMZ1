@@ -57,7 +57,8 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
             CardView cardView = (CardView) holder.itemView;
             cardView.setCardBackgroundColor(Color.WHITE);
         }
-        else if (rank == leaderBoardList.size()){   // if main user is last
+        //TODO added rank >=3 shouldnt be needed but hte app crashes without it
+        else if (rank == leaderBoardList.size() && rank>=3){   // if main user is last
             switch (position) {
                 case 0:
                     user = vm.getUsers().get(leaderBoardList.get(rank-3));

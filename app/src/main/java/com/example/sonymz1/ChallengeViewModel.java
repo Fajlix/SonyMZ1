@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.sonymz1.Components.CounterComponent;
 import com.example.sonymz1.Components.DistanceComponent;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -72,6 +73,14 @@ public class ChallengeViewModel extends ViewModel {
     private void addPlayers(int[] playerIDs) {
         for (int playerID : playerIDs) {
             challenge.addPlayer(playerID);
+        }
+        setLeaderBoard();
+    }
+
+    public void removePlayers(ArrayList<Integer> userIds){
+        for (int i = 0; i < userIds.size(); i++) {
+            challenge.removePlayer(userIds.get(i));
+            db.removeUser(userIds.get(i));
         }
         setLeaderBoard();
     }

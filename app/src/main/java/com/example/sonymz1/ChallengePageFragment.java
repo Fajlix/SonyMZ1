@@ -46,18 +46,20 @@ import java.util.Map;
 public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
     private CardView pedestal2, pedestal3;
-    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg;
+    private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg, editChallengeParticipantsBtn;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
-    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn;
+    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP;
     private Switch privacySwitch;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderBoard, rvcParticipants;
-    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
     private RecyclerView removePList;
     private CheckBox allCheck;
+
+    private RemoveParticipantsAdapter rpa;
 
     public ChallengePageFragment() {
         // Required empty public constructor
@@ -90,11 +92,7 @@ public class ChallengePageFragment extends Fragment {
             vm.addTestScore(key,score);
         }
 
-        setPedestal();
-        setLeaderBoard();
-        setParticipants();
-        setInfoCard();
-        setRemoveParticipants();
+        setAndUpdateAll();
 
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
         view.findViewById(R.id.addScoreButton).setOnClickListener(
@@ -111,6 +109,7 @@ public class ChallengePageFragment extends Fragment {
                 adminView.setVisibility(View.GONE);
                 editNameView.setVisibility(View.GONE);
                 editDescriptionView.setVisibility(View.GONE);
+                removePView.setVisibility(View.GONE);
                 editBtnImg.setRotation(0);
             }
         });
@@ -163,16 +162,43 @@ public class ChallengePageFragment extends Fragment {
             ClipData clip = ClipData.newPlainText("Challenge code", vm.getCode());
             copyPastaMaker.setPrimaryClip(clip);
         });
+        editChallengeParticipantsBtn.setOnClickListener(view114 -> {
+            editView.setVisibility(view114.GONE);
+            removePView.setVisibility(view114.VISIBLE);
+        });
 
         allCheck.setOnClickListener(view111 ->{
-            RemoveParticipantsAdapter a = (RemoveParticipantsAdapter) removePList.getAdapter();
             if(allCheck.isChecked()){
-                a.selectAll();
+                rpa.selectAll();
             }
             else {
-                a.unSelectAll();
+                rpa.unSelectAll();
             }
         });
+
+        cancelRemoveP.setOnClickListener(view112 -> {
+            editView.setVisibility(View.VISIBLE);
+            removePView.setVisibility((View.GONE));
+            rpa.unSelectAll();
+            allCheck.setChecked(false);
+        });
+        confirmRemoveP.setOnClickListener(view113 -> {
+            vm.removePlayers(rpa.getCheckedUserIDs());
+            setAndUpdateAll();
+            editView.setVisibility(View.VISIBLE);
+            removePView.setVisibility((View.GONE));
+            rpa.unSelectAll();
+            allCheck.setChecked(false);
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setAndUpdateAll(){
+        setPedestal();
+        setLeaderBoard();
+        setParticipants();
+        setInfoCard();
+        setRemoveParticipants();
     }
 
     /**
@@ -195,7 +221,8 @@ public class ChallengePageFragment extends Fragment {
             }
         }
         removePList.setLayoutManager(new LinearLayoutManager(getContext()));
-        removePList.setAdapter(new RemoveParticipantsAdapter(users));
+        rpa = new RemoveParticipantsAdapter(users);
+        removePList.setAdapter(rpa);
     }
 
     /**
@@ -320,6 +347,10 @@ public class ChallengePageFragment extends Fragment {
 
         removePList = view.findViewById(R.id.participantsScrollView);
         allCheck = view.findViewById(R.id.selectAllBox);
+        confirmRemoveP = view.findViewById(R.id.confirmRemovalBtn);
+        cancelRemoveP = view.findViewById(R.id.cancelRemovalBtn);
+        removePView = view.findViewById(R.id.editInfoParticipantsView);
+        editChallengeParticipantsBtn = view.findViewById(R.id.editChallengeParticipantsBtn);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

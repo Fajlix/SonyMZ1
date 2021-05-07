@@ -78,7 +78,9 @@ public class Challenge implements ScoreUpdateListener{
         this.leaderBoard.put(playerId, score);
     }
 
-
+    public void removePlayer(int playerId){
+        this.leaderBoard.remove(playerId);
+    }
     /**
      *
      * @param length the length of the randomly generated code
