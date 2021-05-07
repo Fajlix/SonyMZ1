@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -56,6 +57,7 @@ public class ChallengePageFragment extends Fragment {
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
     private RecyclerView removePList;
+    private CheckBox allCheck;
 
     public ChallengePageFragment() {
         // Required empty public constructor
@@ -160,6 +162,16 @@ public class ChallengePageFragment extends Fragment {
             ClipboardManager copyPastaMaker = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Challenge code", vm.getCode());
             copyPastaMaker.setPrimaryClip(clip);
+        });
+
+        allCheck.setOnClickListener(view111 ->{
+            RemoveParticipantsAdapter a = (RemoveParticipantsAdapter) removePList.getAdapter();
+            if(allCheck.isChecked()){
+                a.selectAll();
+            }
+            else {
+                a.unSelectAll();
+            }
         });
     }
 
@@ -307,6 +319,7 @@ public class ChallengePageFragment extends Fragment {
         infoCardCode = view.findViewById(R.id.editChallengeCodeView);
 
         removePList = view.findViewById(R.id.participantsScrollView);
+        allCheck = view.findViewById(R.id.selectAllBox);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class RemoveParticipantsAdapter extends RecyclerView.Adapter<RemoveParticipantsAdapter.ViewHolder>{
     private ArrayList<User> users;
+    private boolean isAllSelected = false;
     public RemoveParticipantsAdapter(ArrayList<User> users){
         this.users = users;
         notifyDataSetChanged();
@@ -35,11 +36,24 @@ public class RemoveParticipantsAdapter extends RecyclerView.Adapter<RemovePartic
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.checkbox.setText(user.getUsername());
+        if (!isAllSelected){
+            holder.checkbox.setChecked(false);
+        }
+        else  holder.checkbox.setChecked(true);
     }
 
     @Override
     public int getItemCount() {
         return users.size();
+    }
+
+    public void selectAll(){
+        isAllSelected = true;
+        notifyDataSetChanged();
+    }
+    public void unSelectAll(){
+        isAllSelected = false;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

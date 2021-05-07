@@ -666,30 +666,30 @@
 
             <Button
                 android:id="@+id/cancelRemovalBtn"
-                android:layout_width="106dp"
-                android:layout_height="38dp"
+                android:layout_width="114dp"
+                android:layout_height="46dp"
                 android:text="Cancel"
                 app:backgroundTint="#F6716F"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.141"
+                app:layout_constraintHorizontal_bias="0.149"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.939" />
+                app:layout_constraintVertical_bias="0.937" />
 
             <Button
                 android:id="@+id/confirmRemovalBtn"
-                android:layout_width="106dp"
-                android:layout_height="38dp"
+                android:layout_width="114dp"
+                android:layout_height="46dp"
                 android:text="Confirm"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="#79DEB4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.847"
+                app:layout_constraintHorizontal_bias="0.85"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.939" />
+                app:layout_constraintVertical_bias="0.937" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/participantsScrollView"
@@ -712,7 +712,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.686" />
+                app:layout_constraintVertical_bias="0.738" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
