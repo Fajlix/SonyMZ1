@@ -168,6 +168,8 @@ public class ChallengePageFragment extends Fragment {
         ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,
                 vm.getLeaderBoard().getValue());
         rvcParticipants.setAdapter(participantsAdapter);
+
+        
     }
 
     /**

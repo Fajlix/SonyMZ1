@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * The splash screen.
+ * The splash screen. Should be a loading screen.
  *
  * @author Wendy Pau
  */
