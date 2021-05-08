@@ -9,12 +9,11 @@ import com.example.sonymz1.ScoreUpdateListener;
 public class CounterComponent implements ScoreComponent {
     private int currentCount;
     private int goalCount;
-    private final ScoreUpdateListener parent;
+    private ScoreUpdateListener parent;
 
 
-    public CounterComponent(int currentCount, ScoreUpdateListener parent) {
+    public CounterComponent(int currentCount) {
         this.currentCount = currentCount;
-        this.parent = parent;
     }
     @Override
     public int getGoalScore() {
@@ -33,5 +32,10 @@ public class CounterComponent implements ScoreComponent {
     public void addCount(int mainUserId,int count){
         currentCount += count;
         updateParent(mainUserId);
+    }
+
+    public void setParent(ScoreUpdateListener scoreUpdateListener)
+    {
+        this.parent = scoreUpdateListener;
     }
 }
