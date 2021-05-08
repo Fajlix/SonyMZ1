@@ -27,6 +27,7 @@ public class Challenge implements ScoreUpdateListener{
     private Map<Integer, Integer> leaderBoard;
     private ArrayList<ChallengeComponent> components;
     private boolean isPrivate;
+    private boolean isFinished;
     private String description;
     private String challengeCode;
     private int creatorId;
@@ -41,7 +42,8 @@ public class Challenge implements ScoreUpdateListener{
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
-        this.challengeBackground = challengeBackground;
+        this.challengeBackground = R.drawable.run_challenge;
+        this.isFinished = false;
     }
     public Challenge(String name, int challengeBackground, int medal) {
         this.name = name;
@@ -50,8 +52,9 @@ public class Challenge implements ScoreUpdateListener{
         this.isPrivate = false;
         this.description = "";
         this.challengeCode = generateCode(4);
-        this.challengeBackground = challengeBackground;
+        this.challengeBackground = R.drawable.run_challenge;
         this.medal = medal;
+        this.isFinished = false;
     }
       public Challenge(String name) {
         this.name = name;
@@ -59,6 +62,8 @@ public class Challenge implements ScoreUpdateListener{
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.description = "";
+        this.challengeBackground = R.drawable.run_challenge;
+        this.isFinished = false;
       }
 
 
@@ -123,6 +128,14 @@ public class Challenge implements ScoreUpdateListener{
 
 
         return sortedMap;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 
     public ArrayList<ChallengeComponent> getComponents() {
