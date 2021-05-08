@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.ActiveChallenges"
-                app:contentScrim="@color/black"
+                app:contentScrim="@color/black_trans"
                 app:expandedTitleMarginBottom="5dp"
                 app:expandedTitleMarginStart="20dp"
                 app:expandedTitleTextAppearance="@style/Toolbar.TitleText.ActiveChallenges"
@@ -31,7 +31,7 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="45dp"
                     app:layout_collapseMode="pin" />
 
                 <TextView

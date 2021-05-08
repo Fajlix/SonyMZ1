@@ -1,7 +1,10 @@
-package com.example.sonymz1;
+package com.example.sonymz1.Model;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.ScoreComponent;
+import com.example.sonymz1.R;
+import com.example.sonymz1.ScoreUpdateListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +29,7 @@ public class Challenge implements ScoreUpdateListener {
     private Map<Integer, Integer> leaderBoard;
     private ArrayList<ChallengeComponent> components;
     private boolean isPrivate;
+    private boolean isFinished;
     private String description;
     private String challengeCode;
     private int creatorId;
@@ -40,8 +44,10 @@ public class Challenge implements ScoreUpdateListener {
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
-        this.challengeBackground = challengeBackground;
+        this.challengeBackground = R.drawable.run_challenge;
+        this.isFinished = false;
     }
+
     public Challenge(String name, int challengeBackground, int medal) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
@@ -49,20 +55,21 @@ public class Challenge implements ScoreUpdateListener {
         this.isPrivate = false;
         this.description = "";
         this.challengeCode = generateCode(4);
-        this.challengeBackground = challengeBackground;
+        this.challengeBackground = R.drawable.run_challenge;
         this.medal = medal;
+        this.isFinished = false;
     }
-      public Challenge(String name) {
+
+    public Challenge(String name) {
         this.name = name;
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
         this.challengeCode = generateCode(4);
         this.description = "";
-        this.medal = R.drawable.medal;
-        this.challengeBackground =R.drawable.run_challenge;
-      }
-
+        this.challengeBackground = R.drawable.run_challenge;
+        this.isFinished = false;
+    }
 
     public String getName() {
         return name;
@@ -125,6 +132,14 @@ public class Challenge implements ScoreUpdateListener {
 
 
         return sortedMap;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 
     public ArrayList<ChallengeComponent> getComponents() {

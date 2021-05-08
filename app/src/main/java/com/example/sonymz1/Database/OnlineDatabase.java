@@ -1,7 +1,9 @@
-package com.example.sonymz1;
+package com.example.sonymz1.Database;
 
 import androidx.annotation.NonNull;
 
+import com.example.sonymz1.Model.Challenge;
+import com.example.sonymz1.Model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +60,7 @@ public class OnlineDatabase {
         Map map = gson.fromJson(jsonStr, Map.class);
         challengeRef.child(challenge.getChallengeCode()).setValue(map);
     }
-    public void saveUsers(Map<Integer,User> userMap){
+    public void saveUsers(Map<Integer, User> userMap){
         for (User user : userMap.values()) {
             saveUser(user);
         }

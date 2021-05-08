@@ -4,20 +4,35 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.sonymz1.Model.User;
+import com.example.sonymz1.Components.DistanceComponent;
 import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONException;
+
 import java.util.Map;
 
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
     private Switch privateSwitch;
     private ChallengeViewModel challengeVM;
+    private EditText edittextDistance;
+    private Button buttonAddDistance;
+    private TextView componentDistance;
+    private ConstraintLayout distancePopUp, createChallengeFragment;
 
     public CreateChallengeFragment() {
 
@@ -38,39 +53,54 @@ public class CreateChallengeFragment extends Fragment {
         challengeDescriptionTextBox = view.findViewById(R.id.challengeDescriptionTextBox);
         challengeNameTextBox = view.findViewById(R.id.challengeNameTextBox);
         privateSwitch = view.findViewById(R.id.isPrivate);
+        edittextDistance = view.findViewById(R.id.edittextDistance);
+        componentDistance = view.findViewById(R.id.componentDistance);
+        buttonAddDistance = view.findViewById(R.id.buttonAddDistance);
+        distancePopUp = view.findViewById(R.id.distancePopUp);
+        createChallengeFragment = view.findViewById(R.id.createChallengeFragment);
+
+        componentDistance.setOnClickListener(view3 -> {
+            distancePopUp.bringToFront();
+        });
+
+        buttonAddDistance.setOnClickListener(view2 -> {
+            createChallengeFragment.bringToFront();
+            challengeVM.addComponent(new DistanceComponent(Integer.parseInt(edittextDistance.getText().toString())));
+        });
 
         view.findViewById(R.id.createButton).setOnClickListener(view1 -> {
-             String name = challengeNameTextBox.getText().toString();
-             String description = challengeDescriptionTextBox.getText().toString();
-             boolean isPrivate = privateSwitch.isChecked();
-             //TODO SHOULD DEFINETLY NOT EXIST
+            String name = challengeNameTextBox.getText().toString();
+            String description = challengeDescriptionTextBox.getText().toString();
+            boolean isPrivate = privateSwitch.isChecked();
+            //TODO SHOULD DEFINETLY NOT EXIST
 
-            Map<Integer, User> users = challengeVM.getUsers();
+            Map<Integer, User> users = challengeVM.getUsersMap();
             int[] playerIds = new int[users.size()];
             int index = 0;
-            for(Integer key : users.keySet()){
+            for (Integer key : users.keySet()) {
                 playerIds[index] = key;
                 index++;
             }
+            challengeVM.createChallenge(name, description, isPrivate, playerIds);
                 challengeVM.createChallenge(name, description, isPrivate, playerIds);
+
+            // Close the keyboard
+            view.clearFocus();
 
             NavHostFragment.findNavController(CreateChallengeFragment.this)
                     .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
         });
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return challengeNameTextBox.getText().toString();
     }
 
-    public String getDescription ()
-    {
+    public String getDescription() {
         return challengeDescriptionTextBox.getText().toString();
     }
 
-    public Boolean isPrivate ()
-    {
+    public Boolean isPrivate() {
         return privateSwitch.isChecked();
     }
 }
