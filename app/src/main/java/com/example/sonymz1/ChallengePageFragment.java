@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.example.sonymz1.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
@@ -80,7 +81,7 @@ public class ChallengePageFragment extends Fragment {
 
         // temp code to test leaderboard
         int score = 0;
-        for (Integer key : vm.getUsers().keySet()) {
+        for (Integer key : vm.getUsersMap().keySet()) {
             score += 2;
             vm.addTestScore(key,score);
         }
@@ -167,6 +168,8 @@ public class ChallengePageFragment extends Fragment {
         ParticipantsAdapter participantsAdapter = new ParticipantsAdapter(this,
                 vm.getLeaderBoard().getValue());
         rvcParticipants.setAdapter(participantsAdapter);
+
+        
     }
 
     /**
@@ -174,7 +177,7 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setLeaderBoard(){
         rvcLeaderBoard.setLayoutManager(new LinearLayoutManager(getContext()));
-        LeaderBoardAdapter leaderBoardAdapter = new LeaderBoardAdapter(this,
+        LeaderBoardAdapter leaderBoardAdapter = new LeaderBoardAdapter(requireActivity(),
                 vm.getLeaderBoard().getValue());
         rvcLeaderBoard.setAdapter(leaderBoardAdapter);
         if(vm.getLeaderBoard().getValue().size() > 3){
@@ -201,23 +204,23 @@ public class ChallengePageFragment extends Fragment {
                     new LinkedList<>(leaderBoard.entrySet());
             if (leaderBoardList.size() > 2) {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                        vm.getUsersMap().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
                 setUserOnPedestal(userImg2,progressTxt2,
-                        vm.getUsers().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
+                        vm.getUsersMap().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
                 setUserOnPedestal(userImg3,progressTxt3,
-                        vm.getUsers().get(leaderBoardList.get(2).getKey()),leaderBoardList.get(2).getValue());
+                        vm.getUsersMap().get(leaderBoardList.get(2).getKey()),leaderBoardList.get(2).getValue());
                 pedestal2.setVisibility(View.VISIBLE);
                 pedestal3.setVisibility(View.VISIBLE);
             }
             else if (leaderBoardList.size() == 2) {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                        vm.getUsersMap().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
                 setUserOnPedestal(userImg2,progressTxt2,
-                        vm.getUsers().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
+                        vm.getUsersMap().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
                 pedestal3.setVisibility(View.GONE);
             }else {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsers().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                        vm.getUsersMap().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
                 pedestal2.setVisibility(View.GONE);
                 pedestal3.setVisibility(View.GONE);
             }

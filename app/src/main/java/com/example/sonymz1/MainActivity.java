@@ -1,31 +1,24 @@
 package com.example.sonymz1;
 
-import android.graphics.Color;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.sonymz1.Database.AllUsers;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 /**
  * The main activity for the application. Uses a navigation drawer to navigate to different pages.
@@ -34,6 +27,10 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private ChallengeViewModel vm;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor spEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +60,33 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView,navController);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
 
+        vm = new ViewModelProvider(this).get(ChallengeViewModel.class);
+        sp = getSharedPreferences("myPreferences", MODE_PRIVATE);
+        retrieveUsersDB();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Save the AllUsers DB in a json file so that we have the same users again.
+        // Can be deleted later when online DB is implemented.
+        spEditor = sp.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(vm.getUsersDB());
+        spEditor.putString("AllUsers", json);
+        spEditor.apply();
+    }
+
+    /**
+     * Upon start of activity, retrieve the AllUsers DB from json file. Can be deleted in the future.
+     */
+    private void retrieveUsersDB(){
+        Gson gson = new Gson();
+        String json = sp.getString("AllUsers", "");
+        if (json.equals("")){
+            vm.setUsersDB(new AllUsers());
+        }else vm.setUsersDB(gson.fromJson(json, AllUsers.class));
     }
 
     @Override
@@ -89,5 +113,4 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         }else super.onBackPressed();
     }
-
 }

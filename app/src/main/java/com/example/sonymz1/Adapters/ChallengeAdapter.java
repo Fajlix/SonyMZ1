@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sonymz1.Challenge;
+import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.R;
 
 import java.util.ArrayList;

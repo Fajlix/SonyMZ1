@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sonymz1.ChallengePageFragment;
 import com.example.sonymz1.ChallengeViewModel;
 import com.example.sonymz1.R;
-import com.example.sonymz1.User;
+import com.example.sonymz1.Model.User;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,13 +28,13 @@ import java.util.Map;
  */
 public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapter.ViewHolder> {
     private Map<Integer,Integer> leaderBoard;
-    private ChallengePageFragment context;
+    private ChallengePageFragment fragment;
     private ChallengeViewModel vm;
 
-    public ParticipantsAdapter(ChallengePageFragment context, Map<Integer, Integer> leaderBoard) {
-        vm = new ViewModelProvider(context).get(ChallengeViewModel.class);
+    public ParticipantsAdapter(ChallengePageFragment fragment, Map<Integer, Integer> leaderBoard) {
+        vm = new ViewModelProvider(fragment.requireActivity()).get(ChallengeViewModel.class);
         this.leaderBoard = leaderBoard;
-        this.context = context;
+        this.fragment = fragment;
         notifyDataSetChanged();
     }
 
@@ -49,7 +49,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {
         List<Map.Entry<Integer, Integer>> leaderBoardList =
                 new LinkedList<>(leaderBoard.entrySet());
-        User challenger = vm.getUsers().get(leaderBoardList.get(position).getKey());
+        User challenger = vm.getUsersMap().get(leaderBoardList.get(position).getKey());
         holder.username.setText(challenger.getUsername());
         holder.scoreTxt.setText("Score: " + leaderBoardList.get(position).getValue()); // add unit
         holder.userImg.setImageResource(challenger.getProfilePic());
@@ -62,27 +62,27 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
                 holder.rank.setTextColor(Color.WHITE);
                 holder.username.setTextColor(Color.WHITE);
                 holder.scoreTxt.setTextColor(Color.WHITE);
-                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.first));
+                cardView.setCardBackgroundColor(fragment.getResources().getColor(R.color.first));
                 break;
             case 1:
                 holder.rank.setText(2 + "nd");
                 holder.rank.setTextColor(Color.WHITE);
                 holder.username.setTextColor(Color.WHITE);
                 holder.scoreTxt.setTextColor(Color.WHITE);
-                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.second));
+                cardView.setCardBackgroundColor(fragment.getResources().getColor(R.color.second));
                 break;
             case 2:
                 holder.rank.setText(3 + "rd");
-                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.third));
+                cardView.setCardBackgroundColor(fragment.getResources().getColor(R.color.third));
                 break;
             default: holder.rank.setText(position+1 + "th"); break;
         }
 
         //Set blue colour to mark where the user is.
         if (leaderBoardList.get(position).getKey() == vm.getMainUser().getId()){
-            holder.rank.setTextColor(context.getResources().getColor(R.color.blue));
-            holder.username.setTextColor(context.getResources().getColor(R.color.blue));
-            holder.scoreTxt.setTextColor(context.getResources().getColor(R.color.blue));
+            holder.rank.setTextColor(fragment.getResources().getColor(R.color.blue));
+            holder.username.setTextColor(fragment.getResources().getColor(R.color.blue));
+            holder.scoreTxt.setTextColor(fragment.getResources().getColor(R.color.blue));
         }
     }
 
