@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author Jesper
  */
 
-public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ExampleViewHolder> {
+public class  ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ExampleViewHolder> {
     /**
      * Adapter class for Challenge Recycler view
      * mChallengeList holds representation off challenges.
@@ -38,16 +38,20 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
 
         public ImageView background;
         public ImageView medal;
+        public ImageView finishedOverlay;
+        public TextView finishedText;
         public TextView challengeName;
         public TextView progressText;
         
 
         public ExampleViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            background = itemView.findViewById(R.id.backgroundPic);
+          background = itemView.findViewById(R.id.backgroundPic);
             medal = itemView.findViewById(R.id.medal);
             challengeName = itemView.findViewById(R.id.challengeName);
             progressText = itemView.findViewById(R.id.progressTxt);
+            finishedOverlay = itemView.findViewById(R.id.finishedOverlay);
+            finishedText = itemView.findViewById(R.id.finishedText);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,7 +73,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
       }
     }
 
-    public ChallengeAdapter(ArrayList<Challenge> challengeList){ // här skall bytas till challenge
+    public ChallengeAdapter(ArrayList<Challenge> challengeList){
        mChallengeList = challengeList;
     }
 
@@ -80,15 +84,29 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
         ExampleViewHolder evh = new ExampleViewHolder(v, mListener);
         return evh;
     }
-
+    /**
+     * method to handle views, also decides if to show finished view for challenge or not.
+     *
+     */
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
           Challenge currentItem = mChallengeList.get(position);
+          holder.challengeName.setText(currentItem.getName());
           holder.background.setImageResource(currentItem.getChallengeBackground());
           holder.medal.setImageResource(currentItem.getMedal());
           holder.progressText.setText(currentItem.getDescription());
 
+
+          if (currentItem.isFinished()){
+              holder.finishedOverlay.setVisibility(View.VISIBLE);
+              holder.finishedText.setVisibility(View.VISIBLE);
+
+          }else{
+              holder.finishedOverlay.setVisibility(View.INVISIBLE);
+              holder.finishedText.setVisibility(View.INVISIBLE);
+          }
     }
+
 
     /**
      * method to get amount of items in challengeList.

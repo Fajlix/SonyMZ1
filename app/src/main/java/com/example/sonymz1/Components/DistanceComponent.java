@@ -8,15 +8,15 @@ import com.example.sonymz1.ScoreUpdateListener;
 public class DistanceComponent implements ScoreComponent{
     private int currentDistance;
     private int goalDistance;
-    private final ScoreUpdateListener parent;
+    private ScoreUpdateListener parent;
     private DistanceType type;
 
 
-    public DistanceComponent(int currentDistance, ScoreUpdateListener parent) {
-        this.currentDistance = currentDistance;
-        this.parent = parent;
-        type= DistanceType.km;
+    public DistanceComponent(int goalDistance) {
+        this.goalDistance = goalDistance;
+        type = DistanceType.km;
     }
+
     public void updateParent(int mainUserId){
         parent.updateScore(mainUserId,currentDistance);
     }
@@ -29,9 +29,11 @@ public class DistanceComponent implements ScoreComponent{
     public int getScore() {
         return currentDistance;
     }
+
     public String getValue() {
         return String.valueOf(currentDistance);
     }
+
     public void addDistance(int mainUserId,int distance){
         currentDistance += distance;
         updateParent(mainUserId);
@@ -47,5 +49,14 @@ public class DistanceComponent implements ScoreComponent{
 
     public void setType(DistanceType type) {
         this.type = type;
+    }
+
+    public void setParent(ScoreUpdateListener scoreUpdateListener)
+    {
+        this.parent = scoreUpdateListener;
+    }
+
+    public void setCurrentDistance(int currentDistance) {
+        this.currentDistance = currentDistance;
     }
 }

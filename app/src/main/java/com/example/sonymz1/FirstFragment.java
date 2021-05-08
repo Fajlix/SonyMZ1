@@ -57,21 +57,11 @@ public class FirstFragment extends Fragment {
     }
 
     /**
-     * Populate challengeList, currently temporary test cards.
+     * Method to populate challengeList
      */
     private void createChallengeList() {
-        challengeList = new ArrayList<>();
         LocalDatabase db = LocalDatabase.getInstance();
-        if (db.getChallenges() != null) {
-            for (Challenge challenge : db.getChallenges()) {
-                challengeList.add(new Challenge(challenge.getName(), R.drawable.run_challenge, R.drawable.medal));
-            }
-        }
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
+        challengeList = db.getChallenges();
     }
 
     /**
@@ -80,7 +70,7 @@ public class FirstFragment extends Fragment {
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        rAdapter = new ChallengeAdapter(challengeList);
+        rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(rAdapter);
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
@@ -94,7 +84,6 @@ public class FirstFragment extends Fragment {
                     }
                 }
 
-             challengeList.get(position).changeText("Clicked");
              rAdapter.notifyItemChanged(position);
              // Temp on click for test will change to navigate to specific challenge when it exists
                 NavHostFragment.findNavController(FirstFragment.this)
