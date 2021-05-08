@@ -128,4 +128,8 @@ public class ChallengeViewModel extends ViewModel {
     public String getCode(){ return String.valueOf(challenge.getChallengeCode()); }
 
     public int getCreatorId(){return challenge.getCreatorId();}
+
+    public String getCreatorName(){
+        return users.get(getCreatorId()).getUsername();
+    }
 }

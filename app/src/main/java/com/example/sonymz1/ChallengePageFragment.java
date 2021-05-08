@@ -48,7 +48,7 @@ public class ChallengePageFragment extends Fragment {
     private CardView pedestal2, pedestal3;
     private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg, editChallengeParticipantsBtn;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
-    private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode;
+    private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode, challengeHostView;
     private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP;
     private Switch privacySwitch;
     private ProgressBar progressBar;
@@ -351,6 +351,7 @@ public class ChallengePageFragment extends Fragment {
         cancelRemoveP = view.findViewById(R.id.cancelRemovalBtn);
         removePView = view.findViewById(R.id.editInfoParticipantsView);
         editChallengeParticipantsBtn = view.findViewById(R.id.editChallengeParticipantsBtn);
+        challengeHostView = view.findViewById(R.id.challengeHostView);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -376,6 +377,7 @@ public class ChallengePageFragment extends Fragment {
         }
 
         infoCardCode.setText(vm.getCode());
+        challengeHostView.setText(vm.getCreatorName() + " (Host)");
 
         progressBarSetup();
     }
