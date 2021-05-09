@@ -59,7 +59,7 @@ public class SplashFragment extends Fragment {
 
         Integer userID = sp.getInt("id", -1);
         // Uncomment if you want to go to login page again.
-        //userID = null;
+        userID = null;
 
         // if user already exists. Set user to main user.
         if (userID != null && userID != -1) {

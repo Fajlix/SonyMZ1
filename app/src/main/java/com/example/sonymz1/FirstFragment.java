@@ -20,9 +20,11 @@ import com.example.sonymz1.Database.LocalDatabase;
 import com.example.sonymz1.Model.Challenge;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FirstFragment extends Fragment {
     private ArrayList<Challenge> challengeList;
+    private List<Section> sectionList = new ArrayList<>();
     private TextView challengeName, progressTxt, welcomeTxt;
     private ImageView medal, backgroundPic;
     private RecyclerView recyclerView;
@@ -68,6 +70,17 @@ public class FirstFragment extends Fragment {
      * method to setup recyclerview that contains challengecards.
      */
     private void buildRecyclerView() {
+        String sectionOneName = "Active";
+        List<String> sectionOneItems = new ArrayList<>(); // Skall innehålla lista med aktivaChallenges
+        sectionOneItems.add("Brob");
+        sectionOneItems.add("Mega");
+        String sectionTwoName = "Finished";
+        List<String> sectionTwoItems = new ArrayList<>(); // Skall innehålla lista med FinishedChallenges
+        sectionTwoItems.add("Brob");
+        sectionTwoItems.add("Mega");
+        sectionList.add(new Section(sectionOneName,sectionOneItems));
+        sectionList.add(new Section(sectionTwoName,sectionTwoItems));
+
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());

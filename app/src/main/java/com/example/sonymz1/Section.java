@@ -1,10 +1,14 @@
 package com.example.sonymz1;
 
 import java.util.List;
+/**
+ * @author Jesper
+ * Class representing a section in the firstfragment recycle view.
+ */
 
 public class Section {
     private String sectionName;
-    private List<String> sectionItem;
+    private List<String> sectionItem; // should hold challenge items
 
     public Section(String sectionName, List<String> sectionItem) {
         this.sectionName = sectionName;
