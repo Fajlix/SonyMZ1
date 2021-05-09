@@ -1,5 +1,8 @@
 package com.example.sonymz1;
 
+import com.example.sonymz1.Model.Challenge;
+
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @author Jesper
@@ -8,9 +11,9 @@ import java.util.List;
 
 public class Section {
     private String sectionName;
-    private List<String> sectionItem; // should hold challenge items
+    private ArrayList<Challenge> sectionItem; // should hold challenge items
 
-    public Section(String sectionName, List<String> sectionItem) {
+    public Section(String sectionName, ArrayList<Challenge> sectionItem) {
         this.sectionName = sectionName;
         this.sectionItem = sectionItem;
     }
@@ -23,11 +26,11 @@ public class Section {
         this.sectionName = sectionName;
     }
 
-    public List<String> getSectionItem() {
+    public ArrayList<Challenge> getSectionItem() {
         return sectionItem;
     }
 
-    public void setSectionItem(List<String> sectionItem) {
+    public void setSectionItem(ArrayList<Challenge> sectionItem) {
         this.sectionItem = sectionItem;
     }
 

@@ -1,5 +1,6 @@
 package com.example.sonymz1;
 
+import android.icu.lang.UCharacter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,12 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.Adapters.ChallengeAdapter;
+import com.example.sonymz1.Adapters.MainRecyclerAdapter;
 import com.example.sonymz1.Database.LocalDatabase;
 import com.example.sonymz1.Model.Challenge;
 
@@ -29,6 +32,7 @@ public class FirstFragment extends Fragment {
     private ImageView medal, backgroundPic;
     private RecyclerView recyclerView;
     private ChallengeAdapter rAdapter;
+    private MainRecyclerAdapter mainRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private CardView card;
 
@@ -71,22 +75,23 @@ public class FirstFragment extends Fragment {
      */
     private void buildRecyclerView() {
         String sectionOneName = "Active";
-        List<String> sectionOneItems = new ArrayList<>(); // Skall innehålla lista med aktivaChallenges
-        sectionOneItems.add("Brob");
-        sectionOneItems.add("Mega");
-        String sectionTwoName = "Finished";
-        List<String> sectionTwoItems = new ArrayList<>(); // Skall innehålla lista med FinishedChallenges
-        sectionTwoItems.add("Brob");
-        sectionTwoItems.add("Mega");
-        sectionList.add(new Section(sectionOneName,sectionOneItems));
-        sectionList.add(new Section(sectionTwoName,sectionTwoItems));
 
-        recyclerView.setHasFixedSize(true);
+        String sectionTwoName = "Finished";
+
+        sectionList.add(new Section(sectionOneName,LocalDatabase.getInstance().getChallenges()));
+        sectionList.add(new Section(sectionTwoName,LocalDatabase.getInstance().getChallenges()));
+        mainRecyclerAdapter = new MainRecyclerAdapter(sectionList);
+        recyclerView.setAdapter(mainRecyclerAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), DividerItemDecoration.VERTICAL));
+
+
+        /*recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(rAdapter);
-        rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
+         */
+        /*rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 LocalDatabase db = LocalDatabase.getInstance();
@@ -103,6 +108,8 @@ public class FirstFragment extends Fragment {
                         .navigate(R.id.action_FirstFragment_to_challengePageFragment);
             }
         });
+
+         */
     }
 
     /**
@@ -113,6 +120,7 @@ public class FirstFragment extends Fragment {
     private void initiateView(View view) {
         welcomeTxt = view.findViewById(R.id.welcomeText);
         recyclerView = view.findViewById(R.id.rvc_list);
+
         challengeName = view.findViewById(R.id.challengeName);
         progressTxt = view.findViewById(R.id.progressTxt);
         medal = view.findViewById(R.id.medal);
