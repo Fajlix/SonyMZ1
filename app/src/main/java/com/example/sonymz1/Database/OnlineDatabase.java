@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -52,6 +53,46 @@ public class OnlineDatabase {
             }
         });
         return challenges;
+    }
+    public void getUser(int userId, DatabaseUserCallback userCallback){
+        usersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Gson gson = new Gson();
+                String jsonStr = gson.toJson(snapshot.child(String.valueOf(userId)).getValue());
+                userCallback.onCallback(gson.fromJson(jsonStr, User.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void getUsers(UserListCallback userCallback){
+        final boolean[] hasReturned = {false};
+        System.out.println("1");
+        usersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                ArrayList<User> users = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Gson gson = new Gson();
+                    String jsonStr = gson.toJson(snapshot.getValue());
+                    users.add(gson.fromJson(jsonStr, User.class));
+                }
+                if (!hasReturned[0]){
+                    userCallback.onCallback(users);
+                    hasReturned[0] = true;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void saveChallenge(Challenge challenge) {

@@ -5,14 +5,16 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.CounterComponent;
-import com.example.sonymz1.Database.AllUsers;
+import com.example.sonymz1.Database.DatabaseUserCallback;
 import com.example.sonymz1.Database.LocalDatabase;
 import com.example.sonymz1.Database.OnlineDatabase;
+import com.example.sonymz1.Database.UserListCallback;
 import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.Model.User;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * A class responsible for the communication between the challenges and views.
@@ -23,8 +25,6 @@ public class ChallengeViewModel extends ViewModel {
 
     private Challenge challenge;
     private User mainUser;
-    private Map<Integer,User> usersMap;
-    private AllUsers usersDB;
     private MutableLiveData<Map<Integer, Integer>> leaderBoard = new MutableLiveData<>();
     private ArrayList<ChallengeComponent> components = new ArrayList<>();
 
@@ -114,21 +114,12 @@ public class ChallengeViewModel extends ViewModel {
             leaderBoard.setValue(challenge.getLeaderBoard());
     }
 
-    public void setMainUser(int mainUserID) {
-        usersDB.setMainUser(mainUserID);
-        mainUser = usersDB.getMainUser();
-    }
+    public void setMainUser(int mainUserID, DatabaseUserCallback callback) {
 
-    public void newMainUser(String username) {
-        usersDB.addMainUser(username);
-        mainUser = usersDB.getMainUser();
-    }
-
-    public AllUsers getUsersDB() { return usersDB; }
-
-    public void setUsersDB(AllUsers usersDB) {
-        this.usersDB = usersDB;
-        this.usersMap = usersDB.getUserMap();
+        OnlineDatabase.getInstance().getUser(mainUserID, user -> {
+            mainUser = user;
+            callback.onCallback(user);
+        });
     }
 
     //TODO This should not be here
@@ -139,8 +130,6 @@ public class ChallengeViewModel extends ViewModel {
     public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() {
         return leaderBoard;
     }
-
-    public Map<Integer, User> getUsersMap() { return usersMap; }
 
     public String getName() {
         return challenge.getName();
@@ -153,8 +142,6 @@ public class ChallengeViewModel extends ViewModel {
     public Boolean isPrivate() {
         return challenge.isPrivate();
     }
-
-    public int getNumOfPlayers(){ return usersMap.size(); }
 
     public int getMainUserScore() {
         return challenge.getLeaderBoard().get(mainUser.getId());
@@ -178,5 +165,30 @@ public class ChallengeViewModel extends ViewModel {
 
     public String getCode() {
         return String.valueOf(challenge.getChallengeCode());
+    }
+    public void newMainUser(String name,DatabaseUserCallback callback){
+
+        OnlineDatabase.getInstance().getUsers(new UserListCallback() {
+            @Override
+            public void onCallback(ArrayList<User> users) {
+                Random rand = new Random();
+                int id = Math.abs(rand.nextInt());
+                while(!checkUnique(users,id)){
+                    id = Math.abs(rand.nextInt());
+                }
+                mainUser = new User(name,id);
+                OnlineDatabase.getInstance().saveUser(mainUser);
+                callback.onCallback(mainUser);
+            }
+        });
+    }
+    private boolean checkUnique(ArrayList<User> users,int id){
+        for (User user :
+                users) {
+            if (user.getId() == id){
+                return false;
+            }
+        }
+        return true;
     }
 }

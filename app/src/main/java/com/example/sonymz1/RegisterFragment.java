@@ -13,8 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sonymz1.Database.DatabaseUserCallback;
+import com.example.sonymz1.Database.OnlineDatabase;
+import com.example.sonymz1.Database.UserListCallback;
+import com.example.sonymz1.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -68,9 +75,13 @@ public class RegisterFragment extends Fragment {
 
                     // save main user id in SharedPreferences
                     spEditor = sp.edit();
-                    vm.newMainUser(nameEditText.getText().toString());
-                    spEditor.putInt("id", vm.getMainUser().getId());
-                    spEditor.commit();
+                    vm.newMainUser(nameEditText.getText().toString(), new DatabaseUserCallback() {
+                        @Override
+                        public void onCallback(User user) {
+                            spEditor.putInt("id", vm.getMainUser().getId());
+                            spEditor.commit();
+                        }
+                    });
 
                     view.clearFocus();
 

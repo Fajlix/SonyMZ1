@@ -3,9 +3,7 @@ package com.example.sonymz1;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.sonymz1.Database.AllUsers;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,31 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         vm = new ViewModelProvider(this).get(ChallengeViewModel.class);
         sp = getSharedPreferences("myPreferences", MODE_PRIVATE);
-        retrieveUsersDB();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Save the AllUsers DB in a json file so that we have the same users again.
-        // Can be deleted later when online DB is implemented.
-        spEditor = sp.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(vm.getUsersDB());
-        spEditor.putString("AllUsers", json);
-        spEditor.apply();
-    }
-
-    /**
-     * Upon start of activity, retrieve the AllUsers DB from json file. Can be deleted in the future.
-     */
-    private void retrieveUsersDB(){
-        Gson gson = new Gson();
-        String json = sp.getString("AllUsers", "");
-        if (json.equals("")){
-            vm.setUsersDB(new AllUsers());
-        }else vm.setUsersDB(gson.fromJson(json, AllUsers.class));
     }
 
     @Override

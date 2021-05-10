@@ -30,6 +30,8 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.example.sonymz1.Database.DatabaseUserCallback;
+import com.example.sonymz1.Database.OnlineDatabase;
 import com.example.sonymz1.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -78,13 +80,6 @@ public class ChallengePageFragment extends Fragment {
 
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
-
-        // temp code to test leaderboard
-        int score = 0;
-        for (Integer key : vm.getUsersMap().keySet()) {
-            score += 2;
-            vm.addTestScore(key,score);
-        }
 
         setPedestal();
         setLeaderBoard();
@@ -204,23 +199,23 @@ public class ChallengePageFragment extends Fragment {
                     new LinkedList<>(leaderBoard.entrySet());
             if (leaderBoardList.size() > 2) {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsersMap().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                        leaderBoardList.get(0).getKey(),leaderBoardList.get(0).getValue());
                 setUserOnPedestal(userImg2,progressTxt2,
-                        vm.getUsersMap().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
+                        leaderBoardList.get(1).getKey(),leaderBoardList.get(1).getValue());
                 setUserOnPedestal(userImg3,progressTxt3,
-                        vm.getUsersMap().get(leaderBoardList.get(2).getKey()),leaderBoardList.get(2).getValue());
+                        leaderBoardList.get(2).getKey(),leaderBoardList.get(2).getValue());
                 pedestal2.setVisibility(View.VISIBLE);
                 pedestal3.setVisibility(View.VISIBLE);
             }
             else if (leaderBoardList.size() == 2) {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsersMap().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                        leaderBoardList.get(0).getKey(),leaderBoardList.get(0).getValue());
                 setUserOnPedestal(userImg2,progressTxt2,
-                        vm.getUsersMap().get(leaderBoardList.get(1).getKey()),leaderBoardList.get(1).getValue());
+                        leaderBoardList.get(1).getKey(),leaderBoardList.get(1).getValue());
                 pedestal3.setVisibility(View.GONE);
             }else {
                 setUserOnPedestal(userImg1,progressTxt1,
-                        vm.getUsersMap().get(leaderBoardList.get(0).getKey()),leaderBoardList.get(0).getValue());
+                        leaderBoardList.get(0).getKey(),leaderBoardList.get(0).getValue());
                 pedestal2.setVisibility(View.GONE);
                 pedestal3.setVisibility(View.GONE);
             }
@@ -231,11 +226,17 @@ public class ChallengePageFragment extends Fragment {
      * Set the ImageView and TextView for the pedestal.
      * @param img the ImageView to set
      * @param txt the TextView to set
-     * @param user the user
+     * @param userId the userid
      * @param score the users score
      */
-    private void setUserOnPedestal(ImageView img, TextView txt, User user, int score){
-        img.setImageResource(user.getProfilePic());
+    private void setUserOnPedestal(ImageView img, TextView txt, int userId, int score){
+        OnlineDatabase.getInstance().getUser(userId, new DatabaseUserCallback() {
+            @Override
+            public void onCallback(User user) {
+                img.setImageResource(user.getProfilePic());
+            }
+        });
+
         txt.setText(String.valueOf(score));
     }
 
@@ -301,8 +302,8 @@ public class ChallengePageFragment extends Fragment {
         descriptionTxt.setText(vm.getDescription());
         infoCardDescription.setText(vm.getDescription());
 
-        numOfParticipants.setText(String.valueOf(vm.getNumOfPlayers()));
-        infoCardParticipantsNum.setText(String.valueOf(vm.getNumOfPlayers()));
+        numOfParticipants.setText(String.valueOf(vm.getLeaderBoard().getValue().size()));
+        infoCardParticipantsNum.setText(String.valueOf(vm.getLeaderBoard().getValue().size()));
 
         if(vm.isPrivate()){
             privacyTxt.setText("Private");

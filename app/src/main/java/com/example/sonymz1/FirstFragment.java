@@ -46,7 +46,9 @@ public class FirstFragment extends Fragment {
         buildRecyclerView();
 
         vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
-        welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+        if (vm.getMainUser()!= null) {
+            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+        }
 
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override

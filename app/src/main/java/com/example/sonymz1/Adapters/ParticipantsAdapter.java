@@ -14,9 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.ChallengePageFragment;
 import com.example.sonymz1.ChallengeViewModel;
+import com.example.sonymz1.Database.DatabaseUserCallback;
+import com.example.sonymz1.Database.OnlineDatabase;
+import com.example.sonymz1.Database.UserListCallback;
 import com.example.sonymz1.R;
 import com.example.sonymz1.Model.User;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -49,10 +53,12 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {
         List<Map.Entry<Integer, Integer>> leaderBoardList =
                 new LinkedList<>(leaderBoard.entrySet());
-        User challenger = vm.getUsersMap().get(leaderBoardList.get(position).getKey());
-        holder.username.setText(challenger.getUsername());
-        holder.scoreTxt.setText("Score: " + leaderBoardList.get(position).getValue()); // add unit
-        holder.userImg.setImageResource(challenger.getProfilePic());
+        OnlineDatabase.getInstance().getUser(leaderBoardList.get(position).getKey(), user -> {
+            holder.username.setText(user.getUsername());
+            holder.scoreTxt.setText("Score: " + leaderBoardList.get(position).getValue()); // add unit
+            holder.userImg.setImageResource(user.getProfilePic());
+        });
+
 
         //Changes cards background colour for top 3 challengers.
         CardView cardView = (CardView) holder.itemView;
