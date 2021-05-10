@@ -65,6 +65,7 @@ public class Challenge implements ScoreUpdateListener {
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
+        this.challengeCode = generateCode(4);
         this.description = "";
         this.challengeBackground = R.drawable.run_challenge;
         this.isFinished = false;
@@ -157,6 +158,7 @@ public class Challenge implements ScoreUpdateListener {
         return description;
     }
 
+
     public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
@@ -186,7 +188,7 @@ public class Challenge implements ScoreUpdateListener {
 
     @Override
     public void updateScore(int mainUserId,int score) {
-        //TODO getcurrentuserID
+        //TODO getCurrentuserID
         leaderBoard.put(mainUserId,score);
 
     }
@@ -205,6 +207,7 @@ public class Challenge implements ScoreUpdateListener {
             return scoreComponent.getGoalScore();
         }
         return 0;
+
     }
     //Just returns the scoreComponent of all the components
     private ScoreComponent getScoreComponent(){

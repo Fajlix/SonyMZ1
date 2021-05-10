@@ -13,6 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sonymz1.Database.DatabaseUserCallback;
+import com.example.sonymz1.Database.OnlineDatabase;
+import com.example.sonymz1.Model.User;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -56,16 +60,19 @@ public class SplashFragment extends Fragment {
         if (sp == null) {
             sp = getActivity().getSharedPreferences("myPreferences", MODE_PRIVATE);
         }
-
+        //spEditor = sp.edit();
+        //spEditor.clear();
+        //spEditor.commit();
         Integer userID = sp.getInt("id", -1);
+
         // Uncomment if you want to go to login page again.
-        //userID = null;
+        //userID = -1;
 
         // if user already exists. Set user to main user.
-        if (userID != null && userID != -1) {
-            vm.setMainUser(userID);
-            NavHostFragment.findNavController(SplashFragment.this)
-                    .navigate(R.id.action_splashFragment_to_FirstFragment);
+        if (userID != -1) {
+            vm.setMainUser(userID, user -> NavHostFragment.findNavController(SplashFragment.this)
+                    .navigate(R.id.action_splashFragment_to_FirstFragment));
+
         }
         // if not, navigate to register page
         else

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.Adapters.ChallengeAdapter;
 import com.example.sonymz1.Database.LocalDatabase;
+import com.example.sonymz1.Database.OnlineDatabase;
 import com.example.sonymz1.Model.Challenge;
 
 import java.util.ArrayList;
@@ -45,13 +46,16 @@ public class FirstFragment extends Fragment {
         buildRecyclerView();
 
         vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
-        welcomeTxt.setText("Welcome "+ vm.getMainUser().getUsername());
+        if (vm.getMainUser()!= null) {
+            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+        }
 
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
+                view.findViewById(R.id.addChallengeButton).setOnClickListener(view1 ->
+                        NavHostFragment.findNavController(FirstFragment.this)
+                                .navigate(R.id.action_FirstFragment_to_createChallengeFragment));
             }
         });
     }
@@ -62,6 +66,7 @@ public class FirstFragment extends Fragment {
     private void createChallengeList() {
         LocalDatabase db = LocalDatabase.getInstance();
         challengeList = db.getChallenges();
+        challengeList = OnlineDatabase.getInstance().getChallenges(0);
     }
 
     /**
@@ -77,15 +82,15 @@ public class FirstFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 LocalDatabase db = LocalDatabase.getInstance();
-                for (Challenge challenge : db.getChallenges()){
-                    if (challenge.equals(challengeList.get(position))){
+                for (Challenge challenge : db.getChallenges()) {
+                    if (challenge.equals(challengeList.get(position))) {
                         db.setActiveChallenge(challenge);
                         break;
                     }
                 }
 
-             rAdapter.notifyItemChanged(position);
-             // Temp on click for test will change to navigate to specific challenge when it exists
+                rAdapter.notifyItemChanged(position);
+                // Temp on click for test will change to navigate to specific challenge when it exists
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_challengePageFragment);
             }
@@ -94,6 +99,7 @@ public class FirstFragment extends Fragment {
 
     /**
      * method to initiate views.
+     *
      * @param view
      */
 
@@ -105,7 +111,4 @@ public class FirstFragment extends Fragment {
         medal = view.findViewById(R.id.medal);
         backgroundPic = view.findViewById(R.id.backgroundPic);
     }
-
-
-
 }

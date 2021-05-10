@@ -18,10 +18,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.sonymz1.Database.OnlineDatabase;
+import com.example.sonymz1.Database.UserListCallback;
 import com.example.sonymz1.Model.User;
 import com.example.sonymz1.Components.DistanceComponent;
 import com.google.android.material.textfield.TextInputEditText;
+import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class CreateChallengeFragment extends Fragment {
@@ -73,14 +77,18 @@ public class CreateChallengeFragment extends Fragment {
             boolean isPrivate = privateSwitch.isChecked();
             //TODO SHOULD DEFINETLY NOT EXIST
 
-            Map<Integer, User> users = challengeVM.getUsersMap();
-            int[] playerIds = new int[users.size()];
-            int index = 0;
-            for (Integer key : users.keySet()) {
-                playerIds[index] = key;
-                index++;
-            }
-            challengeVM.createChallenge(name, description, isPrivate, playerIds);
+            OnlineDatabase.getInstance().getUsers(new UserListCallback() {
+                @Override
+                public void onCallback(ArrayList<User> users) {
+                    int[] playerIds = new int[users.size()];
+                    int index = 0;
+                    for (User user : users) {
+                        playerIds[index] = user.getId();
+                        index++;
+                    }
+                    challengeVM.createChallenge(name, description, isPrivate, playerIds);
+                }
+            });
 
             // Close the keyboard
             view.clearFocus();
