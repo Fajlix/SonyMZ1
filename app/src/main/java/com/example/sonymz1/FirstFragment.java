@@ -1,42 +1,37 @@
 package com.example.sonymz1;
-
-import android.icu.lang.UCharacter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sonymz1.Adapters.ChallengeAdapter;
 import com.example.sonymz1.Adapters.MainRecyclerAdapter;
 import com.example.sonymz1.Database.LocalDatabase;
 import com.example.sonymz1.Model.Challenge;
-
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Jesper
+ * Fragment for the mainpage.
+ */
 public class FirstFragment extends Fragment {
-    private ArrayList<Challenge> challengeList;
+    private ArrayList<Challenge> activeChallengeList = new ArrayList<>();
+    private ArrayList<Challenge> finishedChallengeList = new ArrayList<>();
     private List<Section> sectionList = new ArrayList<>();
-    private TextView challengeName, progressTxt, welcomeTxt;
-    private ImageView medal, backgroundPic;
+    private TextView  welcomeTxt;
+    private ImageView medal;
     private RecyclerView recyclerView;
-    private ChallengeAdapter rAdapter;
+    private ChallengeAdapter challengeAdapter;
     private MainRecyclerAdapter mainRecyclerAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private CardView card;
-
-    ChallengeViewModel vm;
+    private ChallengeViewModel vm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +44,6 @@ public class FirstFragment extends Fragment {
         initiateView(view);
         createChallengeList();
         buildRecyclerView();
-
         vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
         welcomeTxt.setText("Welcome "+ vm.getMainUser().getUsername());
 
@@ -63,53 +57,35 @@ public class FirstFragment extends Fragment {
     }
 
     /**
-     * Method to populate challengeList
+     * Method to populate challenge lists. Separate lists for active and finished challenges.
      */
     private void createChallengeList() {
+
         LocalDatabase db = LocalDatabase.getInstance();
-        challengeList = db.getChallenges();
+        for (Challenge challenge:db.getChallenges()) {
+            if(challenge.isFinished()){
+                finishedChallengeList.add(challenge);
+            }else{
+                activeChallengeList.add(challenge);
+            }
+
+        }
+
     }
 
     /**
-     * method to setup recyclerview that contains challengecards.
+     * method to setup recyclerview that contains sections of active and finished challenges.
      */
     private void buildRecyclerView() {
+        sectionList.clear();
         String sectionOneName = "Active";
-
         String sectionTwoName = "Finished";
-
-        sectionList.add(new Section(sectionOneName,LocalDatabase.getInstance().getChallenges()));
-        sectionList.add(new Section(sectionTwoName,LocalDatabase.getInstance().getChallenges()));
-        mainRecyclerAdapter = new MainRecyclerAdapter(sectionList);
+        sectionList.add(new Section(sectionOneName,activeChallengeList));
+        sectionList.add(new Section(sectionTwoName,finishedChallengeList));
+        mainRecyclerAdapter = new MainRecyclerAdapter(sectionList, FirstFragment.this);
         recyclerView.setAdapter(mainRecyclerAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), DividerItemDecoration.VERTICAL));
-
-
-        /*recyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext());
-        rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(rAdapter);
-         */
-        /*rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                LocalDatabase db = LocalDatabase.getInstance();
-                for (Challenge challenge : db.getChallenges()){
-                    if (challenge.equals(challengeList.get(position))){
-                        db.setActiveChallenge(challenge);
-                        break;
-                    }
-                }
-
-             rAdapter.notifyItemChanged(position);
-             // Temp on click for test will change to navigate to specific challenge when it exists
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
-            }
-        });
-
-         */
+        recyclerView.setHasFixedSize(true);
+        challengeAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges(), requireActivity());
     }
 
     /**
@@ -120,11 +96,7 @@ public class FirstFragment extends Fragment {
     private void initiateView(View view) {
         welcomeTxt = view.findViewById(R.id.welcomeText);
         recyclerView = view.findViewById(R.id.rvc_list);
-
-        challengeName = view.findViewById(R.id.challengeName);
-        progressTxt = view.findViewById(R.id.progressTxt);
         medal = view.findViewById(R.id.medal);
-        backgroundPic = view.findViewById(R.id.backgroundPic);
     }
 
 
