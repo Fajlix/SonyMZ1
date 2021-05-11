@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.CounterComponent;
+import com.example.sonymz1.Components.DateComponent;
+import com.example.sonymz1.Components.DistanceComponent;
 import com.example.sonymz1.Database.DatabaseUserCallback;
 import com.example.sonymz1.Database.LocalDatabase;
 import com.example.sonymz1.Database.OnlineDatabase;
@@ -29,7 +31,10 @@ public class ChallengeViewModel extends ViewModel {
     private ArrayList<ChallengeComponent> components = new ArrayList<>();
 
     public ChallengeViewModel() {
-        LocalDatabase.getInstance().setActiveChallenge(new Challenge("ChallengeTest"));
+        this.challenge = LocalDatabase.getInstance().getActiveChallenge();
+        setLeaderBoard();
+    }
+    public void updateChallenge(){
         this.challenge = LocalDatabase.getInstance().getActiveChallenge();
         setLeaderBoard();
     }
@@ -45,16 +50,21 @@ public class ChallengeViewModel extends ViewModel {
         addPlayers(playerIds);
         //addPlayer(1, 20); It wont work on my setPedestal method
         setLeaderBoard();
+        addComponents();
         OnlineDatabase.getInstance().saveChallenge(challenge);
         LocalDatabase.getInstance().addChallenge(challenge);
-        addComponents();
+        LocalDatabase.getInstance().setActiveChallenge(challenge);
         //TODO Add challengers
     }
 
     private void addComponents() {
-        for (int i = 0; i < components.size(); i++) {
-            challenge.addComponent(components.get(i));
+        if (components.size()>0) {
+            for (int i = 0; i < components.size(); i++) {
+                challenge.addComponent(components.get(i));
+            }
         }
+        else
+            challenge.addComponent(new DistanceComponent(50));
     }
 
     public void addComponent(ChallengeComponent component) {

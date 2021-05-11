@@ -38,7 +38,8 @@ public class Challenge implements ScoreUpdateListener {
     private int medal;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
-                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description, int challengeBackground) {
+                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description,
+                     int creatorId,int medal,int challengeBackground,boolean isFinished,String challengeCode) {
         this.name = name;
         this.leaderBoard = leaderBoard;
         this.components = components;
@@ -46,6 +47,11 @@ public class Challenge implements ScoreUpdateListener {
         this.description = description;
         this.challengeBackground = R.drawable.run_challenge;
         this.isFinished = false;
+        this.creatorId = creatorId;
+        this.medal = medal;
+        this.challengeBackground = challengeBackground;
+        this.isFinished = isFinished;
+        this.challengeCode = challengeCode;
     }
 
     public Challenge(String name, int challengeBackground, int medal) {
@@ -147,6 +153,8 @@ public class Challenge implements ScoreUpdateListener {
     }
 
     public void addComponent(ChallengeComponent component) {
+        if (components == null)
+            components = new ArrayList<>();
         this.components.add(component);
     }
 

@@ -80,7 +80,7 @@ public class ChallengePageFragment extends Fragment {
 
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         initializeViews(view);
-
+        vm.updateChallenge();
         setPedestal();
         setLeaderBoard();
         setParticipants();

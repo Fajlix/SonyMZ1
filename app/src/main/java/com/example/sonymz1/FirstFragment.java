@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.Adapters.ChallengeAdapter;
+import com.example.sonymz1.Database.DatabaseChallengeListCallback;
 import com.example.sonymz1.Database.LocalDatabase;
 import com.example.sonymz1.Database.OnlineDatabase;
 import com.example.sonymz1.Model.Challenge;
@@ -41,14 +42,12 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
         initiateView(view);
         createChallengeList();
-        buildRecyclerView();
+        //buildRecyclerView();
 
-        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
-        if (vm.getMainUser()!= null) {
-            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
-        }
+
 
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +65,14 @@ public class FirstFragment extends Fragment {
     private void createChallengeList() {
         LocalDatabase db = LocalDatabase.getInstance();
         challengeList = db.getChallenges();
-        challengeList = OnlineDatabase.getInstance().getChallenges(0);
+        OnlineDatabase.getInstance().getChallenges(vm.getMainUser().getId(), new DatabaseChallengeListCallback() {
+            @Override
+            public void onCallback(ArrayList<Challenge> challenges) {
+                challengeList = challenges;
+                welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+                buildRecyclerView();
+            }
+        });
     }
 
     /**
@@ -75,24 +81,32 @@ public class FirstFragment extends Fragment {
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());
+        rAdapter = new ChallengeAdapter(challengeList);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(rAdapter);
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                LocalDatabase db = LocalDatabase.getInstance();
-                for (Challenge challenge : db.getChallenges()) {
-                    if (challenge.equals(challengeList.get(position))) {
-                        db.setActiveChallenge(challenge);
-                        break;
-                    }
-                }
+                OnlineDatabase.getInstance().getChallenges(vm.getMainUser().getId(), new DatabaseChallengeListCallback() {
+                    @Override
+                    public void onCallback(ArrayList<Challenge> challenges) {
+                        for (Challenge challenge : challenges) {
+                            if (challenge.getChallengeCode().equals(challengeList.get(position).getChallengeCode())) {
+                                LocalDatabase.getInstance().setActiveChallenge(challenge);
+                                break;
+                            }
+                        }
+                        rAdapter.notifyItemChanged(position);
+                        NavHostFragment.findNavController(FirstFragment.this)
+                                .navigate(R.id.action_FirstFragment_to_challengePageFragment);
 
-                rAdapter.notifyItemChanged(position);
+                    }
+                });
+
+
+
                 // Temp on click for test will change to navigate to specific challenge when it exists
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+
             }
         });
     }
