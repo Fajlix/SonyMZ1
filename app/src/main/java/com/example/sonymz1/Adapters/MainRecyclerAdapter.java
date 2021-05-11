@@ -36,7 +36,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+        createChallengeList();
         LayoutInflater layoutInflater =  LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.recycleview_section, parent, false);
         
@@ -87,6 +87,15 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @Override
     public int getItemCount() {
         return sectionList.size();
+    }
+
+    /**
+     * Method to populate challenge lists.
+     */
+
+    private void createChallengeList() {
+        LocalDatabase db = LocalDatabase.getInstance();
+        challengeList = db.getChallenges();
     }
 
     /**
