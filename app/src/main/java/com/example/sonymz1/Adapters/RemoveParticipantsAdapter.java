@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.R;
-import com.example.sonymz1.User;
+import com.example.sonymz1.Model.User;
 
 import java.util.ArrayList;
 

@@ -10,23 +10,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.Adapters.ChallengeAdapter;
+import com.example.sonymz1.Database.LocalDatabase;
+import com.example.sonymz1.Database.OnlineDatabase;
+import com.example.sonymz1.Model.Challenge;
 
 import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
     private ArrayList<Challenge> challengeList;
-    private TextView challengeName, progressTxt;
+    private TextView challengeName, progressTxt, welcomeTxt;
     private ImageView medal, backgroundPic;
     private RecyclerView recyclerView;
     private ChallengeAdapter rAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private CardView card;
 
+    ChallengeViewModel vm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,34 +43,30 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initiateView(view);
         createChallengeList();
-        initiateView(view);
         buildRecyclerView();
+
+        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
+        if (vm.getMainUser()!= null) {
+            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+        }
 
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
+                view.findViewById(R.id.addChallengeButton).setOnClickListener(view1 ->
+                        NavHostFragment.findNavController(FirstFragment.this)
+                                .navigate(R.id.action_FirstFragment_to_createChallengeFragment));
             }
         });
     }
 
     /**
-     * Populate challengeList, currently temporary test cards.
+     * Method to populate challengeList
      */
     private void createChallengeList() {
-        challengeList = new ArrayList<>();
         LocalDatabase db = LocalDatabase.getInstance();
-        if (db.getChallenges() != null) {
-            for (Challenge challenge : db.getChallenges()) {
-                challengeList.add(new Challenge(challenge.getName(), R.drawable.run_challenge, R.drawable.medal));
-            }
-        }
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
-        challengeList.add(new Challenge("Challange name", R.drawable.run_challenge, R.drawable.medal));
+        challengeList = db.getChallenges();
+        challengeList = OnlineDatabase.getInstance().getChallenges(0);
     }
 
     /**
@@ -74,23 +75,22 @@ public class FirstFragment extends Fragment {
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        rAdapter = new ChallengeAdapter(challengeList);
+        rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(rAdapter);
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 LocalDatabase db = LocalDatabase.getInstance();
-                for (Challenge challenge : db.getChallenges()){
-                    if (challenge.equals(challengeList.get(position))){
+                for (Challenge challenge : db.getChallenges()) {
+                    if (challenge.equals(challengeList.get(position))) {
                         db.setActiveChallenge(challenge);
                         break;
                     }
                 }
 
-             challengeList.get(position).changeText("Clicked");
-             rAdapter.notifyItemChanged(position);
-             // Temp on click for test will change to navigate to specific challenge when it exists
+                rAdapter.notifyItemChanged(position);
+                // Temp on click for test will change to navigate to specific challenge when it exists
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_challengePageFragment);
             }
@@ -99,17 +99,16 @@ public class FirstFragment extends Fragment {
 
     /**
      * method to initiate views.
+     *
      * @param view
      */
 
     private void initiateView(View view) {
+        welcomeTxt = view.findViewById(R.id.welcomeText);
         recyclerView = view.findViewById(R.id.rvc_list);
         challengeName = view.findViewById(R.id.challengeName);
         progressTxt = view.findViewById(R.id.progressTxt);
         medal = view.findViewById(R.id.medal);
         backgroundPic = view.findViewById(R.id.backgroundPic);
     }
-
-
-
 }
