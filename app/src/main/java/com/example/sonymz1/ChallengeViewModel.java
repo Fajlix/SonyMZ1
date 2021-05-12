@@ -176,6 +176,7 @@ public class ChallengeViewModel extends ViewModel {
     public String getCode() {
         return String.valueOf(challenge.getChallengeCode());
     }
+
     public void newMainUser(String name,DatabaseUserCallback callback){
 
         OnlineDatabase.getInstance().getUsers(new UserListCallback() {
@@ -192,6 +193,7 @@ public class ChallengeViewModel extends ViewModel {
             }
         });
     }
+
     private boolean checkUnique(ArrayList<User> users,int id){
         for (User user :
                 users) {

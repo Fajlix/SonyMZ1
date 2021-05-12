@@ -87,14 +87,14 @@ public class CreateChallengeFragment extends Fragment {
                         index++;
                     }
                     challengeVM.createChallenge(name, description, isPrivate, playerIds);
+
+                    // Close the keyboard
+                    view.clearFocus();
+
+                    NavHostFragment.findNavController(CreateChallengeFragment.this)
+                            .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
                 }
             });
-
-            // Close the keyboard
-            view.clearFocus();
-
-            NavHostFragment.findNavController(CreateChallengeFragment.this)
-                    .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
         });
     }
 

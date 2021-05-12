@@ -236,7 +236,6 @@ public class ChallengePageFragment extends Fragment {
                 img.setImageResource(user.getProfilePic());
             }
         });
-
         txt.setText(String.valueOf(score));
     }
 

@@ -80,13 +80,14 @@ public class RegisterFragment extends Fragment {
                         public void onCallback(User user) {
                             spEditor.putInt("id", vm.getMainUser().getId());
                             spEditor.commit();
+
+                            NavHostFragment.findNavController(RegisterFragment.this)
+                                    .navigate(R.id.action_loginFragment_to_FirstFragment);
+
                         }
                     });
 
                     view.clearFocus();
-
-                    NavHostFragment.findNavController(RegisterFragment.this)
-                            .navigate(R.id.action_loginFragment_to_FirstFragment);
 
                 }else inputLayout.setError("Fill in your name!");
             }
