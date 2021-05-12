@@ -101,6 +101,9 @@ public class Challenge implements ScoreUpdateListener{
     public int getCreatorId(){
         return creatorId;
     }
+    public int[] getAdminIds() {
+        return adminIds;
+    }
 
     /**
      *

@@ -94,6 +94,11 @@ public class ChallengePageFragment extends Fragment {
 
         setAndUpdateAll();
 
+        if(!vm.mainUserIsAdmin()){
+            editBtnImg.setVisibility(view.GONE);
+            adminView.setVisibility(view.GONE);
+        }
+
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
         view.findViewById(R.id.addScoreButton).setOnClickListener(
                 view1 -> NavHostFragment.findNavController(ChallengePageFragment.this)
