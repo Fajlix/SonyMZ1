@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.sonymz1.Components.CounterComponent;
 import com.example.sonymz1.Components.DateComponent;
 import com.example.sonymz1.Components.DistanceComponent;
+import com.example.sonymz1.Components.TimerComponent;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.invoke.ConstantCallSite;
@@ -35,6 +37,7 @@ import java.util.Map;
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
     private Switch privateSwitch;
+    private Switch timerSwitch;
     private ChallengeViewModel challengeVM;
 
     public CreateChallengeFragment() {
@@ -88,6 +91,7 @@ public class CreateChallengeFragment extends Fragment {
         {
             EditText edittextDistance = view.findViewById(R.id.edittextDistance);
             TextView componentDistance = view.findViewById(R.id.componentDistance);
+            TextView distanceError = view.findViewById(R.id.distanceError);
             Button buttonAddDistance = view.findViewById(R.id.buttonAddDistance);
             ConstraintLayout distancePopUp = view.findViewById(R.id.distancePopUp);
             ConstraintLayout distanceConstraint = view.findViewById(R.id.distanceConstraint);
@@ -97,9 +101,12 @@ public class CreateChallengeFragment extends Fragment {
             });
 
             buttonAddDistance.setOnClickListener(view2 -> {
-                createChallengeFragment.bringToFront();
-                if (edittextDistance.getText().toString() != null) {
-                    challengeVM.addComponent(new DistanceComponent(Integer.parseInt(edittextDistance.getText().toString())));
+                if (edittextDistance.getText().toString().equals("")) {
+                    distanceError.setText("The box can't be empty");
+                }
+                else {
+                    challengeVM.addComponent(new CounterComponent(Integer.parseInt(edittextDistance.getText().toString())));
+                    createChallengeFragment.bringToFront();
                 }
             });
 
@@ -116,6 +123,7 @@ public class CreateChallengeFragment extends Fragment {
         {
             EditText edittextCounter = view.findViewById(R.id.edittextCounter);
             TextView componentCounter = view.findViewById(R.id.componentCounter);
+            TextView counterError = view.findViewById(R.id.counterError);
             Button buttonAddCounter = view.findViewById(R.id.buttonAddCounter);
             ConstraintLayout counterPopUp = view.findViewById(R.id.counterPopUp);
             ConstraintLayout counterConstraint = view.findViewById(R.id.counterConstraint);
@@ -125,9 +133,12 @@ public class CreateChallengeFragment extends Fragment {
             });
 
             buttonAddCounter.setOnClickListener(view2 -> {
-                createChallengeFragment.bringToFront();
-                if (edittextCounter.getText().toString() != null) {
+                if (edittextCounter.getText().toString().equals("")) {
+                    counterError.setText("The box can't be empty");
+                }
+                else {
                     challengeVM.addComponent(new CounterComponent(Integer.parseInt(edittextCounter.getText().toString())));
+                    createChallengeFragment.bringToFront();
                 }
             });
 
@@ -140,24 +151,97 @@ public class CreateChallengeFragment extends Fragment {
             });
         }
 
-        view.findViewById(R.id.createButton).setOnClickListener(view1 -> {
-            String name = challengeNameTextBox.getText().toString();
-            String description = challengeDescriptionTextBox.getText().toString();
-            boolean isPrivate = privateSwitch.isChecked();
-            //TODO SHOULD DEFINETLY NOT EXIST
+        //TimerComponent
+        {
+            timerSwitch = view.findViewById(R.id.timerSwitch);
+            TextView componentTimer = view.findViewById(R.id.timerComponent);
+            EditText edittextTimer1 = view.findViewById(R.id.edittextTimer1);
+            EditText edittextTimer2 = view.findViewById(R.id.edittextTimer2);
+            Button buttonAddTimer = view.findViewById(R.id.buttonAddTimer);
+            TextView textTimer1 = view.findViewById(R.id.textTimer1);
+            TextView textTimer2 = view.findViewById(R.id.textTimer2);
+            TextView textError = view.findViewById(R.id.timerError);
+            ConstraintLayout timerPopUp = view.findViewById(R.id.timerPopUp);
+            ConstraintLayout timerConstraint = view.findViewById(R.id.timerConstraint);
 
-            Map<Integer, User> users = challengeVM.getUsers();
-            int[] playerIds = new int[users.size()];
-            int index = 0;
-            for (Integer key : users.keySet()) {
-                playerIds[index] = key;
-                index++;
-            }
-            challengeVM.createChallenge(name, description, isPrivate, playerIds);
+            componentTimer.setOnClickListener(view3 -> {
+                timerPopUp.bringToFront();
+            });
 
-            NavHostFragment.findNavController(CreateChallengeFragment.this)
-                    .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
-        });
+            timerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        textTimer1.setText("min");
+                        textTimer2.setText("sec");
+                    } else {
+                        textTimer1.setText("h");
+                        textTimer2.setText("min");
+                    }
+                }
+            });
+
+            buttonAddTimer.setOnClickListener(view2 -> {
+                int totalSeconds = 0;
+                String Text1 = edittextTimer1.getText().toString();
+                String Text2 = edittextTimer2.getText().toString();
+
+                if (!timerSwitch.isChecked()) {
+                    if (Text1.equals("") && Text2.equals("")) {
+                        textError.setText("Both boxes can't be empty");
+                    } else if (!edittextTimer1.getText().equals("")) {
+                        totalSeconds += Integer.parseInt(edittextTimer1.getText().toString()) * 3600;
+                    } else if (!edittextTimer2.getText().equals("")) {
+                        totalSeconds += Integer.parseInt(edittextTimer2.getText().toString()) * 60;
+                    }
+                    if (totalSeconds != 0) {
+                        challengeVM.addComponent(new TimerComponent(totalSeconds));
+                        createChallengeFragment.bringToFront();
+                    }
+                } else {
+                    if (Text1.equals("") && Text2.equals("")) {
+                        textError.setText("Both boxes can't be empty");
+                    } else if (!edittextTimer1.getText().equals("")) {
+                        totalSeconds += Integer.parseInt(edittextTimer1.getText().toString()) * 60;
+                    } else if (!edittextTimer2.getText().equals("")) {
+                        totalSeconds += Integer.parseInt(edittextTimer2.getText().toString());
+                    }
+                    challengeVM.addComponent(new TimerComponent(totalSeconds));
+                    createChallengeFragment.bringToFront();
+                }
+            });
+
+            timerPopUp.setOnClickListener(view4 -> {
+                createChallengeFragment.bringToFront();
+            });
+
+            timerConstraint.setOnClickListener(view4 -> {
+                timerConstraint.setSoundEffectsEnabled(false);
+            });
+        }
+
+        view.findViewById(R.id.createButton).
+
+                setOnClickListener(view1 ->
+
+                {
+                    String name = challengeNameTextBox.getText().toString();
+                    String description = challengeDescriptionTextBox.getText().toString();
+                    boolean isPrivate = privateSwitch.isChecked();
+                    //TODO SHOULD DEFINETLY NOT EXIST
+
+                    Map<Integer, User> users = challengeVM.getUsers();
+                    int[] playerIds = new int[users.size()];
+                    int index = 0;
+                    for (Integer key : users.keySet()) {
+                        playerIds[index] = key;
+                        index++;
+                    }
+                    challengeVM.createChallenge(name, description, isPrivate, playerIds);
+
+                    NavHostFragment.findNavController(CreateChallengeFragment.this)
+                            .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
+                });
     }
 
     public String getName() {
