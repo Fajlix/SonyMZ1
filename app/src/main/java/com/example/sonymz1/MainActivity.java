@@ -20,6 +20,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.view.MenuItem;
 
+
 /**
  * The main activity for the application. Uses a navigation drawer to navigate to different pages.
  * @author Wendy Pau
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         vm = new ViewModelProvider(this).get(ChallengeViewModel.class);
         sp = getSharedPreferences("myPreferences", MODE_PRIVATE);
-        retrieveUsersDB();
+        vm.setUsersDB(new AllUsers());
+        //retrieveUsersDB();
     }
 
     @Override
