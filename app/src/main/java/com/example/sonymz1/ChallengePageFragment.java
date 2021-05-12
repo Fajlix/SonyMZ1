@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -58,6 +59,8 @@ public class ChallengePageFragment extends Fragment {
     private Button addScoreButton;
     private RecyclerView removePList;
     private CheckBox allCheck;
+
+    private ConstraintLayout root;
 
     private RemoveParticipantsAdapter rpa;
 
@@ -103,6 +106,31 @@ public class ChallengePageFragment extends Fragment {
         view.findViewById(R.id.addScoreButton).setOnClickListener(
                 view1 -> NavHostFragment.findNavController(ChallengePageFragment.this)
                 .navigate(R.id.action_challengePageFragment_to_addingScorePage));
+
+        //Checks if the difference between the height of the window and the activity's root view height
+        //when the keyboard is open the difference is just over 1000, at least on my phone @Jonathan
+        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = root.getRootView().getHeight() - root.getHeight();
+                if(heightDiff > 1000){
+                    addScoreButton.setVisibility(view.GONE);
+                    editBtnImg.setVisibility(view.GONE);
+                    confirmNameChangeBtn.setVisibility(view.GONE);
+                    cancelNameChangeBtn.setVisibility(view.GONE);
+                    confirmDescriptionChangeBtn.setVisibility(view.GONE);
+                    cancelDescriptionChangeBtn.setVisibility(view.GONE);
+                }
+                else{
+                    addScoreButton.setVisibility(view.VISIBLE);
+                    editBtnImg.setVisibility(view.VISIBLE);
+                    confirmNameChangeBtn.setVisibility(view.VISIBLE);
+                    cancelNameChangeBtn.setVisibility(view.VISIBLE);
+                    confirmDescriptionChangeBtn.setVisibility(view.VISIBLE);
+                    cancelDescriptionChangeBtn.setVisibility(view.VISIBLE);
+                }
+            }
+        });
 
         editBtnImg.setOnClickListener(view12 -> {
             if(adminView.getVisibility() == View.GONE){
@@ -357,6 +385,8 @@ public class ChallengePageFragment extends Fragment {
         removePView = view.findViewById(R.id.editInfoParticipantsView);
         editChallengeParticipantsBtn = view.findViewById(R.id.editChallengeParticipantsBtn);
         challengeHostView = view.findViewById(R.id.challengeHostView);
+
+        root = view.findViewById(R.id.challengePageRootView);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
