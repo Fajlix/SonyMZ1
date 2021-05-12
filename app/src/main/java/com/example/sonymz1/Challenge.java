@@ -30,7 +30,7 @@ public class Challenge implements ScoreUpdateListener{
     private String description;
     private String challengeCode;
     private int creatorId;
-    private int[] adminIds;
+    private ArrayList<Integer> adminIds = new ArrayList<>();
     private int challengeBackground;
     private int medal;
 
@@ -101,8 +101,18 @@ public class Challenge implements ScoreUpdateListener{
     public int getCreatorId(){
         return creatorId;
     }
-    public int[] getAdminIds() {
+    public ArrayList<Integer> getAdminIds() {
         return adminIds;
+    }
+    public void addAdmin(int userId){
+        Integer id = userId;
+        adminIds.add(id);
+    }
+    public void removeAdmin(int userId){
+        Integer id = userId;
+        if(adminIds.contains(id)){
+            adminIds.remove(id);
+        }
     }
 
     /**

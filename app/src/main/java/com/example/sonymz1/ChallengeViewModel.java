@@ -135,16 +135,10 @@ public class ChallengeViewModel extends ViewModel {
     
     public boolean mainUserIsAdmin(){
 
-        if(mainUser.getId() == getCreatorId()){
+        if(mainUser.getId() == getCreatorId() || challenge.getAdminIds().contains(mainUser.getId())){
             return true;
-        }/*
-        int[] ids = challenge.getAdminIds();
-        for (int i = 0; i < ids.length; i++) {
-            if(mainUser.getId() == ids[i]){
-                return true;
-            }
         }
-        */
+
         return false;
     }
 }
