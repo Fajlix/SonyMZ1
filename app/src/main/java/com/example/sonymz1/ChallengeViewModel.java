@@ -136,4 +136,12 @@ public class ChallengeViewModel extends ViewModel {
     public boolean mainUserIsAdmin(){
         return mainUser.getId() == getCreatorId() || challenge.getAdminIds().contains(mainUser.getId());
     }
+
+    public int getNumOfAdmins() {
+        return challenge.getAdminIds().size();
+    }
+
+    public boolean mainUserIsCreator() {
+        return mainUser.getId() == getCreatorId();
+    }
 }

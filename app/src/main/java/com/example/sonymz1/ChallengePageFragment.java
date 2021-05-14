@@ -48,13 +48,15 @@ public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
     private CardView pedestal2, pedestal3;
     private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg, editChallengeParticipantsBtn;
+    private ImageView creatorOnlyBtn, backArrowCreator, addAdminBtn, removeAdminBtn;
+    private TextView numAdmins;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode, challengeHostView;
     private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP;
     private Switch privacySwitch;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderBoard, rvcParticipants;
-    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView, creatorOnlyLayout;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
     private RecyclerView removePList;
@@ -98,8 +100,11 @@ public class ChallengePageFragment extends Fragment {
         setAndUpdateAll();
 
         if(!vm.mainUserIsAdmin()){
-            editBtnImg.setVisibility(view.GONE);
-            adminView.setVisibility(view.GONE);
+            editBtnImg.setVisibility(View.GONE);
+            adminView.setVisibility(View.GONE);
+        }
+        if(!vm.mainUserIsCreator()){
+            creatorOnlyBtn.setVisibility(View.GONE);
         }
 
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
@@ -109,26 +114,23 @@ public class ChallengePageFragment extends Fragment {
 
         //Checks if the difference between the height of the window and the activity's root view height
         //when the keyboard is open the difference is just over 1000, at least on my phone @Jonathan
-        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int heightDiff = root.getRootView().getHeight() - root.getHeight();
-                if(heightDiff > 1000){
-                    addScoreButton.setVisibility(view.GONE);
-                    editBtnImg.setVisibility(view.GONE);
-                    confirmNameChangeBtn.setVisibility(view.GONE);
-                    cancelNameChangeBtn.setVisibility(view.GONE);
-                    confirmDescriptionChangeBtn.setVisibility(view.GONE);
-                    cancelDescriptionChangeBtn.setVisibility(view.GONE);
-                }
-                else{
-                    addScoreButton.setVisibility(view.VISIBLE);
-                    editBtnImg.setVisibility(view.VISIBLE);
-                    confirmNameChangeBtn.setVisibility(view.VISIBLE);
-                    cancelNameChangeBtn.setVisibility(view.VISIBLE);
-                    confirmDescriptionChangeBtn.setVisibility(view.VISIBLE);
-                    cancelDescriptionChangeBtn.setVisibility(view.VISIBLE);
-                }
+        root.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            int heightDiff = root.getRootView().getHeight() - root.getHeight();
+            if(heightDiff > 1000){
+                addScoreButton.setVisibility(View.GONE);
+                editBtnImg.setVisibility(View.GONE);
+                confirmNameChangeBtn.setVisibility(View.GONE);
+                cancelNameChangeBtn.setVisibility(View.GONE);
+                confirmDescriptionChangeBtn.setVisibility(View.GONE);
+                cancelDescriptionChangeBtn.setVisibility(View.GONE);
+            }
+            else{
+                addScoreButton.setVisibility(View.VISIBLE);
+                editBtnImg.setVisibility(View.VISIBLE);
+                confirmNameChangeBtn.setVisibility(View.VISIBLE);
+                cancelNameChangeBtn.setVisibility(View.VISIBLE);
+                confirmDescriptionChangeBtn.setVisibility(View.VISIBLE);
+                cancelDescriptionChangeBtn.setVisibility(View.VISIBLE);
             }
         });
 
@@ -143,6 +145,7 @@ public class ChallengePageFragment extends Fragment {
                 editNameView.setVisibility(View.GONE);
                 editDescriptionView.setVisibility(View.GONE);
                 removePView.setVisibility(View.GONE);
+                creatorOnlyLayout.setVisibility(View.GONE);
                 editBtnImg.setRotation(0);
             }
         });
@@ -196,8 +199,8 @@ public class ChallengePageFragment extends Fragment {
             copyPastaMaker.setPrimaryClip(clip);
         });
         editChallengeParticipantsBtn.setOnClickListener(view114 -> {
-            editView.setVisibility(view114.GONE);
-            removePView.setVisibility(view114.VISIBLE);
+            editView.setVisibility(View.GONE);
+            removePView.setVisibility(View.VISIBLE);
         });
 
         allCheck.setOnClickListener(view111 ->{
@@ -222,6 +225,26 @@ public class ChallengePageFragment extends Fragment {
             removePView.setVisibility((View.GONE));
             rpa.unSelectAll();
             allCheck.setChecked(false);
+        });
+
+        creatorOnlyBtn.setOnClickListener(view115 -> {
+            editView.setVisibility(View.GONE);
+            creatorOnlyLayout.setVisibility(View.VISIBLE);
+        });
+
+        backArrowCreator.setRotation(180);
+        backArrowCreator.setOnClickListener(view116 -> {
+            editView.setVisibility(View.VISIBLE);
+            creatorOnlyLayout.setVisibility(View.GONE);
+        });
+
+        addAdminBtn.setOnClickListener(view117 -> {
+            //editView.setVisibility(View.VISIBLE);
+            creatorOnlyLayout.setVisibility(View.GONE);
+        });
+        removeAdminBtn.setOnClickListener(view118 -> {
+            //editView.setVisibility(View.VISIBLE);
+            creatorOnlyLayout.setVisibility(View.GONE);
         });
     }
 
@@ -386,6 +409,13 @@ public class ChallengePageFragment extends Fragment {
         editChallengeParticipantsBtn = view.findViewById(R.id.editChallengeParticipantsBtn);
         challengeHostView = view.findViewById(R.id.challengeHostView);
 
+        creatorOnlyBtn = view.findViewById(R.id.creatorOnlySettingsBtn);
+        creatorOnlyLayout = view.findViewById(R.id.creatorOnlyView);
+        backArrowCreator = view.findViewById(R.id.backArrowCreator);
+        addAdminBtn = view.findViewById(R.id.addAdminBtn);
+        removeAdminBtn = view.findViewById(R.id.removeAdminBtn);
+        numAdmins = view.findViewById(R.id.numAdminsView);
+
         root = view.findViewById(R.id.challengePageRootView);
     }
 
@@ -399,6 +429,8 @@ public class ChallengePageFragment extends Fragment {
 
         numOfParticipants.setText(String.valueOf(vm.getNumOfPlayers()));
         infoCardParticipantsNum.setText(String.valueOf(vm.getNumOfPlayers()));
+
+        numAdmins.setText(String.valueOf(vm.getNumOfAdmins()));
 
         if(vm.isPrivate()){
             privacyTxt.setText("Private");
