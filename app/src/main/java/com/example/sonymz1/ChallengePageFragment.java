@@ -159,11 +159,13 @@ public class ChallengePageFragment extends Fragment {
             nameChangeBox.setText("");
         });
         confirmNameChangeBtn.setOnClickListener(view15 -> {
-            vm.setChallengeName(nameChangeBox.getText().toString());
-            setInfoCard();
-            editView.setVisibility(View.VISIBLE);
-            editNameView.setVisibility((View.GONE));
-            nameChangeBox.setText("");
+            if(!(nameChangeBox.getText() == null || nameChangeBox.getText().toString().equals(""))){
+                vm.setChallengeName(nameChangeBox.getText().toString());
+                setInfoCard();
+                editView.setVisibility(View.VISIBLE);
+                editNameView.setVisibility((View.GONE));
+                nameChangeBox.setText("");
+            }
         });
 
         editChallengeDescriptionBtnImg.setOnClickListener(view16 -> {
@@ -176,20 +178,17 @@ public class ChallengePageFragment extends Fragment {
             descriptionChangeBox.setText("");
         });
         confirmDescriptionChangeBtn.setOnClickListener(view18 -> {
-            vm.setDescription(descriptionChangeBox.getText().toString());
-            setInfoCard();
-            editView.setVisibility(View.VISIBLE);
-            editDescriptionView.setVisibility((View.GONE));
-            descriptionChangeBox.setText("");
+            if(!(descriptionChangeBox.getText() == null || descriptionChangeBox.getText().toString().equals(""))){
+                vm.setDescription(descriptionChangeBox.getText().toString());
+                setInfoCard();
+                editView.setVisibility(View.VISIBLE);
+                editDescriptionView.setVisibility((View.GONE));
+                descriptionChangeBox.setText("");
+            }
         });
 
         privacySwitch.setOnClickListener(view19 -> {
-            if(vm.isPrivate()){
-                vm.setPrivacy(false);
-            }
-            else{
-                vm.setPrivacy(true);
-            }
+            vm.setPrivacy(!vm.isPrivate());
             setInfoCard();
         });
 
