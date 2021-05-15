@@ -30,9 +30,7 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
-import com.example.sonymz1.Database.DatabaseUserCallback;
-import com.example.sonymz1.Database.OnlineDatabase;
-import com.example.sonymz1.Model.User;
+import com.example.sonymz1.Database.Database;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
@@ -230,12 +228,8 @@ public class ChallengePageFragment extends Fragment {
      * @param score the users score
      */
     private void setUserOnPedestal(ImageView img, TextView txt, int userId, int score){
-        OnlineDatabase.getInstance().getUser(userId, new DatabaseUserCallback() {
-            @Override
-            public void onCallback(User user) {
-                img.setImageResource(user.getProfilePic());
-            }
-        });
+        Database.getInstance().getAllUsers(() ->
+                img.setImageResource(Database.getInstance().getUser(userId).getProfilePic()));
         txt.setText(String.valueOf(score));
     }
 

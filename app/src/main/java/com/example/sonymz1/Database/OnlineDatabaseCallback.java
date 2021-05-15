@@ -4,6 +4,6 @@ import com.example.sonymz1.Model.Challenge;
 
 import java.util.ArrayList;
 
-public interface DatabaseChallengeListCallback {
+interface OnlineDatabaseCallback {
     void onCallback(ArrayList<Challenge> challenges);
 }

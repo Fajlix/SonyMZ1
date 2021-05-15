@@ -12,18 +12,10 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.sonymz1.ChallengePageFragment;
 import com.example.sonymz1.ChallengeViewModel;
-import com.example.sonymz1.Database.DatabaseUserCallback;
-import com.example.sonymz1.Database.OnlineDatabase;
-import com.example.sonymz1.Database.UserListCallback;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.R;
 import com.example.sonymz1.Model.User;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -131,14 +123,13 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
                 break;
         }
 
-        OnlineDatabase.getInstance().getUser(userId, new DatabaseUserCallback() {
-            @Override
-            public void onCallback(User user) {
-                holder.rank.setText(sb.toString());
-                holder.usernametxt.setText(user.getUsername());
-                holder.progressTxt.setText(String.valueOf(leaderBoard.get(user.getId()))); // add unit
-                holder.userImg.setImageResource(user.getProfilePic());
-            }
+        int finalUserId = userId;
+        Database.getInstance().getAllUsers(() -> {
+            User user = Database.getInstance().getUser(finalUserId);
+            holder.rank.setText(sb.toString());
+            holder.usernameTxt.setText(user.getUsername());
+            holder.progressTxt.setText(String.valueOf(leaderBoard.get(user.getId()))); // add unit
+            holder.userImg.setImageResource(user.getProfilePic());
         });
     }
 
@@ -157,12 +148,12 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView usernametxt, progressTxt, rank;
+        TextView usernameTxt, progressTxt, rank;
         ImageView userImg;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            usernametxt = itemView.findViewById(R.id.username);
+            usernameTxt = itemView.findViewById(R.id.username);
             progressTxt = itemView.findViewById(R.id.userProgressTxt);
             rank = itemView.findViewById(R.id.rankTxt);
             userImg = itemView.findViewById(R.id.userImg);

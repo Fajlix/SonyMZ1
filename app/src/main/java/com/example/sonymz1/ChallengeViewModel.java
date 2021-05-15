@@ -5,12 +5,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.CounterComponent;
-import com.example.sonymz1.Components.DateComponent;
 import com.example.sonymz1.Components.DistanceComponent;
-import com.example.sonymz1.Database.DatabaseUserCallback;
-import com.example.sonymz1.Database.LocalDatabase;
-import com.example.sonymz1.Database.OnlineDatabase;
-import com.example.sonymz1.Database.UserListCallback;
+import com.example.sonymz1.Database.Database;
+import com.example.sonymz1.Database.DatabaseCallback;
 import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.Model.User;
 
@@ -31,11 +28,11 @@ public class ChallengeViewModel extends ViewModel {
     private ArrayList<ChallengeComponent> components = new ArrayList<>();
 
     public ChallengeViewModel() {
-        this.challenge = LocalDatabase.getInstance().getActiveChallenge();
+        this.challenge = Database.getInstance().getActiveChallenge();
         setLeaderBoard();
     }
     public void updateChallenge(){
-        this.challenge = LocalDatabase.getInstance().getActiveChallenge();
+        this.challenge = Database.getInstance().getActiveChallenge();
         setLeaderBoard();
     }
 
@@ -51,9 +48,8 @@ public class ChallengeViewModel extends ViewModel {
         //addPlayer(1, 20); It wont work on my setPedestal method
         setLeaderBoard();
         addComponents();
-        OnlineDatabase.getInstance().saveChallenge(challenge);
-        LocalDatabase.getInstance().addChallenge(challenge);
-        LocalDatabase.getInstance().setActiveChallenge(challenge);
+        Database.getInstance().saveChallenge(challenge);
+        Database.getInstance().setActiveChallenge(challenge);
         //TODO Add challengers
     }
 
@@ -124,11 +120,10 @@ public class ChallengeViewModel extends ViewModel {
             leaderBoard.setValue(challenge.getLeaderBoard());
     }
 
-    public void setMainUser(int mainUserID, DatabaseUserCallback callback) {
-
-        OnlineDatabase.getInstance().getUser(mainUserID, user -> {
-            mainUser = user;
-            callback.onCallback(user);
+    public void setMainUser(int mainUserID, DatabaseCallback callback) {
+        Database.getInstance().getAllUsers(() -> {
+            mainUser = Database.getInstance().getUser(mainUserID);
+            callback.onCallback();
         });
     }
 
@@ -177,20 +172,17 @@ public class ChallengeViewModel extends ViewModel {
         return String.valueOf(challenge.getChallengeCode());
     }
 
-    public void newMainUser(String name,DatabaseUserCallback callback){
+    public void newMainUser(String name,DatabaseCallback callback){
 
-        OnlineDatabase.getInstance().getUsers(new UserListCallback() {
-            @Override
-            public void onCallback(ArrayList<User> users) {
-                Random rand = new Random();
-                int id = Math.abs(rand.nextInt());
-                while(!checkUnique(users,id)){
-                    id = Math.abs(rand.nextInt());
-                }
-                mainUser = new User(name,id);
-                OnlineDatabase.getInstance().saveUser(mainUser);
-                callback.onCallback(mainUser);
+        Database.getInstance().getAllUsers(() -> {
+            Random rand = new Random();
+            int id = Math.abs(rand.nextInt());
+            while(!checkUnique(Database.getInstance().getAllUsers(),id)){
+                id = Math.abs(rand.nextInt());
             }
+            mainUser = new User(name,id);
+            Database.getInstance().saveUser(mainUser);
+            callback.onCallback();
         });
     }
 

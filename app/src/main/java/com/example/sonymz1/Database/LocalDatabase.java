@@ -1,6 +1,7 @@
 package com.example.sonymz1.Database;
 
 import com.example.sonymz1.Model.Challenge;
+import com.example.sonymz1.Model.User;
 
 import java.util.ArrayList;
 
@@ -10,10 +11,11 @@ import java.util.ArrayList;
  * that a user is a part of and also the currently active challenge meaning the challenge that is currently
  * displayed / the last challenge displayed.
  */
-public class LocalDatabase {
+class LocalDatabase {
     private static LocalDatabase instance;
     private ArrayList<Challenge> challenges;
     private Challenge activeChallenge;
+    private ArrayList<User> allUsers;
     private LocalDatabase(){
         if (challenges ==null){
             challenges = new ArrayList<>();
@@ -32,6 +34,18 @@ public class LocalDatabase {
     public void addChallenge(Challenge challenge){
         challenges.add(challenge);
     }
+
+    public void setAllUsers(ArrayList<User> allUsers) {
+        this.allUsers = allUsers;
+    }
+
+    public void setChallenges(ArrayList<Challenge> challenges) {
+        this.challenges = challenges;
+    }
+    public ArrayList<User> getAllUsers(){
+        return allUsers;
+    }
+
     public void removeChallenge(Challenge challenge){
         challenges.remove(challenge);
     }

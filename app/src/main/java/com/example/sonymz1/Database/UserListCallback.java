@@ -4,6 +4,6 @@ import com.example.sonymz1.Model.User;
 
 import java.util.ArrayList;
 
-public interface UserListCallback {
+interface UserListCallback {
     void onCallback(ArrayList<User> users);
 }

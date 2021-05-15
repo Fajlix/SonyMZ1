@@ -14,13 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.ChallengePageFragment;
 import com.example.sonymz1.ChallengeViewModel;
-import com.example.sonymz1.Database.DatabaseUserCallback;
-import com.example.sonymz1.Database.OnlineDatabase;
-import com.example.sonymz1.Database.UserListCallback;
-import com.example.sonymz1.R;
+import com.example.sonymz1.Database.Database;
+import com.example.sonymz1.Database.DatabaseCallback;
 import com.example.sonymz1.Model.User;
-
-import java.util.ArrayList;
+import com.example.sonymz1.R;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +50,8 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
     public void onBindViewHolder(@NonNull ParticipantsAdapter.ViewHolder holder, int position) {
         List<Map.Entry<Integer, Integer>> leaderBoardList =
                 new LinkedList<>(leaderBoard.entrySet());
-        OnlineDatabase.getInstance().getUser(leaderBoardList.get(position).getKey(), user -> {
+        Database.getInstance().getAllUsers(() -> {
+            User user = Database.getInstance().getUser(leaderBoardList.get(position).getKey());
             holder.username.setText(user.getUsername());
             holder.scoreTxt.setText("Score: " + leaderBoardList.get(position).getValue()); // add unit
             holder.userImg.setImageResource(user.getProfilePic());

@@ -14,23 +14,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class OnlineDatabase {
+class OnlineDatabase {
     private static OnlineDatabase instance;
     DatabaseReference challengeRef;
     DatabaseReference usersRef;
@@ -46,7 +39,7 @@ public class OnlineDatabase {
         return instance;
     }
 
-    public void getChallenges(int user, DatabaseChallengeListCallback callback) {
+    public void getChallenges(int user, OnlineDatabaseCallback callback) {
         challengeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
@@ -73,23 +66,7 @@ public class OnlineDatabase {
             }
         });
     }
-    public void getUser(int userId, DatabaseUserCallback userCallback){
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Gson gson = new Gson();
-                String jsonStr = gson.toJson(snapshot.child(String.valueOf(userId)).getValue());
-                userCallback.onCallback(gson.fromJson(jsonStr, User.class));
-                usersRef.removeEventListener(this);
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
-    }
-    public void getUsers(UserListCallback userCallback){
+    public void getAllUsers(UserListCallback userCallback){
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
