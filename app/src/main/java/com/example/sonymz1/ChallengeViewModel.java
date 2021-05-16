@@ -215,6 +215,9 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public int getNumOfAdmins() {
+        if (challenge.getAdminIds()==null){
+            return 0;
+        }
         return challenge.getAdminIds().size();
     }
 

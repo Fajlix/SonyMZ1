@@ -83,12 +83,14 @@ public class FirstFragment extends Fragment {
                     for (Challenge challenge : Database.getInstance().getChallenges()) {
                         if (challenge.getChallengeCode().equals(challengeList.get(position).getChallengeCode())) {
                             Database.getInstance().setActiveChallenge(challenge);
+                            NavHostFragment.findNavController(FirstFragment.this)
+                                    .navigate(R.id.action_FirstFragment_to_challengePageFragment);
                             break;
                         }
+
                     }
                     rAdapter.notifyItemChanged(position);
-                    NavHostFragment.findNavController(FirstFragment.this)
-                            .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+
 
                 });
 

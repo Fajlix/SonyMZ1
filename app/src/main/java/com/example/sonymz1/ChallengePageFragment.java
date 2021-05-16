@@ -87,8 +87,8 @@ public class ChallengePageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
+        vm.updateChallenge();
         initializeViews(view);
         setAndUpdateAll();
 
@@ -99,7 +99,6 @@ public class ChallengePageFragment extends Fragment {
         if(!vm.mainUserIsCreator()){
             creatorOnlyBtn.setVisibility(View.GONE);
         }
-        vm.updateChallenge();
         setPedestal();
         setLeaderBoard();
         setParticipants();
