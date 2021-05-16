@@ -19,7 +19,7 @@ import java.util.Random;
 /**
  * A class responsible for the communication between the challenges and views.
  *
- * @author Felix ,Viktor J, Wendy Pau
+ * @author Felix ,Viktor J, Wendy Pau, Jonathan
  */
 public class ChallengeViewModel extends ViewModel {
 
@@ -201,5 +201,33 @@ public class ChallengeViewModel extends ViewModel {
             }
         }
         return true;
+    }
+    
+    public boolean mainUserIsAdmin(){
+        return mainUser.getId() == getCreatorId() || challenge.getAdminIds().contains(mainUser.getId());
+    }
+
+    public int getNumOfAdmins() {
+        return challenge.getAdminIds().size();
+    }
+
+    public ArrayList<Integer> getAdmins() {
+        return challenge.getAdminIds();
+    }
+
+    public boolean mainUserIsCreator() {
+        return mainUser.getId() == getCreatorId();
+    }
+
+    public void addAdmins(ArrayList<Integer> checkedUserIDs) {
+        for (int i = 0; i < checkedUserIDs.size(); i++) {
+            challenge.addAdmin(checkedUserIDs.get(i));
+        }
+    }
+
+    public void removeAdmins(ArrayList<Integer> checkedUserIDs) {
+        for (int i = 0; i < checkedUserIDs.size(); i++) {
+            challenge.removeAdmin(checkedUserIDs.get(i));
+        }
     }
 }

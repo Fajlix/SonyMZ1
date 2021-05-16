@@ -16,11 +16,11 @@ import java.util.ArrayList;
 /**
  * @author Jonathan
  */
-public class RemoveParticipantsAdapter extends RecyclerView.Adapter<RemoveParticipantsAdapter.ViewHolder>{
+public class SelectParticipantsAdapter extends RecyclerView.Adapter<SelectParticipantsAdapter.ViewHolder>{
     private ArrayList<User> users;
     private ArrayList<Integer> checkedUserIDs = new ArrayList<>();
     private boolean isAllSelected = false;
-    public RemoveParticipantsAdapter(ArrayList<User> users){
+    public SelectParticipantsAdapter(ArrayList<User> users){
         this.users = users;
         notifyDataSetChanged();
     }
@@ -30,7 +30,7 @@ public class RemoveParticipantsAdapter extends RecyclerView.Adapter<RemovePartic
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.infocard_user, parent, false);
-        return new RemoveParticipantsAdapter.ViewHolder(view);
+        return new SelectParticipantsAdapter.ViewHolder(view);
     }
 
     @Override

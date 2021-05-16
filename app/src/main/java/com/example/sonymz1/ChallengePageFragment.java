@@ -31,11 +31,11 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.example.sonymz1.Adapters.SelectParticipantsAdapter;
 import com.example.sonymz1.Database.DatabaseUserCallback;
 import com.example.sonymz1.Database.OnlineDatabase;
 import com.example.sonymz1.Database.UserListCallback;
 import com.example.sonymz1.Model.User;
-import com.example.sonymz1.Adapters.RemoveParticipantsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -51,19 +51,23 @@ public class ChallengePageFragment extends Fragment {
     private ChallengeViewModel vm;
     private CardView pedestal2, pedestal3;
     private ImageView userImg1, userImg2, userImg3, backBtn, challengeInfoImg, editBtnImg, editChallengeNameBtnImg, editChallengeDescriptionBtnImg, editChallengeCopyCodeBtnImg, editChallengeParticipantsBtn;
+    private ImageView creatorOnlyBtn, backArrowCreator, addAdminBtn, removeAdminBtn;
+    private TextView numAdmins;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode, challengeHostView;
-    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP;
+    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP, confirmAddA, cancelAddA, confirmRA, cancelRA;
     private Switch privacySwitch;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderBoard, rvcParticipants;
-    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView, creatorOnlyLayout, addAdminLayout, removeAdminLayout;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
-    private RecyclerView removePList;
-    private CheckBox allCheck;
+    private RecyclerView removePList, addAdminList, removeAdminList;
+    private CheckBox allCheckRP, allCheckAA, allCheckRA;
 
-    private RemoveParticipantsAdapter rpa;
+    private ConstraintLayout root;
+
+    private SelectParticipantsAdapter rpa, addAdminAdapter, removeAdminAdapter;
 
     public ChallengePageFragment() {
         // Required empty public constructor
@@ -90,10 +94,40 @@ public class ChallengePageFragment extends Fragment {
         initializeViews(view);
         setAndUpdateAll();
 
+        if(!vm.mainUserIsAdmin()){
+            editBtnImg.setVisibility(View.GONE);
+            adminView.setVisibility(View.GONE);
+        }
+        if(!vm.mainUserIsCreator()){
+            creatorOnlyBtn.setVisibility(View.GONE);
+        }
+
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
         view.findViewById(R.id.addScoreButton).setOnClickListener(
                 view1 -> NavHostFragment.findNavController(ChallengePageFragment.this)
                 .navigate(R.id.action_challengePageFragment_to_addingScorePage));
+
+        //Checks if the difference between the height of the window and the activity's root view height
+        //when the keyboard is open the difference is just over 1000, at least on my phone @Jonathan
+        root.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            int heightDiff = root.getRootView().getHeight() - root.getHeight();
+            if(heightDiff > 1000){
+                addScoreButton.setVisibility(View.GONE);
+                editBtnImg.setVisibility(View.GONE);
+                confirmNameChangeBtn.setVisibility(View.GONE);
+                cancelNameChangeBtn.setVisibility(View.GONE);
+                confirmDescriptionChangeBtn.setVisibility(View.GONE);
+                cancelDescriptionChangeBtn.setVisibility(View.GONE);
+            }
+            else{
+                addScoreButton.setVisibility(View.VISIBLE);
+                editBtnImg.setVisibility(View.VISIBLE);
+                confirmNameChangeBtn.setVisibility(View.VISIBLE);
+                cancelNameChangeBtn.setVisibility(View.VISIBLE);
+                confirmDescriptionChangeBtn.setVisibility(View.VISIBLE);
+                cancelDescriptionChangeBtn.setVisibility(View.VISIBLE);
+            }
+        });
 
         editBtnImg.setOnClickListener(view12 -> {
             if(adminView.getVisibility() == View.GONE){
@@ -106,6 +140,7 @@ public class ChallengePageFragment extends Fragment {
                 editNameView.setVisibility(View.GONE);
                 editDescriptionView.setVisibility(View.GONE);
                 removePView.setVisibility(View.GONE);
+                creatorOnlyLayout.setVisibility(View.GONE);
                 editBtnImg.setRotation(0);
             }
         });
@@ -119,11 +154,13 @@ public class ChallengePageFragment extends Fragment {
             nameChangeBox.setText("");
         });
         confirmNameChangeBtn.setOnClickListener(view15 -> {
-            vm.setChallengeName(nameChangeBox.getText().toString());
-            setInfoCard();
-            editView.setVisibility(View.VISIBLE);
-            editNameView.setVisibility((View.GONE));
-            nameChangeBox.setText("");
+            if(!(nameChangeBox.getText() == null || nameChangeBox.getText().toString().equals(""))){
+                vm.setChallengeName(nameChangeBox.getText().toString());
+                setInfoCard();
+                editView.setVisibility(View.VISIBLE);
+                editNameView.setVisibility((View.GONE));
+                nameChangeBox.setText("");
+            }
         });
 
         editChallengeDescriptionBtnImg.setOnClickListener(view16 -> {
@@ -136,20 +173,17 @@ public class ChallengePageFragment extends Fragment {
             descriptionChangeBox.setText("");
         });
         confirmDescriptionChangeBtn.setOnClickListener(view18 -> {
-            vm.setDescription(descriptionChangeBox.getText().toString());
-            setInfoCard();
-            editView.setVisibility(View.VISIBLE);
-            editDescriptionView.setVisibility((View.GONE));
-            descriptionChangeBox.setText("");
+            if(!(descriptionChangeBox.getText() == null || descriptionChangeBox.getText().toString().equals(""))){
+                vm.setDescription(descriptionChangeBox.getText().toString());
+                setInfoCard();
+                editView.setVisibility(View.VISIBLE);
+                editDescriptionView.setVisibility((View.GONE));
+                descriptionChangeBox.setText("");
+            }
         });
 
         privacySwitch.setOnClickListener(view19 -> {
-            if(vm.isPrivate()){
-                vm.setPrivacy(false);
-            }
-            else{
-                vm.setPrivacy(true);
-            }
+            vm.setPrivacy(!vm.isPrivate());
             setInfoCard();
         });
 
@@ -159,12 +193,12 @@ public class ChallengePageFragment extends Fragment {
             copyPastaMaker.setPrimaryClip(clip);
         });
         editChallengeParticipantsBtn.setOnClickListener(view114 -> {
-            editView.setVisibility(view114.GONE);
-            removePView.setVisibility(view114.VISIBLE);
+            editView.setVisibility(View.GONE);
+            removePView.setVisibility(View.VISIBLE);
         });
 
-        allCheck.setOnClickListener(view111 ->{
-            if(allCheck.isChecked()){
+        allCheckRP.setOnClickListener(view111 ->{
+            if(allCheckRP.isChecked()){
                 rpa.selectAll();
             }
             else {
@@ -176,15 +210,83 @@ public class ChallengePageFragment extends Fragment {
             editView.setVisibility(View.VISIBLE);
             removePView.setVisibility((View.GONE));
             rpa.unSelectAll();
-            allCheck.setChecked(false);
+            allCheckRP.setChecked(false);
         });
         confirmRemoveP.setOnClickListener(view113 -> {
             vm.removePlayers(rpa.getCheckedUserIDs());
+            vm.removeAdmins(rpa.getCheckedUserIDs());
             setAndUpdateAll();
             editView.setVisibility(View.VISIBLE);
             removePView.setVisibility((View.GONE));
             rpa.unSelectAll();
-            allCheck.setChecked(false);
+            allCheckRP.setChecked(false);
+        });
+
+        creatorOnlyBtn.setOnClickListener(view115 -> {
+            editView.setVisibility(View.GONE);
+            creatorOnlyLayout.setVisibility(View.VISIBLE);
+        });
+
+        backArrowCreator.setRotation(180);
+        backArrowCreator.setOnClickListener(view116 -> {
+            editView.setVisibility(View.VISIBLE);
+            creatorOnlyLayout.setVisibility(View.GONE);
+        });
+
+        addAdminBtn.setOnClickListener(view117 -> {
+            addAdminLayout.setVisibility(View.VISIBLE);
+            creatorOnlyLayout.setVisibility(View.GONE);
+        });
+        allCheckAA.setOnClickListener(view111 ->{
+            if(allCheckAA.isChecked()){
+                addAdminAdapter.selectAll();
+            }
+            else {
+                addAdminAdapter.unSelectAll();
+            }
+        });
+
+        cancelAddA.setOnClickListener(view112 -> {
+            editView.setVisibility(View.VISIBLE);
+            addAdminLayout.setVisibility((View.GONE));
+            addAdminAdapter.unSelectAll();
+            allCheckAA.setChecked(false);
+        });
+        confirmAddA.setOnClickListener(view113 -> {
+            vm.addAdmins(addAdminAdapter.getCheckedUserIDs());
+            setAndUpdateAll();
+            editView.setVisibility(View.VISIBLE);
+            addAdminLayout.setVisibility((View.GONE));
+            addAdminAdapter.unSelectAll();
+            allCheckAA.setChecked(false);
+        });
+
+        removeAdminBtn.setOnClickListener(view118 -> {
+            removeAdminLayout.setVisibility(View.VISIBLE);
+            creatorOnlyLayout.setVisibility(View.GONE);
+        });
+        allCheckRA.setOnClickListener(view111 ->{
+            if(allCheckRA.isChecked()){
+                removeAdminAdapter.selectAll();
+            }
+            else {
+                removeAdminAdapter.unSelectAll();
+            }
+        });
+
+        cancelRA.setOnClickListener(view112 -> {
+            editView.setVisibility(View.VISIBLE);
+            removeAdminLayout.setVisibility((View.GONE));
+            removeAdminAdapter.unSelectAll();
+            allCheckRA.setChecked(false);
+        });
+        confirmRA.setOnClickListener(view113 -> {
+            vm.removeAdmins(removeAdminAdapter.getCheckedUserIDs());
+            setAndUpdateAll();
+            editView.setVisibility(View.VISIBLE);
+            removeAdminLayout.setVisibility((View.GONE));
+            removeAdminAdapter.unSelectAll();
+            allCheckRA.setChecked(false);
         });
     }
 
@@ -194,7 +296,12 @@ public class ChallengePageFragment extends Fragment {
         setLeaderBoard();
         setParticipants();
         setInfoCard();
-        setRemoveParticipants();
+        getUsers(users -> {
+            setRemoveParticipants(users);
+            setAddAdmin(users);
+            setRemoveAdmin(users);
+        });
+
     }
 
     /**
@@ -208,22 +315,47 @@ public class ChallengePageFragment extends Fragment {
 
 
     }
+    //TODO FELIX FIX THIS PLZZ USE RIGHT DATABASE
 
-    private void setRemoveParticipants(){
-        OnlineDatabase.getInstance().getUsers(new UserListCallback() {
-            @Override
-            public void onCallback(ArrayList<User> users) {
-                for (int i = 0; i < users.size(); i++) {
-                    if(users.get(i).getId() == vm.getCreatorId()){
-                        users.remove(i);
-                        break;
-                    }
-                }
-                removePList.setLayoutManager(new LinearLayoutManager(getContext()));
-                rpa = new RemoveParticipantsAdapter(users);
-                removePList.setAdapter(rpa);
+    private void getUsers(UserListCallback callback){
+        OnlineDatabase.getInstance().getUsers(callback);
+    }
+    private void setRemoveParticipants(ArrayList<User> users){
+
+        for (int i = 0; i < users.size(); i++) {
+            if(users.get(i).getId() == vm.getCreatorId()){
+                users.remove(i);
+                break;
             }
-        });
+        }
+        removePList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rpa = new SelectParticipantsAdapter(users);
+        removePList.setAdapter(rpa);
+    }
+
+    private void setAddAdmin(ArrayList<User> users){
+        ArrayList<User> nonAdmins = new ArrayList<>();
+
+        for (int i = 0; i < users.size(); i++) {
+            if(!((vm.getAdmins().contains(users.get(i).getId())) || (users.get(i).getId() == vm.getCreatorId()))){
+                nonAdmins.add(users.get(i));
+            }
+        }
+        addAdminList.setLayoutManager(new LinearLayoutManager(getContext()));
+        addAdminAdapter = new SelectParticipantsAdapter(nonAdmins);
+        addAdminList.setAdapter(addAdminAdapter);
+    }
+
+    private void setRemoveAdmin(ArrayList<User> users){
+        ArrayList<User> admins = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            if(vm.getAdmins().contains(users.get(i).getId())){
+                admins.add(users.get(i));
+            }
+        }
+        removeAdminList.setLayoutManager(new LinearLayoutManager(getContext()));
+        removeAdminAdapter = new SelectParticipantsAdapter(admins);
+        removeAdminList.setAdapter(removeAdminAdapter);
     }
 
     /**
@@ -353,12 +485,33 @@ public class ChallengePageFragment extends Fragment {
         infoCardCode = view.findViewById(R.id.editChallengeCodeView);
 
         removePList = view.findViewById(R.id.participantsScrollView);
-        allCheck = view.findViewById(R.id.selectAllBox);
+        allCheckRP = view.findViewById(R.id.selectAllBox);
         confirmRemoveP = view.findViewById(R.id.confirmRemovalBtn);
         cancelRemoveP = view.findViewById(R.id.cancelRemovalBtn);
         removePView = view.findViewById(R.id.editInfoParticipantsView);
         editChallengeParticipantsBtn = view.findViewById(R.id.editChallengeParticipantsBtn);
         challengeHostView = view.findViewById(R.id.challengeHostView);
+
+        creatorOnlyBtn = view.findViewById(R.id.creatorOnlySettingsBtn);
+        creatorOnlyLayout = view.findViewById(R.id.creatorOnlyView);
+        backArrowCreator = view.findViewById(R.id.backArrowCreator);
+        addAdminBtn = view.findViewById(R.id.addAdminBtn);
+        removeAdminBtn = view.findViewById(R.id.removeAdminBtn);
+        numAdmins = view.findViewById(R.id.numAdminsView);
+
+        addAdminLayout = view.findViewById(R.id.editAddAdminView);
+        addAdminList = view.findViewById(R.id.addAdminRecyclerView);
+        cancelAddA = view.findViewById(R.id.cancelAddAdminBtn);
+        confirmAddA = view.findViewById(R.id.confirmAddAdminBtn);
+        allCheckAA = view.findViewById(R.id.selectAllAddAdmin);
+
+        removeAdminLayout = view.findViewById(R.id.editRemoveAdminView);
+        removeAdminList = view.findViewById(R.id.removeAdminRecyclerView);
+        cancelRA = view.findViewById(R.id.cancelRemoveAdminBtn);
+        confirmRA = view.findViewById(R.id.confirmRemoveAdminBtn);
+        allCheckRA = view.findViewById(R.id.selectAllRemoveAdmin);
+
+        root = view.findViewById(R.id.challengePageRootView);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -371,6 +524,8 @@ public class ChallengePageFragment extends Fragment {
 
         numOfParticipants.setText(String.valueOf(vm.getLeaderBoard().getValue().size()));
         infoCardParticipantsNum.setText(String.valueOf(vm.getLeaderBoard().getValue().size()));
+
+        numAdmins.setText(String.valueOf(vm.getNumOfAdmins()));
 
         if(vm.isPrivate()){
             privacyTxt.setText("Private");

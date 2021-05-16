@@ -60,9 +60,9 @@ public class SplashFragment extends Fragment {
         if (sp == null) {
             sp = getActivity().getSharedPreferences("myPreferences", MODE_PRIVATE);
         }
-        //spEditor = sp.edit();
-        //spEditor.clear();
-        //spEditor.commit();
+        spEditor = sp.edit();
+        spEditor.clear();
+        spEditor.commit();
         Integer userID = sp.getInt("id", -1);
 
         // Uncomment if you want to go to login page again.
