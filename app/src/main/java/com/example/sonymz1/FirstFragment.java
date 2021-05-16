@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.Adapters.ChallengeAdapter;
-import com.example.sonymz1.Database.LocalDatabase;
-import com.example.sonymz1.Database.OnlineDatabase;
+import com.example.sonymz1.Database.Database;
+import com.example.sonymz1.Database.DatabaseCallback;
 import com.example.sonymz1.Model.Challenge;
 
 import java.util.ArrayList;
@@ -41,21 +41,17 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
         initiateView(view);
         createChallengeList();
-        buildRecyclerView();
 
-        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
-        if (vm.getMainUser()!= null) {
-            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
-        }
+
 
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.findViewById(R.id.addChallengeButton).setOnClickListener(view1 ->
                         NavHostFragment.findNavController(FirstFragment.this)
-                                .navigate(R.id.action_FirstFragment_to_createChallengeFragment));
+                                .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
             }
         });
     }
@@ -64,9 +60,11 @@ public class FirstFragment extends Fragment {
      * Method to populate challengeList
      */
     private void createChallengeList() {
-        LocalDatabase db = LocalDatabase.getInstance();
-        challengeList = db.getChallenges();
-        challengeList = OnlineDatabase.getInstance().getChallenges(0);
+        Database.getInstance().getChallenges(vm.getMainUser().getId(), () -> {
+            challengeList = Database.getInstance().getChallenges();
+            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+            buildRecyclerView();
+        });
     }
 
     /**
@@ -75,24 +73,29 @@ public class FirstFragment extends Fragment {
     private void buildRecyclerView() {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        rAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges());
+        rAdapter = new ChallengeAdapter(challengeList);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(rAdapter);
         rAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                LocalDatabase db = LocalDatabase.getInstance();
-                for (Challenge challenge : db.getChallenges()) {
-                    if (challenge.equals(challengeList.get(position))) {
-                        db.setActiveChallenge(challenge);
-                        break;
+                Database.getInstance().getChallenges(vm.getMainUser().getId(), () -> {
+                    for (Challenge challenge : Database.getInstance().getChallenges()) {
+                        if (challenge.getChallengeCode().equals(challengeList.get(position).getChallengeCode())) {
+                            Database.getInstance().setActiveChallenge(challenge);
+                            break;
+                        }
                     }
-                }
+                    rAdapter.notifyItemChanged(position);
+                    NavHostFragment.findNavController(FirstFragment.this)
+                            .navigate(R.id.action_FirstFragment_to_challengePageFragment);
 
-                rAdapter.notifyItemChanged(position);
+                });
+
+
+
                 // Temp on click for test will change to navigate to specific challenge when it exists
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_challengePageFragment);
+
             }
         });
     }

@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.CounterComponent;
-import com.example.sonymz1.Database.DatabaseUserCallback;
-import com.example.sonymz1.Database.LocalDatabase;
-import com.example.sonymz1.Database.OnlineDatabase;
-import com.example.sonymz1.Database.UserListCallback;
+import com.example.sonymz1.Components.DistanceComponent;
+import com.example.sonymz1.Database.Database;
+import com.example.sonymz1.Database.DatabaseCallback;
 import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.Model.User;
 
@@ -28,9 +27,16 @@ public class ChallengeViewModel extends ViewModel {
     private MutableLiveData<Map<Integer, Integer>> leaderBoard = new MutableLiveData<>();
     private ArrayList<ChallengeComponent> components = new ArrayList<>();
 
+
     public ChallengeViewModel() {
-        LocalDatabase.getInstance().setActiveChallenge(new Challenge("ChallengeTest"));
-        this.challenge = LocalDatabase.getInstance().getActiveChallenge();
+        updateChallenge();
+    }
+    /**
+     * sets the challenge that should be displayed by getting the current active challenge from the
+     * database
+     */
+    public void updateChallenge(){
+        this.challenge = Database.getInstance().getActiveChallenge();
         setLeaderBoard();
     }
 
@@ -45,16 +51,20 @@ public class ChallengeViewModel extends ViewModel {
         addPlayers(playerIds);
         //addPlayer(1, 20); It wont work on my setPedestal method
         setLeaderBoard();
-        OnlineDatabase.getInstance().saveChallenge(challenge);
-        LocalDatabase.getInstance().addChallenge(challenge);
         addComponents();
+        Database.getInstance().saveChallenge(challenge);
+        Database.getInstance().setActiveChallenge(challenge);
         //TODO Add challengers
     }
 
     private void addComponents() {
-        for (int i = 0; i < components.size(); i++) {
-            challenge.addComponent(components.get(i));
+        if (components.size()>0) {
+            for (int i = 0; i < components.size(); i++) {
+                challenge.addComponent(components.get(i));
+            }
         }
+        else
+            challenge.addComponent(new DistanceComponent(50));
     }
 
     public void addComponent(ChallengeComponent component) {
@@ -98,7 +108,7 @@ public class ChallengeViewModel extends ViewModel {
         for (int i = 0; i < userIds.size(); i++) {
             challenge.removePlayer(userIds.get(i));
         }
-        OnlineDatabase.getInstance().saveChallenge(challenge);
+        Database.getInstance().saveChallenge(challenge);
         setLeaderBoard();
     }
 
@@ -120,11 +130,10 @@ public class ChallengeViewModel extends ViewModel {
             leaderBoard.setValue(challenge.getLeaderBoard());
     }
 
-    public void setMainUser(int mainUserID, DatabaseUserCallback callback) {
-
-        OnlineDatabase.getInstance().getUser(mainUserID, user -> {
-            mainUser = user;
-            callback.onCallback(user);
+    public void setMainUser(int mainUserID, DatabaseCallback callback) {
+        Database.getInstance().getAllUsers(() -> {
+            mainUser = Database.getInstance().getUser(mainUserID);
+            callback.onCallback();
         });
     }
 
@@ -172,26 +181,24 @@ public class ChallengeViewModel extends ViewModel {
     public String getCode() {
         return String.valueOf(challenge.getChallengeCode());
     }
-    public void newMainUser(String name,DatabaseUserCallback callback){
-        OnlineDatabase.getInstance().getUsers(new UserListCallback() {
-            @Override
-            public void onCallback(ArrayList<User> users) {
-                Random rand = new Random();
-                int id = Math.abs(rand.nextInt());
-                while(!checkUnique(users,id)){
-                    id = Math.abs(rand.nextInt());
-                }
-                mainUser = new User(name,id);
-                OnlineDatabase.getInstance().saveUser(mainUser);
-                callback.onCallback(mainUser);
+
+    public void newMainUser(String name,DatabaseCallback callback){
+
+        Database.getInstance().getAllUsers(() -> {
+            Random rand = new Random();
+            int id = Math.abs(rand.nextInt());
+            while(!checkUnique(Database.getInstance().getAllUsers(),id)){
+                id = Math.abs(rand.nextInt());
             }
+            mainUser = new User(name,id);
+            Database.getInstance().saveUser(mainUser);
+            callback.onCallback();
         });
     }
-
     public int getCreatorId(){return challenge.getCreatorId();}
 
-    public void getCreatorName(DatabaseUserCallback callback){
-        OnlineDatabase.getInstance().getUser(getCreatorId(),callback);
+    public User getCreatorName(){
+        return Database.getInstance().getUser(getCreatorId());
     }
     private boolean checkUnique(ArrayList<User> users,int id){
         for (User user :
@@ -202,7 +209,7 @@ public class ChallengeViewModel extends ViewModel {
         }
         return true;
     }
-    
+
     public boolean mainUserIsAdmin(){
         return mainUser.getId() == getCreatorId() || challenge.getAdminIds().contains(mainUser.getId());
     }

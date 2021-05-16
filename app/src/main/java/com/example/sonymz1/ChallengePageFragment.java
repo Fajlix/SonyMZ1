@@ -31,10 +31,8 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.Adapters.SelectParticipantsAdapter;
-import com.example.sonymz1.Database.DatabaseUserCallback;
-import com.example.sonymz1.Database.OnlineDatabase;
-import com.example.sonymz1.Database.UserListCallback;
 import com.example.sonymz1.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -101,6 +99,11 @@ public class ChallengePageFragment extends Fragment {
         if(!vm.mainUserIsCreator()){
             creatorOnlyBtn.setVisibility(View.GONE);
         }
+        vm.updateChallenge();
+        setPedestal();
+        setLeaderBoard();
+        setParticipants();
+        setInfoCard();
 
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
         view.findViewById(R.id.addScoreButton).setOnClickListener(
@@ -296,12 +299,7 @@ public class ChallengePageFragment extends Fragment {
         setLeaderBoard();
         setParticipants();
         setInfoCard();
-        getUsers(users -> {
-            setRemoveParticipants(users);
-            setAddAdmin(users);
-            setRemoveAdmin(users);
-        });
-
+        setUsers();
     }
 
     /**
@@ -317,8 +315,23 @@ public class ChallengePageFragment extends Fragment {
     }
     //TODO FELIX FIX THIS PLZZ USE RIGHT DATABASE
 
-    private void getUsers(UserListCallback callback){
-        OnlineDatabase.getInstance().getUsers(callback);
+    private void setUsers(){
+        Database.getInstance().getAllUsers(() -> {
+            ArrayList<User> allUsers = Database.getInstance().getAllUsers();
+            ArrayList<User> users = new ArrayList<>();
+            for (User user :
+                    allUsers) {
+                for (int userId :
+                        vm.getLeaderBoard().getValue().keySet()) {
+                    if (userId == user.getId()) {
+                        users.add(user);
+                    }
+                }
+            }
+            setRemoveParticipants(users);
+            setAddAdmin(users);
+            setRemoveAdmin(users);
+        });
     }
     private void setRemoveParticipants(ArrayList<User> users){
 
@@ -368,7 +381,6 @@ public class ChallengePageFragment extends Fragment {
         rvcLeaderBoard.setAdapter(leaderBoardAdapter);
         if(vm.getLeaderBoard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
-            System.out.println(vm.getLeaderBoard().getValue().get(vm.getMainUser().getId()));
             moreBtn.setOnClickListener(v -> {
                 participantsView.setVisibility(View.VISIBLE);
                 addScoreButton.setVisibility(View.GONE);
@@ -421,13 +433,8 @@ public class ChallengePageFragment extends Fragment {
      * @param score the users score
      */
     private void setUserOnPedestal(ImageView img, TextView txt, int userId, int score){
-        OnlineDatabase.getInstance().getUser(userId, new DatabaseUserCallback() {
-            @Override
-            public void onCallback(User user) {
-                img.setImageResource(user.getProfilePic());
-            }
-        });
-
+        Database.getInstance().getAllUsers(() ->
+                img.setImageResource(Database.getInstance().getUser(userId).getProfilePic()));
         txt.setText(String.valueOf(score));
     }
 
@@ -539,7 +546,8 @@ public class ChallengePageFragment extends Fragment {
         }
 
         infoCardCode.setText(vm.getCode());
-        vm.getCreatorName(user -> challengeHostView.setText(user.getUsername() + " (Host)"));
+        vm.getCreatorName();
+        challengeHostView.setText(vm.getCreatorName().getUsername() + " (Host)");
 
 
         progressBarSetup();
