@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -32,7 +31,7 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.LeaderBoardAdapter;
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
-import com.example.sonymz1.Adapters.RemoveParticipantsAdapter;
+import com.example.sonymz1.Adapters.SelectParticipantsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -52,19 +51,19 @@ public class ChallengePageFragment extends Fragment {
     private TextView numAdmins;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode, challengeHostView;
-    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP;
+    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP, confirmAddA, cancelAddA;
     private Switch privacySwitch;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderBoard, rvcParticipants;
-    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView, creatorOnlyLayout;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView, creatorOnlyLayout, addAdminLayout;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
-    private RecyclerView removePList;
-    private CheckBox allCheck;
+    private RecyclerView removePList, addAdminList;
+    private CheckBox allCheck, allCheckAA;
 
     private ConstraintLayout root;
 
-    private RemoveParticipantsAdapter rpa;
+    private SelectParticipantsAdapter rpa, addAdminAdapter;
 
     public ChallengePageFragment() {
         // Required empty public constructor
@@ -238,9 +237,33 @@ public class ChallengePageFragment extends Fragment {
         });
 
         addAdminBtn.setOnClickListener(view117 -> {
-            //editView.setVisibility(View.VISIBLE);
+            addAdminLayout.setVisibility(View.VISIBLE);
             creatorOnlyLayout.setVisibility(View.GONE);
         });
+        allCheckAA.setOnClickListener(view111 ->{
+            if(allCheckAA.isChecked()){
+                addAdminAdapter.selectAll();
+            }
+            else {
+                addAdminAdapter.unSelectAll();
+            }
+        });
+
+        cancelAddA.setOnClickListener(view112 -> {
+            editView.setVisibility(View.VISIBLE);
+            addAdminLayout.setVisibility((View.GONE));
+            addAdminAdapter.unSelectAll();
+            allCheckAA.setChecked(false);
+        });
+        confirmAddA.setOnClickListener(view113 -> {
+            vm.addAdmins(addAdminAdapter.getCheckedUserIDs());
+            setAndUpdateAll();
+            editView.setVisibility(View.VISIBLE);
+            addAdminLayout.setVisibility((View.GONE));
+            addAdminAdapter.unSelectAll();
+            allCheckAA.setChecked(false);
+        });
+
         removeAdminBtn.setOnClickListener(view118 -> {
             //editView.setVisibility(View.VISIBLE);
             creatorOnlyLayout.setVisibility(View.GONE);
@@ -254,6 +277,7 @@ public class ChallengePageFragment extends Fragment {
         setParticipants();
         setInfoCard();
         setRemoveParticipants();
+        setAddAdmin();
     }
 
     /**
@@ -276,8 +300,22 @@ public class ChallengePageFragment extends Fragment {
             }
         }
         removePList.setLayoutManager(new LinearLayoutManager(getContext()));
-        rpa = new RemoveParticipantsAdapter(users);
+        rpa = new SelectParticipantsAdapter(users);
         removePList.setAdapter(rpa);
+    }
+
+    private void setAddAdmin(){
+        ArrayList<User> users = new ArrayList<>(vm.getUsers().values());
+        ArrayList<User> nonAdmins = new ArrayList<>();
+
+        for (int i = 0; i < users.size(); i++) {
+            if(!((vm.getAdmins().contains(users.get(i).getId())) || (users.get(i).getId() == vm.getCreatorId()))){
+                nonAdmins.add(users.get(i));
+            }
+        }
+        addAdminList.setLayoutManager(new LinearLayoutManager(getContext()));
+        addAdminAdapter = new SelectParticipantsAdapter(nonAdmins);
+        addAdminList.setAdapter(addAdminAdapter);
     }
 
     /**
@@ -414,6 +452,13 @@ public class ChallengePageFragment extends Fragment {
         addAdminBtn = view.findViewById(R.id.addAdminBtn);
         removeAdminBtn = view.findViewById(R.id.removeAdminBtn);
         numAdmins = view.findViewById(R.id.numAdminsView);
+
+        addAdminLayout = view.findViewById(R.id.editAddAdminView);
+        addAdminList = view.findViewById(R.id.addAdminRecyclerView);
+        cancelAddA = view.findViewById(R.id.cancelAddAdminBtn);
+        confirmAddA = view.findViewById(R.id.confirmAddAdminBtn);
+        allCheckAA = view.findViewById(R.id.selectAllAddAdmin);
+
 
         root = view.findViewById(R.id.challengePageRootView);
     }

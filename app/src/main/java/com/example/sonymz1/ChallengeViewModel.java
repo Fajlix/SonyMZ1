@@ -140,8 +140,18 @@ public class ChallengeViewModel extends ViewModel {
     public int getNumOfAdmins() {
         return challenge.getAdminIds().size();
     }
+    
+    public ArrayList<Integer> getAdmins() {
+        return challenge.getAdminIds();
+    }
 
     public boolean mainUserIsCreator() {
         return mainUser.getId() == getCreatorId();
+    }
+
+    public void addAdmins(ArrayList<Integer> checkedUserIDs) {
+        for (int i = 0; i < checkedUserIDs.size(); i++) {
+            challenge.addAdmin(checkedUserIDs.get(i));
+        }
     }
 }
