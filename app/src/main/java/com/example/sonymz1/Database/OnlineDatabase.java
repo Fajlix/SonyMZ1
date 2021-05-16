@@ -61,7 +61,11 @@ class OnlineDatabase {
                     Gson gson = new Gson();
                     ComponentFactory componentFactory = new ComponentFactory();
                     JsonObject jsonObject = gson.fromJson(gson.toJson(snapshot.getValue()),JsonObject.class);
-                    JsonArray jArr = jsonObject.remove("components").getAsJsonArray();
+                    JsonElement comps = jsonObject.remove("components");
+                    JsonArray jArr = new JsonArray();
+                    if (comps!= null) {
+                        jArr = comps.getAsJsonArray();
+                    }
                     Challenge challenge = gson.fromJson(jsonObject, Challenge.class);
                     for (JsonElement element : jArr){
                         challenge.addComponent(componentFactory.getComponent("DISTANCE", element));
