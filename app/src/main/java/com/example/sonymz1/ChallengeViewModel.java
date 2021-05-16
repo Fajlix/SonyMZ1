@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * A class responsible for the communication between the challenges and views.
  *
- * @author Felix ,Viktor J, Wendy Pau
+ * @author Felix ,Viktor J, Wendy Pau, Jonathan
  */
 public class ChallengeViewModel extends ViewModel {
 
@@ -152,6 +152,12 @@ public class ChallengeViewModel extends ViewModel {
     public void addAdmins(ArrayList<Integer> checkedUserIDs) {
         for (int i = 0; i < checkedUserIDs.size(); i++) {
             challenge.addAdmin(checkedUserIDs.get(i));
+        }
+    }
+
+    public void removeAdmin(ArrayList<Integer> checkedUserIDs) {
+        for (int i = 0; i < checkedUserIDs.size(); i++) {
+            challenge.removeAdmin(checkedUserIDs.get(i));
         }
     }
 }

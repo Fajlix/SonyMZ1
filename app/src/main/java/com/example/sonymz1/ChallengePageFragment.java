@@ -59,7 +59,7 @@ public class ChallengePageFragment extends Fragment {
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
     private RecyclerView removePList, addAdminList;
-    private CheckBox allCheck, allCheckAA;
+    private CheckBox allCheckRP, allCheckAA;
 
     private ConstraintLayout root;
 
@@ -201,8 +201,8 @@ public class ChallengePageFragment extends Fragment {
             removePView.setVisibility(View.VISIBLE);
         });
 
-        allCheck.setOnClickListener(view111 ->{
-            if(allCheck.isChecked()){
+        allCheckRP.setOnClickListener(view111 ->{
+            if(allCheckRP.isChecked()){
                 rpa.selectAll();
             }
             else {
@@ -214,15 +214,16 @@ public class ChallengePageFragment extends Fragment {
             editView.setVisibility(View.VISIBLE);
             removePView.setVisibility((View.GONE));
             rpa.unSelectAll();
-            allCheck.setChecked(false);
+            allCheckRP.setChecked(false);
         });
         confirmRemoveP.setOnClickListener(view113 -> {
             vm.removePlayers(rpa.getCheckedUserIDs());
+            vm.removeAdmin(rpa.getCheckedUserIDs());
             setAndUpdateAll();
             editView.setVisibility(View.VISIBLE);
             removePView.setVisibility((View.GONE));
             rpa.unSelectAll();
-            allCheck.setChecked(false);
+            allCheckRP.setChecked(false);
         });
 
         creatorOnlyBtn.setOnClickListener(view115 -> {
@@ -439,7 +440,7 @@ public class ChallengePageFragment extends Fragment {
         infoCardCode = view.findViewById(R.id.editChallengeCodeView);
 
         removePList = view.findViewById(R.id.participantsScrollView);
-        allCheck = view.findViewById(R.id.selectAllBox);
+        allCheckRP = view.findViewById(R.id.selectAllBox);
         confirmRemoveP = view.findViewById(R.id.confirmRemovalBtn);
         cancelRemoveP = view.findViewById(R.id.cancelRemovalBtn);
         removePView = view.findViewById(R.id.editInfoParticipantsView);
