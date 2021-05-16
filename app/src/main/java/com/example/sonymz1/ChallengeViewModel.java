@@ -140,7 +140,7 @@ public class ChallengeViewModel extends ViewModel {
     public int getNumOfAdmins() {
         return challenge.getAdminIds().size();
     }
-    
+
     public ArrayList<Integer> getAdmins() {
         return challenge.getAdminIds();
     }
@@ -155,7 +155,7 @@ public class ChallengeViewModel extends ViewModel {
         }
     }
 
-    public void removeAdmin(ArrayList<Integer> checkedUserIDs) {
+    public void removeAdmins(ArrayList<Integer> checkedUserIDs) {
         for (int i = 0; i < checkedUserIDs.size(); i++) {
             challenge.removeAdmin(checkedUserIDs.get(i));
         }

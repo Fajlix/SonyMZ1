@@ -51,19 +51,19 @@ public class ChallengePageFragment extends Fragment {
     private TextView numAdmins;
     private TextView progressTxt1, progressTxt2, progressTxt3, moreBtn, challengeNameTxt, descriptionTxt, numOfParticipants, privacyTxt, progressBarTxt;
     private TextView infoCardName, infoCardDescription, infoCardParticipantsNum, infoCardPrivacy, infoCardCode, challengeHostView;
-    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP, confirmAddA, cancelAddA;
+    private Button confirmNameChangeBtn, cancelNameChangeBtn, confirmDescriptionChangeBtn, cancelDescriptionChangeBtn, confirmRemoveP, cancelRemoveP, confirmAddA, cancelAddA, confirmRA, cancelRA;
     private Switch privacySwitch;
     private ProgressBar progressBar;
     private RecyclerView rvcLeaderBoard, rvcParticipants;
-    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView, creatorOnlyLayout, addAdminLayout;
+    private ConstraintLayout participantsView, editView, adminView, editNameView, editDescriptionView, removePView, creatorOnlyLayout, addAdminLayout, removeAdminLayout;
     private TextInputEditText nameChangeBox, descriptionChangeBox;
     private Button addScoreButton;
-    private RecyclerView removePList, addAdminList;
-    private CheckBox allCheckRP, allCheckAA;
+    private RecyclerView removePList, addAdminList, removeAdminList;
+    private CheckBox allCheckRP, allCheckAA, allCheckRA;
 
     private ConstraintLayout root;
 
-    private SelectParticipantsAdapter rpa, addAdminAdapter;
+    private SelectParticipantsAdapter rpa, addAdminAdapter, removeAdminAdapter;
 
     public ChallengePageFragment() {
         // Required empty public constructor
@@ -218,7 +218,7 @@ public class ChallengePageFragment extends Fragment {
         });
         confirmRemoveP.setOnClickListener(view113 -> {
             vm.removePlayers(rpa.getCheckedUserIDs());
-            vm.removeAdmin(rpa.getCheckedUserIDs());
+            vm.removeAdmins(rpa.getCheckedUserIDs());
             setAndUpdateAll();
             editView.setVisibility(View.VISIBLE);
             removePView.setVisibility((View.GONE));
@@ -266,8 +266,31 @@ public class ChallengePageFragment extends Fragment {
         });
 
         removeAdminBtn.setOnClickListener(view118 -> {
-            //editView.setVisibility(View.VISIBLE);
+            removeAdminLayout.setVisibility(View.VISIBLE);
             creatorOnlyLayout.setVisibility(View.GONE);
+        });
+        allCheckRA.setOnClickListener(view111 ->{
+            if(allCheckRA.isChecked()){
+                removeAdminAdapter.selectAll();
+            }
+            else {
+                removeAdminAdapter.unSelectAll();
+            }
+        });
+
+        cancelRA.setOnClickListener(view112 -> {
+            editView.setVisibility(View.VISIBLE);
+            removeAdminLayout.setVisibility((View.GONE));
+            removeAdminAdapter.unSelectAll();
+            allCheckRA.setChecked(false);
+        });
+        confirmRA.setOnClickListener(view113 -> {
+            vm.removeAdmins(removeAdminAdapter.getCheckedUserIDs());
+            setAndUpdateAll();
+            editView.setVisibility(View.VISIBLE);
+            removeAdminLayout.setVisibility((View.GONE));
+            removeAdminAdapter.unSelectAll();
+            allCheckRA.setChecked(false);
         });
     }
 
@@ -279,6 +302,7 @@ public class ChallengePageFragment extends Fragment {
         setInfoCard();
         setRemoveParticipants();
         setAddAdmin();
+        setRemoveAdmin();
     }
 
     /**
@@ -317,6 +341,19 @@ public class ChallengePageFragment extends Fragment {
         addAdminList.setLayoutManager(new LinearLayoutManager(getContext()));
         addAdminAdapter = new SelectParticipantsAdapter(nonAdmins);
         addAdminList.setAdapter(addAdminAdapter);
+    }
+
+    private void setRemoveAdmin(){
+        ArrayList<User> users = new ArrayList<>(vm.getUsers().values());
+        ArrayList<User> admins = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            if(vm.getAdmins().contains(users.get(i).getId())){
+                admins.add(users.get(i));
+            }
+        }
+        removeAdminList.setLayoutManager(new LinearLayoutManager(getContext()));
+        removeAdminAdapter = new SelectParticipantsAdapter(admins);
+        removeAdminList.setAdapter(removeAdminAdapter);
     }
 
     /**
@@ -460,6 +497,11 @@ public class ChallengePageFragment extends Fragment {
         confirmAddA = view.findViewById(R.id.confirmAddAdminBtn);
         allCheckAA = view.findViewById(R.id.selectAllAddAdmin);
 
+        removeAdminLayout = view.findViewById(R.id.editRemoveAdminView);
+        removeAdminList = view.findViewById(R.id.removeAdminRecyclerView);
+        cancelRA = view.findViewById(R.id.cancelRemoveAdminBtn);
+        confirmRA = view.findViewById(R.id.confirmRemoveAdminBtn);
+        allCheckRA = view.findViewById(R.id.selectAllRemoveAdmin);
 
         root = view.findViewById(R.id.challengePageRootView);
     }
