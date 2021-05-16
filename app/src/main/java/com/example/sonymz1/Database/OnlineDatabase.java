@@ -23,11 +23,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * @author Felix
+ */
 class OnlineDatabase {
     private static OnlineDatabase instance;
     DatabaseReference challengeRef;
     DatabaseReference usersRef;
-
+    /**
+     * Online Database uses singleton to only have one instance through out the app
+     * the database has a reference to two nodes in a firebase database. One for users and one for
+     * challenges
+     */
     private OnlineDatabase() {
         challengeRef = FirebaseDatabase.getInstance().getReference().child("Challenges");
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -39,6 +46,12 @@ class OnlineDatabase {
         return instance;
     }
 
+    /**
+     * gets the challenges from firebase and calls the onCallback method with the list when the data has been
+     * received
+     * @param user the user for which the challenges will be returned.
+     * @param callback a databaseCallback that will get notified when the data is received
+     */
     public void getChallenges(int user, OnlineDatabaseCallback callback) {
         challengeRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -66,6 +79,11 @@ class OnlineDatabase {
             }
         });
     }
+    /**
+     * gets the users from firebase and calls the onCallback method with the list when the data has been
+     * received
+     * @param userCallback a userCallback that will get notified when the data is received
+     */
     public void getAllUsers(UserListCallback userCallback){
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,15 +96,18 @@ class OnlineDatabase {
                 }
                 userCallback.onCallback(users);
                 usersRef.removeEventListener(this);
-
             }
-
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
     }
+
+    /**
+     * Saves a challenge to firebase
+     * @param challenge the challenge that gets saved
+     */
 
     public void saveChallenge(Challenge challenge) {
         ComponentFactory factory = new ComponentFactory();
@@ -104,21 +125,34 @@ class OnlineDatabase {
         Map map = gson.fromJson(jsonStr, Map.class);
         challengeRef.child(challenge.getChallengeCode()).setValue(map);
     }
+
+    /**
+     * will save a map of users in firebase
+     * @param userMap map of the users to be saved
+     */
     public void saveUsers(Map<Integer, User> userMap){
         for (User user : userMap.values()) {
             saveUser(user);
         }
     }
+
+    /**
+     * saves a user to firebase
+     * @param user the user that gets saved
+     */
     public void saveUser(User user){
         Gson gson = new Gson();
         String jsonStr = gson.toJson(user);
         Map map = gson.fromJson(jsonStr, Map.class);
         usersRef.child(String.valueOf(user.getId())).setValue(map);
     }
-
     public void removeChallenge(Challenge challenge) {
         challengeRef.child(challenge.getChallengeCode()).removeValue();
     }
+
+    /**
+     * class that represents a challengeComponent to Json in order to save it correctly
+     */
     private class JsonChallengeComponent{
         private final String type;
         private final ChallengeComponent component;
@@ -135,10 +169,21 @@ class OnlineDatabase {
             return type;
         }
     }
+
+    /**
+     * helper class to get and save different components.
+     */
     private static class ComponentFactory{
         private static String distance= "DISTANCE";
         private static String date = "DATE";
         private static String counter= "COUNTER";
+
+        /**
+         * returns a new component from a json element and a type string
+         * @param type the type represented using a string
+         * @param element the json element containing a component in json format
+         * @return returns a new challengeComponent
+         */
         private ChallengeComponent getComponent(String type, JsonElement element){
             if (type == null){
                 return null;
@@ -154,6 +199,12 @@ class OnlineDatabase {
             }
             return null;
         }
+
+        /**
+         * gelper method to get the type string for a component
+         * @param component the component that the type will reperesent
+         * @return returns a string containing the type in string format
+         */
         public String getType(ChallengeComponent component){
             if (component ==null){
                 return null;
@@ -170,14 +221,4 @@ class OnlineDatabase {
             return null;
         }
     }
-
-    /*public void setActiveChallenge(Challenge challenge) {
-        this.activeChallenge = challenge;
-    }
-
-    public Challenge getActiveChallenge() {
-        return activeChallenge;
-    }
-
-     */
 }

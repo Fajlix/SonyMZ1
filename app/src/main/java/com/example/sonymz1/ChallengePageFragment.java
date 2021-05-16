@@ -175,7 +175,6 @@ public class ChallengePageFragment extends Fragment {
         rvcLeaderBoard.setAdapter(leaderBoardAdapter);
         if(vm.getLeaderBoard().getValue().size() > 3){
             moreBtn.setVisibility(View.VISIBLE);
-            System.out.println(vm.getLeaderBoard().getValue().get(vm.getMainUser().getId()));
             moreBtn.setOnClickListener(v -> {
                 participantsView.setVisibility(View.VISIBLE);
                 addScoreButton.setVisibility(View.GONE);

@@ -27,10 +27,14 @@ public class ChallengeViewModel extends ViewModel {
     private MutableLiveData<Map<Integer, Integer>> leaderBoard = new MutableLiveData<>();
     private ArrayList<ChallengeComponent> components = new ArrayList<>();
 
+
     public ChallengeViewModel() {
-        this.challenge = Database.getInstance().getActiveChallenge();
-        setLeaderBoard();
+        updateChallenge();
     }
+    /**
+     * sets the challenge that should be displayed by getting the current active challenge from the
+     * database
+     */
     public void updateChallenge(){
         this.challenge = Database.getInstance().getActiveChallenge();
         setLeaderBoard();
