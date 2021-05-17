@@ -14,5 +14,6 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="grey">#6F7380</color>
     <color name="logo_green">#79DEB4</color>
-    <color name="blue">#FF96DDFF</color>
+    <color name="blue">#FF1FB6FF</color>
+    <color name="black_trans">#99000000</color>
 </resources>

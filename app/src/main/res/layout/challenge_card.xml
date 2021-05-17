@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <ImageView
             android:id="@+id/backgroundPic"
             android:layout_width="413dp"
@@ -51,6 +52,7 @@
             app:layout_constraintTop_toBottomOf="@+id/challengeName"
             app:srcCompat="@drawable/medal" />
 
+
         <ImageView
             android:id="@+id/arrow"
             android:layout_width="22dp"
@@ -74,6 +76,29 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/medal"
             app:layout_constraintTop_toBottomOf="@+id/challengeName" />
+
+        <ImageView
+            android:id="@+id/finishedOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_trans"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/finishedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:gravity="center|fill_horizontal"
+            android:text="@string/finished_challenge"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/finishedOverlay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

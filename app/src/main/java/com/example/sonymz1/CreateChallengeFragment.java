@@ -14,15 +14,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-//import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.sonymz1.Database.Database;
+import com.example.sonymz1.Database.DatabaseCallback;
+import com.example.sonymz1.Model.User;
 import com.example.sonymz1.Components.CounterComponent;
 import com.example.sonymz1.Components.DateComponent;
 import com.example.sonymz1.Components.DistanceComponent;
@@ -31,8 +31,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.invoke.ConstantCallSite;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
@@ -230,18 +228,23 @@ public class CreateChallengeFragment extends Fragment {
                     boolean isPrivate = privateSwitch.isChecked();
                     //TODO SHOULD DEFINETLY NOT EXIST
 
-                    Map<Integer, User> users = challengeVM.getUsers();
-                    int[] playerIds = new int[users.size()];
-                    int index = 0;
-                    for (Integer key : users.keySet()) {
-                        playerIds[index] = key;
-                        index++;
-                    }
-                    challengeVM.createChallenge(name, description, isPrivate, playerIds);
+            Database.getInstance().getAllUsers(() -> {
+                ArrayList<User> users = Database.getInstance().getAllUsers();
+                int[] playerIds = new int[users.size()];
+                int index = 0;
+                for (User user : users) {
+                    playerIds[index] = user.getId();
+                    index++;
+                }
+                challengeVM.createChallenge(name, description, isPrivate, playerIds);
 
-                    NavHostFragment.findNavController(CreateChallengeFragment.this)
-                            .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
-                });
+                // Close the keyboard
+                view.clearFocus();
+
+                NavHostFragment.findNavController(CreateChallengeFragment.this)
+                        .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
+            });
+        });
     }
 
     public String getName() {

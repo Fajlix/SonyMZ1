@@ -1,4 +1,6 @@
-package com.example.sonymz1;
+package com.example.sonymz1.Model;
+
+import com.example.sonymz1.R;
 
 import java.util.List;
 

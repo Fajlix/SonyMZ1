@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/splashFragment">
 
     <!--What’s important here is that the ids of the fragments here match the ids
         of the menu items you set out earlier. After we set it up later, this will let the
@@ -81,5 +81,26 @@
         <action
             android:id="@+id/action_createChallengeFragment_to_challengePageFragment"
             app:destination="@id/challengePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RegisterFragment"
+        android:name="com.example.sonymz1.RegisterFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_loginFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.sonymz1.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_LoginFragment"
+            app:destination="@id/RegisterFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

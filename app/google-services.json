@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "215884447547",
+    "project_id": "sonymz1-4cf0a",
+    "storage_bucket": "sonymz1-4cf0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215884447547:android:45485fbee31586dbea811e",
+        "android_client_info": {
+          "package_name": "com.example.sonymz1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215884447547-au6kgmsuj4936s63tnlb0qkfom0079nm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDILYhx0KQfZvUIL0Joc5J0unRzfcyTX4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215884447547-au6kgmsuj4936s63tnlb0qkfom0079nm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
