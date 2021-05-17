@@ -18,6 +18,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.view.MenuItem;
 
+
 /**
  * The main activity for the application. Uses a navigation drawer to navigate to different pages.
  * @author Wendy Pau

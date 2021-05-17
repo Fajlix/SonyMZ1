@@ -73,7 +73,11 @@
         android:id="@+id/addingScorePage"
         android:name="com.example.sonymz1.AddingScorePage"
         android:label="fragment_adding_score_page"
-        tools:layout="@layout/fragment_adding_score_page" />
+        tools:layout="@layout/fragment_adding_score_page" >
+        <action
+            android:id="@+id/action_addingScorePage_to_challengePageFragment"
+            app:destination="@id/challengePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createChallengeFragment"
         android:name="com.example.sonymz1.CreateChallengeFragment"
