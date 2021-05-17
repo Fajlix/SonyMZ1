@@ -87,8 +87,10 @@ public class ChallengePageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         vm.updateChallenge();
+
         initializeViews(view);
         setAndUpdateAll();
 
