@@ -61,7 +61,7 @@ public class SplashFragment extends Fragment {
         // Uncomment if you want to go to login page again.
         //spEditor = sp.edit();
         //spEditor.clear();
-        //spEditor.commit();
+        //spEditor.apply();
 
         // if user already exists. Set user to main user.
         if (userID != -1) {

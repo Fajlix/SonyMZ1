@@ -31,7 +31,7 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     app:layout_collapseMode="pin" />
 
                 <TextView
@@ -63,9 +63,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:itemCount="3"
-
             tools:layout_editor_absoluteX="168dp"
-            tools:listitem="@layout/challenge_card" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addChallengeButton"

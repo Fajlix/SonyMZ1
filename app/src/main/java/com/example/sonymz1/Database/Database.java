@@ -46,6 +46,9 @@ public class Database {
         return lDb.getActiveChallenge();
     }
     public void saveUser(User user){
+        ArrayList<User> users = lDb.getAllUsers();
+        users.add(user);
+        lDb.setAllUsers(users);
         oDb.saveUser(user);
     }
 

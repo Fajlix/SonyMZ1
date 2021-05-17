@@ -222,6 +222,9 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public ArrayList<Integer> getAdmins() {
+        if (challenge.getAdminIds()==null){
+            return new ArrayList<>();
+        }
         return challenge.getAdminIds();
     }
 
