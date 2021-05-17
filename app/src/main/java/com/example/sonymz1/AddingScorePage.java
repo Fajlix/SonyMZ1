@@ -16,6 +16,11 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+/**
+ *
+ * @author Elina W, Viktor W and Felix.
+ */
+
 public class AddingScorePage extends Fragment {
 
     private Button addScoreBtn, returnBtn;
