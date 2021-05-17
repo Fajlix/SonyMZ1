@@ -106,17 +106,26 @@ public class  ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exa
           holder.challengeName.setText(currentItem.getName());
           holder.background.setImageResource(currentItem.getChallengeBackground());
           holder.medal.setImageResource(currentItem.getMedal());
-
+        ChallengeViewModel vm = new ViewModelProvider(fragmentActivity).get(ChallengeViewModel.class);
+        int mainUserId = vm.getMainUser().getId();
+        int mainUserScore = 0;
+        int mainUserIndex = -1;
           List<Map.Entry<Integer, Integer>> list =
                   new LinkedList<>(mChallengeList.get(position).getLeaderBoard().entrySet());
-          ChallengeViewModel vm = new ViewModelProvider(fragmentActivity).get(ChallengeViewModel.class);
-          int mainUserScore = vm.getMainUserScore();
-          int mainUserIndex = list.indexOf(vm.getMainUser().getId());
+        for (Map.Entry<Integer, Integer> entry :
+                list) {
+            if (entry.getKey() == mainUserId){
+                mainUserScore = entry.getValue();
+                mainUserIndex = list.indexOf(entry);
+                break;
+            }
+        }
+
           if(mainUserIndex == -1){ // list starts at -1
             holder.progressText.setText("You are first!");
 
          }else{
-                int userBeforeIndex = list.indexOf(vm.getMainUser().getId())-1;
+                int userBeforeIndex = mainUserIndex-1;
                 int userBeforeScore =list.get(userBeforeIndex).getValue();
                 int score = userBeforeScore - mainUserScore;
                 holder.progressText.setText("You are "+score+" behind challenger "+userBeforeIndex+2);

@@ -13,8 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sonymz1.Database.DatabaseCallback;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -54,31 +58,29 @@ public class RegisterFragment extends Fragment {
         inputLayout = view.findViewById(R.id.textInputLayout);
         nameEditText = view.findViewById(R.id.nameEdtTxt);
 
-        sp = getContext().getSharedPreferences("myPreferences", MODE_PRIVATE);
+        sp = requireContext().getSharedPreferences("myPreferences", MODE_PRIVATE);
 
-        view.findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // check if user has written their name
-                if (!nameEditText.getText().toString().equals("")){
+        view.findViewById(R.id.nextBtn).setOnClickListener(v -> {
+            // check if user has written their name
+            if (!Objects.requireNonNull(nameEditText.getText()).toString().equals("")){
 
-                    if (sp == null){
-                        sp = getContext().getSharedPreferences("myPreferences",MODE_PRIVATE);
-                    }
+                if (sp == null){
+                    sp = requireContext().getSharedPreferences("myPreferences",MODE_PRIVATE);
+                }
 
-                    // save main user id in SharedPreferences
-                    spEditor = sp.edit();
-                    vm.newMainUser(nameEditText.getText().toString());
+                // save main user id in SharedPreferences
+                spEditor = sp.edit();
+                vm.newMainUser(nameEditText.getText().toString(), () -> {
                     spEditor.putInt("id", vm.getMainUser().getId());
-                    spEditor.commit();
-
-                    view.clearFocus();
+                    spEditor.apply();
 
                     NavHostFragment.findNavController(RegisterFragment.this)
                             .navigate(R.id.action_loginFragment_to_FirstFragment);
 
-                }else inputLayout.setError("Fill in your name!");
-            }
+                });
+                view.clearFocus();
+
+            }else inputLayout.setError("Fill in your name!");
         });
     }
 }

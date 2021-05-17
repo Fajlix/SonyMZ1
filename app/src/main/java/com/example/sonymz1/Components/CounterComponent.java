@@ -12,8 +12,8 @@ public class CounterComponent implements ScoreComponent {
     private ScoreUpdateListener parent;
 
 
-    public CounterComponent(int currentCount) {
-        this.currentCount = currentCount;
+    public CounterComponent() {
+
     }
     @Override
     public int getGoalScore() {

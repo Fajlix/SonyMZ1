@@ -16,6 +16,9 @@ public class DistanceComponent implements ScoreComponent{
         this.goalDistance = goalDistance;
         type = DistanceType.km;
     }
+    public DistanceComponent(){
+
+    }
 
     public void updateParent(int mainUserId){
         parent.updateScore(mainUserId,currentDistance);

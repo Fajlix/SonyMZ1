@@ -6,15 +6,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sonymz1.Adapters.ChallengeAdapter;
 import com.example.sonymz1.Adapters.MainRecyclerAdapter;
-import com.example.sonymz1.Database.LocalDatabase;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.Model.Challenge;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,6 @@ public class FirstFragment extends Fragment {
     private TextView  welcomeTxt;
     private ImageView medal;
     private RecyclerView recyclerView;
-    private ChallengeAdapter challengeAdapter;
     private MainRecyclerAdapter mainRecyclerAdapter;
     private ChallengeViewModel vm;
 
@@ -41,17 +38,17 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
         initiateView(view);
         createChallengeList();
-        buildRecyclerView();
-        vm = new ViewModelProvider(getActivity()).get(ChallengeViewModel.class);
-        welcomeTxt.setText("Welcome "+ vm.getMainUser().getUsername());
+
+
 
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
+                        NavHostFragment.findNavController(FirstFragment.this)
+                                .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
             }
         });
     }
@@ -60,16 +57,20 @@ public class FirstFragment extends Fragment {
      * Method to populate challenge lists. Separate lists for active and finished challenges.
      */
     private void createChallengeList() {
+        Database.getInstance().getChallenges(vm.getMainUser().getId(), () -> {
+            finishedChallengeList = new ArrayList<>();
+            activeChallengeList = new ArrayList<>();
+            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+            for (Challenge challenge:Database.getInstance().getChallenges()) {
+                if(challenge.isFinished()){
+                    finishedChallengeList.add(challenge);
+                }else{
+                    activeChallengeList.add(challenge);
+                }
 
-        LocalDatabase db = LocalDatabase.getInstance();
-        for (Challenge challenge:db.getChallenges()) {
-            if(challenge.isFinished()){
-                finishedChallengeList.add(challenge);
-            }else{
-                activeChallengeList.add(challenge);
             }
-
-        }
+            buildRecyclerView();
+        });
 
     }
 
@@ -77,19 +78,21 @@ public class FirstFragment extends Fragment {
      * method to setup recyclerview that contains sections of active and finished challenges.
      */
     private void buildRecyclerView() {
-        sectionList.clear();
+        sectionList = new ArrayList<>();
         String sectionOneName = "Active";
         String sectionTwoName = "Finished";
         sectionList.add(new Section(sectionOneName,activeChallengeList));
         sectionList.add(new Section(sectionTwoName,finishedChallengeList));
         mainRecyclerAdapter = new MainRecyclerAdapter(sectionList, FirstFragment.this);
+        mainRecyclerAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mainRecyclerAdapter);
         recyclerView.setHasFixedSize(true);
-        challengeAdapter = new ChallengeAdapter(LocalDatabase.getInstance().getChallenges(), requireActivity());
+
     }
 
     /**
      * method to initiate views.
+     *
      * @param view
      */
 
@@ -98,7 +101,4 @@ public class FirstFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rvc_list);
         medal = view.findViewById(R.id.medal);
     }
-
-
-
 }

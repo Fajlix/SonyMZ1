@@ -33,12 +33,13 @@ public class Challenge implements ScoreUpdateListener {
     private String description;
     private String challengeCode;
     private int creatorId;
-    private int[] adminIds;
+    private ArrayList<Integer> adminIds = new ArrayList<>();
     private int challengeBackground;
     private int medal;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
-                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description, int challengeBackground) {
+                     ArrayList<ChallengeComponent> components, boolean isPrivate, String description,
+                     int creatorId,int medal,int challengeBackground,boolean isFinished,String challengeCode) {
         this.name = name;
         this.leaderBoard = leaderBoard;
         this.components = components;
@@ -46,6 +47,11 @@ public class Challenge implements ScoreUpdateListener {
         this.description = description;
         this.challengeBackground = R.drawable.run_challenge;
         this.isFinished = false;
+        this.creatorId = creatorId;
+        this.medal = medal;
+        this.challengeBackground = challengeBackground;
+        this.isFinished = isFinished;
+        this.challengeCode = challengeCode;
     }
 
     public Challenge(String name, int challengeBackground, int medal) {
@@ -65,6 +71,7 @@ public class Challenge implements ScoreUpdateListener {
         this.leaderBoard = new HashMap<>();
         this.components = new ArrayList<>();
         this.isPrivate = false;
+        this.challengeCode = generateCode(4);
         this.description = "";
         this.challengeBackground = R.drawable.run_challenge;
         this.isFinished = false;
@@ -86,7 +93,9 @@ public class Challenge implements ScoreUpdateListener {
         this.leaderBoard.put(playerId, score);
     }
 
-
+    public void removePlayer(int playerId){
+        this.leaderBoard.remove(playerId);
+    }
     /**
      *
      * @param length the length of the randomly generated code
@@ -106,6 +115,19 @@ public class Challenge implements ScoreUpdateListener {
     }
     public int getCreatorId(){
         return creatorId;
+    }
+    public ArrayList<Integer> getAdminIds() {
+        return adminIds;
+    }
+    public void addAdmin(int userId){
+        Integer id = userId;
+        adminIds.add(id);
+    }
+    public void removeAdmin(int userId){
+        Integer id = userId;
+        if(adminIds.contains(id)){
+            adminIds.remove(id);
+        }
     }
 
     /**
@@ -146,6 +168,8 @@ public class Challenge implements ScoreUpdateListener {
     }
 
     public void addComponent(ChallengeComponent component) {
+        if (components == null)
+            components = new ArrayList<>();
         this.components.add(component);
     }
 
@@ -156,6 +180,7 @@ public class Challenge implements ScoreUpdateListener {
     public String getDescription() {
         return description;
     }
+
 
     public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
@@ -186,7 +211,7 @@ public class Challenge implements ScoreUpdateListener {
 
     @Override
     public void updateScore(int mainUserId,int score) {
-        //TODO getcurrentuserID
+        //TODO getCurrentuserID
         leaderBoard.put(mainUserId,score);
 
     }
@@ -205,6 +230,7 @@ public class Challenge implements ScoreUpdateListener {
             return scoreComponent.getGoalScore();
         }
         return 0;
+
     }
     //Just returns the scoreComponent of all the components
     private ScoreComponent getScoreComponent(){

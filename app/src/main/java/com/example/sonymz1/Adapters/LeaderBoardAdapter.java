@@ -12,12 +12,10 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.sonymz1.ChallengePageFragment;
 import com.example.sonymz1.ChallengeViewModel;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.R;
 import com.example.sonymz1.Model.User;
-
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -28,7 +26,7 @@ import java.util.Map;
  * @author Wendy Pau
  */
 public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHolder> {
-    private Map<Integer,Integer> leaderBoard;
+    private Map<Integer, Integer> leaderBoard;
     private ChallengeViewModel vm;
 
     public LeaderBoardAdapter(FragmentActivity fragActivity, Map<Integer, Integer> leaderBoard) {
@@ -47,13 +45,12 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = vm.getMainUser();
+        int userId = vm.getMainUser().getId();
         LinkedList<Integer> leaderBoardList = new LinkedList<>(leaderBoard.keySet());
-        int rank = leaderBoardList.indexOf(user.getId()) + 1;
+        int rank = leaderBoardList.indexOf(userId) + 1;
         StringBuilder sb = new StringBuilder();
-
         // If the main user is first, get the 2 challengers below
-        if (rank == 1){
+        if (rank == 1) {
             switch (position) {
                 case 0:
                     sb.append(rank);
@@ -61,29 +58,29 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
                     cardView.setCardBackgroundColor(Color.WHITE);
                     break;
                 case 1:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank));
-                    sb.append(rank+1);
+                    userId = leaderBoardList.get(rank);
+                    sb.append(rank + 1);
                     break;
                 case 2:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank+1));
-                    sb.append(rank+2);
+                    userId = leaderBoardList.get(rank + 1);
+                    sb.append(rank + 2);
                     break;
             }
         }
         // If the main user is in the middle of the leader board then get the users
         // above and below the main user
-        else if (rank == leaderBoardList.size()){   // if main user is last
+        else if (rank == leaderBoardList.size()) {   // if main user is last
             switch (position) {
                 case 0:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank-3));
-                    sb.append(rank-2);
+                    userId = leaderBoardList.get(rank - 3);
+                    sb.append(rank - 2);
                     break;
                 case 1:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank-2));
-                    sb.append(rank-1);
+                    userId = leaderBoardList.get(rank - 2);
+                    sb.append(rank - 1);
                     break;
                 case 2:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank-1));
+                    userId = leaderBoardList.get(rank - 1);
                     sb.append(rank);
                     CardView cardView = (CardView) holder.itemView;
                     cardView.setCardBackgroundColor(Color.WHITE);
@@ -94,17 +91,17 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
         else {
             switch (position) {
                 case 0:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank - 2));
+                    userId = leaderBoardList.get(rank - 2);
                     sb.append(rank - 1);
                     break;
                 case 1:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank - 1));
+                    userId = leaderBoardList.get(rank - 1);
                     sb.append(rank);
                     CardView cardView = (CardView) holder.itemView;
                     cardView.setCardBackgroundColor(Color.WHITE);
                     break;
                 case 2:
-                    user = vm.getUsersMap().get(leaderBoardList.get(rank));
+                    userId = leaderBoardList.get(rank);
                     sb.append(rank + 1);
                     break;
             }
@@ -112,39 +109,51 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
 
         //Give the right rank end thing.
         switch (sb.toString()) {
-            case "1": sb.append("st"); break;
-            case "2": sb.append("nd"); break;
-            case "3": sb.append("rd"); break;
-            default: sb.append("th"); break;
+            case "1":
+                sb.append("st");
+                break;
+            case "2":
+                sb.append("nd");
+                break;
+            case "3":
+                sb.append("rd");
+                break;
+            default:
+                sb.append("th");
+                break;
         }
-        holder.rank.setText(sb.toString());
-        holder.usernametxt.setText(user.getUsername());
-        holder.progressTxt.setText(String.valueOf(leaderBoard.get(user.getId()))); // add unit
-        holder.userImg.setImageResource(user.getProfilePic());
+
+        int finalUserId = userId;
+        Database.getInstance().getAllUsers(() -> {
+            User user = Database.getInstance().getUser(finalUserId);
+            holder.rank.setText(sb.toString());
+            holder.usernameTxt.setText(user.getUsername());
+            holder.progressTxt.setText(String.valueOf(leaderBoard.get(user.getId()))); // add unit
+            holder.userImg.setImageResource(user.getProfilePic());
+        });
     }
 
     /**
      * Sets how many items that populates the recyclerview.
+     *
      * @return
      */
     @Override
     public int getItemCount() {
         if (leaderBoard.size() == 1) {
             return 1;
-        }
-        else if (leaderBoard.size() == 2){
+        } else if (leaderBoard.size() == 2) {
             return 2;
-        }
-        else return 3;
+        } else return 3;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView usernametxt, progressTxt, rank;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView usernameTxt, progressTxt, rank;
         ImageView userImg;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            usernametxt = itemView.findViewById(R.id.username);
+            usernameTxt = itemView.findViewById(R.id.username);
             progressTxt = itemView.findViewById(R.id.userProgressTxt);
             rank = itemView.findViewById(R.id.rankTxt);
             userImg = itemView.findViewById(R.id.userImg);

@@ -56,16 +56,19 @@ public class SplashFragment extends Fragment {
         if (sp == null) {
             sp = getActivity().getSharedPreferences("myPreferences", MODE_PRIVATE);
         }
-
         Integer userID = sp.getInt("id", -1);
+
         // Uncomment if you want to go to login page again.
-           userID = null;
+        //spEditor = sp.edit();
+        //spEditor.clear();
+        //spEditor.apply();
 
         // if user already exists. Set user to main user.
-        if (userID != null && userID != -1) {
-            vm.setMainUser(userID);
-            NavHostFragment.findNavController(SplashFragment.this)
-                    .navigate(R.id.action_splashFragment_to_FirstFragment);
+        if (userID != -1) {
+            vm.setMainUser(userID, () -> {
+                NavHostFragment.findNavController(SplashFragment.this)
+                        .navigate(R.id.action_splashFragment_to_FirstFragment);
+            });
         }
         // if not, navigate to register page
         else

@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.sonymz1.Database.LocalDatabase;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.FirstFragment;
 import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.R;
@@ -36,7 +36,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        createChallengeList();
         LayoutInflater layoutInflater =  LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.recycleview_section, parent, false);
         
@@ -60,7 +59,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         childRecyclerAdapter.setOnItemClickListener(new ChallengeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                LocalDatabase db = LocalDatabase.getInstance();
+                challengeList =sectionList.get(0).getSectionItem();
+                for (Challenge challenge: sectionList.get(1).getSectionItem()) {
+                    challengeList.add(challenge);
+                }
+                Database db = Database.getInstance();
                 for (Challenge challenge : db.getChallenges()){
                     if (challenge.equals(challengeList.get(position))){
                         db.setActiveChallenge(challenge);
@@ -73,11 +76,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                         .navigate(R.id.action_FirstFragment_to_challengePageFragment);
             }
         });
-
-
-
-
-
     }
     /**
      * method to get amount of items in sectionList.
@@ -92,11 +90,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     /**
      * Method to populate challenge lists.
      */
-
-    private void createChallengeList() {
-        LocalDatabase db = LocalDatabase.getInstance();
-        challengeList = db.getChallenges();
-    }
 
     /**
      * Method to hold views found in recycleview_section.XML

@@ -3,9 +3,7 @@ package com.example.sonymz1;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.sonymz1.Database.AllUsers;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,12 +36,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
         drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -62,31 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         vm = new ViewModelProvider(this).get(ChallengeViewModel.class);
         sp = getSharedPreferences("myPreferences", MODE_PRIVATE);
-        retrieveUsersDB();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Save the AllUsers DB in a json file so that we have the same users again.
-        // Can be deleted later when online DB is implemented.
-        spEditor = sp.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(vm.getUsersDB());
-        spEditor.putString("AllUsers", json);
-        spEditor.apply();
-    }
-
-    /**
-     * Upon start of activity, retrieve the AllUsers DB from json file. Can be deleted in the future.
-     */
-    private void retrieveUsersDB(){
-        Gson gson = new Gson();
-        String json = sp.getString("AllUsers", "");
-        if (json.equals("")){
-            vm.setUsersDB(new AllUsers());
-        }else vm.setUsersDB(gson.fromJson(json, AllUsers.class));
     }
 
     @Override
