@@ -8,13 +8,14 @@ import com.example.sonymz1.ScoreUpdateListener;
  */
 public class CounterComponent implements ScoreComponent {
     private int currentCount;
-    private int goalCount;
+    private final int goalCount;
     private ScoreUpdateListener parent;
 
 
-    public CounterComponent() {
-
+    public CounterComponent(int goalCount) {
+        this.goalCount = goalCount;
     }
+
     @Override
     public int getGoalScore() {
         return goalCount;

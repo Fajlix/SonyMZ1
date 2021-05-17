@@ -121,7 +121,7 @@ public class  ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exa
             }
         }
 
-          if(mainUserIndex == -1){ // list starts at -1
+          if(mainUserIndex == 0){
             holder.progressText.setText("You are first!");
 
          }else{

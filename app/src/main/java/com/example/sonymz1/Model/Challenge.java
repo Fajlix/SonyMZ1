@@ -117,6 +117,9 @@ public class Challenge implements ScoreUpdateListener {
         return creatorId;
     }
     public ArrayList<Integer> getAdminIds() {
+        if(adminIds == null){
+            adminIds = new ArrayList<>();
+        }
         return adminIds;
     }
     public void addAdmin(int userId){
