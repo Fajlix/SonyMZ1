@@ -12,7 +12,7 @@
         android:layout_height="116dp"
         android:background="#FFFFFF"
         android:foreground="@mipmap/picture_upload_profile2_foreground"
-        android:src="@mipmap/picture_upload_profileCircle_foreground"
+        android:src="@mipmap/picture_upload_profile_circle_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
