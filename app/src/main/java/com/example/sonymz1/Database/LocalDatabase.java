@@ -32,7 +32,9 @@ class LocalDatabase {
         return challenges;
     }
     public void addChallenge(Challenge challenge){
-        challenges.add(challenge);
+        if(!challenges.contains(challenge)){
+            challenges.add(challenge);
+        }
     }
 
     public void setAllUsers(ArrayList<User> allUsers) {

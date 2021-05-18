@@ -90,6 +90,7 @@ public class ChallengeViewModel extends ViewModel {
     public void addPlayer(int playerId, int score) {
         challenge.addPlayer(playerId, score);
         setLeaderBoard();
+        saveChallenge();
     }
 
     /**
@@ -102,6 +103,7 @@ public class ChallengeViewModel extends ViewModel {
             challenge.addPlayer(playerID);
         }
         setLeaderBoard();
+        saveChallenge();
     }
 
     public void removePlayers(ArrayList<Integer> userIds){
@@ -110,6 +112,7 @@ public class ChallengeViewModel extends ViewModel {
         }
         Database.getInstance().saveChallenge(challenge);
         setLeaderBoard();
+        saveChallenge();
     }
 
     private void update(){ leaderBoard.setValue(challenge.getLeaderBoard()); }
@@ -123,6 +126,7 @@ public class ChallengeViewModel extends ViewModel {
             challenge.setFinished(true);
         }
         update();
+        saveChallenge();
     }
 
     public void setLeaderBoard() {
@@ -168,14 +172,17 @@ public class ChallengeViewModel extends ViewModel {
 
     public void setChallengeName(String name) {
         challenge.setName(name);
+        saveChallenge();
     }
 
     public void setDescription(String desc) {
         challenge.setDescription(desc);
+        saveChallenge();
     }
 
     public void setPrivacy(boolean aPrivate) {
         challenge.setPrivate(aPrivate);
+        saveChallenge();
     }
 
     public String getCode() {
@@ -236,11 +243,17 @@ public class ChallengeViewModel extends ViewModel {
         for (int i = 0; i < checkedUserIDs.size(); i++) {
             challenge.addAdmin(checkedUserIDs.get(i));
         }
+        saveChallenge();
     }
 
     public void removeAdmins(ArrayList<Integer> checkedUserIDs) {
         for (int i = 0; i < checkedUserIDs.size(); i++) {
             challenge.removeAdmin(checkedUserIDs.get(i));
         }
+        saveChallenge();
+    }
+
+    private void saveChallenge(){
+        Database.getInstance().saveChallenge(challenge);
     }
 }
