@@ -16,6 +16,7 @@ class LocalDatabase {
     private ArrayList<Challenge> challenges;
     private Challenge activeChallenge;
     private ArrayList<User> allUsers;
+    private ArrayList<Challenge> allChallenges;
     private LocalDatabase(){
         if (challenges ==null){
             challenges = new ArrayList<>();
@@ -26,6 +27,12 @@ class LocalDatabase {
         if (instance == null)
             instance = new LocalDatabase();
         return instance;
+    }
+
+    public ArrayList<Challenge> getAllChallenges() { return allChallenges; }
+
+    public void setAllChallenges(ArrayList<Challenge> allChallenges) {
+        this.allChallenges = allChallenges;
     }
 
     public ArrayList<Challenge> getChallenges() {

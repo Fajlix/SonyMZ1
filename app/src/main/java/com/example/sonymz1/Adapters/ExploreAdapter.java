@@ -13,9 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sonymz1.ChallengeViewModel;
 import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.ExploreFragment;
 import com.example.sonymz1.Model.Challenge;
@@ -27,12 +29,22 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter for creating the list items in the recyclerview in ExploreFragment.
+ *
+ * @author Wendy Pau
+ */
 public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHolder> implements Filterable {
 
     private List<Challenge> mChallenges;
     private List<Challenge> mChallengesFiltered;
     private ExploreFragment fragment;
 
+    /**
+     * ExploreAdapter constructor
+     * @param mChallenges list of all challenges
+     * @param fragment the ExploreFragment fragment
+     */
     public ExploreAdapter(List<Challenge> mChallenges, ExploreFragment fragment) {
         this.mChallenges = mChallenges;
         this.mChallengesFiltered = mChallenges;
@@ -59,10 +71,15 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
         holder.enterBtn.setOnClickListener(v -> {
             String str = holder.codeInput.getText().toString();
             if (str != null || str.equals("")){
-                if (str.equals(mChallengesFiltered.get(position).getChallengeCode())) {
-                    Database.getInstance().setActiveChallenge(mChallengesFiltered.get(position));
-                    //TODO add user to the challenge
-
+                // if the input equals the challenge code then enter the challenge and
+                // add the user
+                Challenge challenge = mChallengesFiltered.get(position);
+                if (str.equals(challenge.getChallengeCode())) {
+                    Database.getInstance().setActiveChallenge(challenge);
+                    ChallengeViewModel vm = new ViewModelProvider(fragment.requireActivity())
+                            .get(ChallengeViewModel.class);
+                    challenge.addPlayer(vm.getMainUser().getId());
+                    Database.getInstance().saveChallenge(challenge);
                     NavHostFragment.findNavController(fragment)
                             .navigate(R.id.action_ExploreFragment_to_challengePageFragment);
                 }
@@ -90,6 +107,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 if (Key.isEmpty()){
                     mChallengesFiltered = mChallenges;
                 }
+                // if the input is the same length as a challenge code, show the challenge
                 else if (constraint.length() == 4){
                     List<Challenge> lstFiltered = new ArrayList<>();
                     for (Challenge row: mChallenges) {
@@ -99,7 +117,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                     }
                     mChallengesFiltered = lstFiltered;
                 }
-                else {
+                else {  // filter the list of challenges
                     List<Challenge> lstFiltered = new ArrayList<>();
                     for (Challenge row: mChallenges) {
                         if (row.getName().toLowerCase().contains(Key.toLowerCase())){
