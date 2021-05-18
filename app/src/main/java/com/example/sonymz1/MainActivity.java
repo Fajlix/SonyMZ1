@@ -26,6 +26,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    private Toolbar toolbar;
 
     private ChallengeViewModel vm;
     private SharedPreferences sp;
@@ -35,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        toolbar = findViewById(R.id.toolbar);
+        resetToolbar();
 
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
@@ -86,5 +88,13 @@ public class MainActivity extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else super.onBackPressed();
+    }
+
+    public void resetToolbar(){
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            toolbar.setLogo(R.drawable.logo);
+            toolbar.setBackgroundResource(0);
+        }
     }
 }

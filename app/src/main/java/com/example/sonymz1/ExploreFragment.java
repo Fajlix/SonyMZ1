@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 
 import com.example.sonymz1.Adapters.ExploreAdapter;
 import com.example.sonymz1.Database.Database;
-import com.example.sonymz1.Database.DatabaseCallback;
 import com.example.sonymz1.Model.Challenge;
 
 import org.jetbrains.annotations.NotNull;
@@ -61,12 +59,8 @@ public class ExploreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initializeViews(view);
+        customizeToolbar();
         populateRecyclerView();
-
-        // change toolbar
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setBackgroundResource(R.drawable.explore_toolbar);
-        toolbar.setLogo(R.color.transparent);
 
         // filter the recyclerview after the users input
         searchInput.addTextChangedListener(new TextWatcher() {
@@ -91,8 +85,7 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // set default toolbar
-        toolbar.setBackgroundResource(0);
+        ((MainActivity)getActivity()).resetToolbar();
     }
 
     /**
@@ -106,6 +99,12 @@ public class ExploreFragment extends Fragment {
             exploreAdapter = new ExploreAdapter(mChallenges, fragment);
             rvc.setAdapter(exploreAdapter);
         });
+    }
+
+    private void customizeToolbar(){
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setBackgroundResource(R.drawable.explore_toolbar);
+        toolbar.setLogo(R.color.transparent);
     }
 
     /**
