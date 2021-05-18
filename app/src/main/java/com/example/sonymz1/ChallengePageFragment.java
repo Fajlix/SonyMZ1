@@ -121,7 +121,9 @@ public class ChallengePageFragment extends Fragment {
                 if(participantsView.getVisibility() != View.VISIBLE){
                     addScoreButton.setVisibility(View.VISIBLE);
                 }
-                editBtnImg.setVisibility(View.VISIBLE);
+                if(vm.mainUserIsAdmin()){
+                    editBtnImg.setVisibility(View.VISIBLE);
+                }
                 confirmNameChangeBtn.setVisibility(View.VISIBLE);
                 cancelNameChangeBtn.setVisibility(View.VISIBLE);
                 confirmDescriptionChangeBtn.setVisibility(View.VISIBLE);
