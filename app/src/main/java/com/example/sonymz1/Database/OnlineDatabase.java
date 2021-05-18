@@ -19,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
+//import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -68,7 +69,8 @@ class OnlineDatabase {
                     }
                     Challenge challenge = gson.fromJson(jsonObject, Challenge.class);
                     for (JsonElement element : jArr){
-                        challenge.addComponent(componentFactory.getComponent("DISTANCE", element));
+                        String str = String.valueOf(element.getAsJsonObject().get("type"));
+                        challenge.addComponent(componentFactory.getComponent(str, element.getAsJsonObject().get("component")));
                     }
                     if (challenge.getLeaderBoard().containsKey(user)) {
                         challenges.add(challenge);
@@ -192,6 +194,9 @@ class OnlineDatabase {
             if (type == null){
                 return null;
             }
+
+            type = type.substring(1, type.length()-1);
+
             if (type.equalsIgnoreCase(distance)){
                 return new Gson().fromJson(element,DistanceComponent.class);
             }
