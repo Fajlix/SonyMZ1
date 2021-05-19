@@ -48,7 +48,11 @@
         android:id="@+id/ExploreFragment"
         android:name="com.example.sonymz1.ExploreFragment"
         android:label="fragment_explore"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_explore" >
+        <action
+            android:id="@+id/action_ExploreFragment_to_challengePageFragment"
+            app:destination="@id/challengePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ContactsFragment"
         android:name="com.example.sonymz1.ContactsFragment"

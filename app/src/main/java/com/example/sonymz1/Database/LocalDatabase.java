@@ -16,6 +16,7 @@ class LocalDatabase {
     private ArrayList<Challenge> challenges;
     private Challenge activeChallenge;
     private ArrayList<User> allUsers;
+    private ArrayList<Challenge> allChallenges;
     private LocalDatabase(){
         if (challenges ==null){
             challenges = new ArrayList<>();
@@ -28,11 +29,19 @@ class LocalDatabase {
         return instance;
     }
 
+    public ArrayList<Challenge> getAllChallenges() { return allChallenges; }
+
+    public void setAllChallenges(ArrayList<Challenge> allChallenges) {
+        this.allChallenges = allChallenges;
+    }
+
     public ArrayList<Challenge> getChallenges() {
         return challenges;
     }
     public void addChallenge(Challenge challenge){
-        challenges.add(challenge);
+        if(!challenges.contains(challenge)){
+            challenges.add(challenge);
+        }
     }
 
     public void setAllUsers(ArrayList<User> allUsers) {

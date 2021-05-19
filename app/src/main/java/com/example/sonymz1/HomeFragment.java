@@ -42,8 +42,6 @@ public class HomeFragment extends Fragment {
         initiateView(view);
         createChallengeList();
 
-
-
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

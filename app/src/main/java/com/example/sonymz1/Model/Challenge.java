@@ -45,7 +45,6 @@ public class Challenge implements ScoreUpdateListener {
         this.components = components;
         this.isPrivate = isPrivate;
         this.description = description;
-        this.challengeBackground = R.drawable.run_challenge;
         this.isFinished = false;
         this.creatorId = creatorId;
         this.medal = medal;
@@ -61,7 +60,7 @@ public class Challenge implements ScoreUpdateListener {
         this.isPrivate = false;
         this.description = "";
         this.challengeCode = generateCode(4);
-        this.challengeBackground = R.drawable.run_challenge;
+        this.challengeBackground = challengeBackground;
         this.medal = medal;
         this.isFinished = false;
     }
@@ -73,7 +72,7 @@ public class Challenge implements ScoreUpdateListener {
         this.isPrivate = false;
         this.challengeCode = generateCode(4);
         this.description = "";
-        this.challengeBackground = R.drawable.run_challenge;
+        this.challengeBackground = R.drawable.default_background;
         this.isFinished = false;
     }
 
