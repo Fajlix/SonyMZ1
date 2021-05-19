@@ -71,8 +71,12 @@ public class ExploreFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 // sets the text after the results.
-                if (s.equals("") || s.toString().isEmpty()) resultTxt.setText("All Challenges" );
-                else resultTxt.setText("Search results for: '" + s.toString() + " '" );
+                if (s.equals("") || s.toString().isEmpty()) {
+                    resultTxt.setText("All Challenges" );
+                }
+                else{
+                    resultTxt.setText("Search results for: '" + s.toString() + " '" );
+                }
 
                 exploreAdapter.getFilter().filter(s);
             }

@@ -71,7 +71,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
         holder.enterBtn.setOnClickListener(v -> {
             String str = holder.codeInput.getText().toString();
             if (str != null || str.equals("")){
-                // if the input equals the challenge code then enter the challenge and
+                // if the code input equals the challenge code then enter the challenge and
                 // add the user
                 Challenge challenge = mChallengesFiltered.get(position);
                 if (str.equals(challenge.getChallengeCode())) {
@@ -98,6 +98,10 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
         return mChallengesFiltered.size();
     }
 
+    /**
+     * Filter the list of all the challenges.
+     * @return list that is filtered
+     */
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -107,23 +111,23 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 if (Key.isEmpty()){
                     mChallengesFiltered = mChallenges;
                 }
-                // if the input is the same length as a challenge code, show the challenge
-                else if (constraint.length() == 4){
+                else {
                     List<Challenge> lstFiltered = new ArrayList<>();
-                    for (Challenge row: mChallenges) {
-                        if (row.getChallengeCode().toLowerCase().contains(Key.toLowerCase())){
-                            lstFiltered.add(row);
+
+                    // check if the input is a challenge code.
+                    Challenge challenge = containsCode(Key);
+                    if (challenge != null) {
+                        lstFiltered.add(challenge);
+                    }
+                    // filter the list of challenges
+                    else {
+                        for (Challenge row: mChallenges) {
+                            if (row.getName().toLowerCase().contains(Key.toLowerCase())){
+                                lstFiltered.add(row);
+                            }
                         }
                     }
-                    mChallengesFiltered = lstFiltered;
-                }
-                else {  // filter the list of challenges
-                    List<Challenge> lstFiltered = new ArrayList<>();
-                    for (Challenge row: mChallenges) {
-                        if (row.getName().toLowerCase().contains(Key.toLowerCase())){
-                            lstFiltered.add(row);
-                        }
-                    }
+
                     mChallengesFiltered = lstFiltered;
                 }
                 FilterResults filterResults = new FilterResults();
@@ -137,6 +141,22 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 notifyDataSetChanged();
             }
         };
+    }
+
+    /**
+     * Check if the input is a challenge code.
+     * @param Key The user input.
+     * @return If it is a challenge code, return the challenge. If not, return null.
+     */
+    private Challenge containsCode(String Key){
+        if (Key.length() == 4) {
+            for (Challenge row: mChallenges) {
+                if (row.getChallengeCode().toLowerCase().contains(Key.toLowerCase())){
+                    return row;
+                }
+            }
+        }
+        return null;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
