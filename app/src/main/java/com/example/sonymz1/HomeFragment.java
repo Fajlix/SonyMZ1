@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.sonymz1.Adapters.ChallengeAdapter;
+
 import com.example.sonymz1.Adapters.MainRecyclerAdapter;
 import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.Model.Challenge;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author Jesper
  * Fragment for the mainpage.
  */
-public class FirstFragment extends Fragment {
+public class HomeFragment extends Fragment {
     private ArrayList<Challenge> activeChallengeList = new ArrayList<>();
     private ArrayList<Challenge> finishedChallengeList = new ArrayList<>();
     private List<Section> sectionList = new ArrayList<>();
@@ -33,7 +33,7 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class FirstFragment extends Fragment {
         view.findViewById(R.id.addChallengeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                        NavHostFragment.findNavController(FirstFragment.this)
+                        NavHostFragment.findNavController(HomeFragment.this)
                                 .navigate(R.id.action_FirstFragment_to_createChallengeFragment);
             }
         });
@@ -81,7 +81,7 @@ public class FirstFragment extends Fragment {
         String sectionTwoName = "Finished";
         sectionList.add(new Section(sectionOneName,activeChallengeList));
         sectionList.add(new Section(sectionTwoName,finishedChallengeList));
-        mainRecyclerAdapter = new MainRecyclerAdapter(sectionList, FirstFragment.this);
+        mainRecyclerAdapter = new MainRecyclerAdapter(sectionList, HomeFragment.this);
         mainRecyclerAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mainRecyclerAdapter);
         recyclerView.setHasFixedSize(true);

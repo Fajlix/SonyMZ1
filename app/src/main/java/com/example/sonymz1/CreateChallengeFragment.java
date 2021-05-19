@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -32,6 +33,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.lang.invoke.ConstantCallSite;
 import java.util.ArrayList;
 
+/**
+ * @author Viktor J
+ * The class for the fragment of creating a challenge
+ */
 public class CreateChallengeFragment extends Fragment {
     private TextInputEditText challengeDescriptionTextBox, challengeNameTextBox;
     private Switch privateSwitch;
@@ -49,6 +54,10 @@ public class CreateChallengeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_create_challenge, container, false);
     }
 
+    /**
+     * Here are the onclick functions for the fragment, what happens when you press either a
+     * component or the create challenge button. There are also some error catching
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -58,6 +67,7 @@ public class CreateChallengeFragment extends Fragment {
         challengeNameTextBox = view.findViewById(R.id.challengeNameTextBox);
         privateSwitch = view.findViewById(R.id.isPrivate);
         ConstraintLayout createChallengeFragment = view.findViewById(R.id.createChallengeFragment);
+        ImageView closeCreateChallenge = view.findViewById(R.id.closeCreateChallenge);
 
         //DateComponent
         {
@@ -67,6 +77,7 @@ public class CreateChallengeFragment extends Fragment {
             ConstraintLayout datePopUp = view.findViewById(R.id.datePopUp);
             ConstraintLayout dateConstraint = view.findViewById(R.id.dateConstraint);
 
+            //show the popup
             componentDate.setOnClickListener(view4 -> {
                 datePopUp.bringToFront();
             });
@@ -94,15 +105,15 @@ public class CreateChallengeFragment extends Fragment {
             ConstraintLayout distancePopUp = view.findViewById(R.id.distancePopUp);
             ConstraintLayout distanceConstraint = view.findViewById(R.id.distanceConstraint);
 
+            //show the popup
             componentDistance.setOnClickListener(view3 -> {
                 distancePopUp.bringToFront();
             });
 
             buttonAddDistance.setOnClickListener(view2 -> {
                 if (edittextDistance.getText().toString().equals("")) {
-                    distanceError.setText("The box can't be empty");
-                }
-                else {
+                    distanceError.setText("The box can't be empty"); //if there is no value
+                } else {
                     challengeVM.addComponent(new CounterComponent(Integer.parseInt(edittextDistance.getText().toString())));
                     createChallengeFragment.bringToFront();
                 }
@@ -133,8 +144,7 @@ public class CreateChallengeFragment extends Fragment {
             buttonAddCounter.setOnClickListener(view2 -> {
                 if (edittextCounter.getText().toString().equals("")) {
                     counterError.setText("The box can't be empty");
-                }
-                else {
+                } else {
                     challengeVM.addComponent(new CounterComponent(Integer.parseInt(edittextCounter.getText().toString())));
                     createChallengeFragment.bringToFront();
                 }
@@ -166,6 +176,7 @@ public class CreateChallengeFragment extends Fragment {
                 timerPopUp.bringToFront();
             });
 
+            //be able to switch between two different input units
             timerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -179,6 +190,7 @@ public class CreateChallengeFragment extends Fragment {
                 }
             });
 
+            //translate the values int the textboxes to seconds
             buttonAddTimer.setOnClickListener(view2 -> {
                 int totalSeconds = 0;
                 String Text1 = edittextTimer1.getText().toString();
@@ -218,15 +230,17 @@ public class CreateChallengeFragment extends Fragment {
             });
         }
 
-        view.findViewById(R.id.createButton).
+        closeCreateChallenge.setOnClickListener(view4 -> {
+            NavHostFragment.findNavController(CreateChallengeFragment.this)
+                    .navigate(R.id.action_createChallengeFragment_to_FirstFragment);
+        });
 
-                setOnClickListener(view1 ->
-
-                {
-                    String name = challengeNameTextBox.getText().toString();
-                    String description = challengeDescriptionTextBox.getText().toString();
-                    boolean isPrivate = privateSwitch.isChecked();
-                    //TODO SHOULD DEFINETLY NOT EXIST
+        view.findViewById(R.id.createButton).setOnClickListener(view1 -> {
+            TextView createChallengeError = view.findViewById(R.id.createChallengeError);
+            String name = challengeNameTextBox.getText().toString();
+            String description = challengeDescriptionTextBox.getText().toString();
+            boolean isPrivate = privateSwitch.isChecked();
+            //TODO SHOULD DEFINETLY NOT EXIST
 
             Database.getInstance().getAllUsers(() -> {
                 ArrayList<User> users = Database.getInstance().getAllUsers();
@@ -236,13 +250,18 @@ public class CreateChallengeFragment extends Fragment {
                     playerIds[index] = user.getId();
                     index++;
                 }
-                challengeVM.createChallenge(name, description, isPrivate, playerIds);
+                if (challengeNameTextBox.getText().toString().equals("") ||
+                        challengeDescriptionTextBox.getText().toString().equals("")) {
+                    createChallengeError.setText("The name and description can't be empty");
+                }
+                else {
+                    challengeVM.createChallenge(name, description, isPrivate, playerIds);
+                    NavHostFragment.findNavController(CreateChallengeFragment.this)
+                            .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
+                }
 
                 // Close the keyboard
                 view.clearFocus();
-
-                NavHostFragment.findNavController(CreateChallengeFragment.this)
-                        .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
             });
         });
     }
