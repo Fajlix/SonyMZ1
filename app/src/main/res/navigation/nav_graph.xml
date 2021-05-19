@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_createChallengeFragment"
             app:destination="@id/createChallengeFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_profilePageFragment"
+            app:destination="@id/ProfilePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/challengePageFragment"
@@ -107,4 +110,9 @@
             android:id="@+id/action_splashFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/ProfilePageFragment"
+        android:name="com.example.sonymz1.ProfilePageFragment"
+        android:label="fragment_profile_page"
+        tools:layout="@layout/fragment_profile_page" />
 </navigation>

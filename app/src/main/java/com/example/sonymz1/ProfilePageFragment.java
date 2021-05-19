@@ -2,7 +2,10 @@ package com.example.sonymz1;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
+import com.example.sonymz1.Adapters.ProfileAdapter;
+import com.example.sonymz1.Model.User;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +77,21 @@ public class ProfilePageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_page, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
+        initializeViews(view);
+        rvcfriendList.setLayoutManager(new LinearLayoutManager(getContext()));
+        //TODO: Fix friendlist in DB.
+        vm.getMainUser().setFriends(new ArrayList<>());
+        vm.getMainUser().getFriends().add(new User("test1", 0));
+        vm.getMainUser().getFriends().add(new User("test2", 1));
+        ProfileAdapter profileAdapter = new ProfileAdapter(this,
+                vm.getMainUser().getFriends());
+        rvcfriendList.setAdapter(profileAdapter);
     }
 
     private void initializeViews(View view){
