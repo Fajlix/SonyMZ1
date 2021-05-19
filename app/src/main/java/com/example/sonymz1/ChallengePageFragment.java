@@ -90,7 +90,6 @@ public class ChallengePageFragment extends Fragment {
         vm = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
         vm.updateChallenge();
         initializeViews(view);
-        setAndUpdateAll();
 
         if(!vm.mainUserIsAdmin()){
             editBtnImg.setVisibility(View.GONE);
@@ -99,13 +98,10 @@ public class ChallengePageFragment extends Fragment {
         if(!vm.mainUserIsCreator()){
             creatorOnlyBtn.setVisibility(View.GONE);
         }
-        setPedestal();
-        setLeaderBoard();
-        setParticipants();
-        setInfoCard();
+        setAndUpdateAll();
 
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
-        view.findViewById(R.id.addScoreButton).setOnClickListener(
+        addScoreButton.setOnClickListener(
                 view1 -> NavHostFragment.findNavController(ChallengePageFragment.this)
                 .navigate(R.id.action_challengePageFragment_to_addingScorePage));
 
@@ -122,8 +118,12 @@ public class ChallengePageFragment extends Fragment {
                 cancelDescriptionChangeBtn.setVisibility(View.GONE);
             }
             else{
-                addScoreButton.setVisibility(View.VISIBLE);
-                editBtnImg.setVisibility(View.VISIBLE);
+                if(participantsView.getVisibility() != View.VISIBLE){
+                    addScoreButton.setVisibility(View.VISIBLE);
+                }
+                if(vm.mainUserIsAdmin()){
+                    editBtnImg.setVisibility(View.VISIBLE);
+                }
                 confirmNameChangeBtn.setVisibility(View.VISIBLE);
                 cancelNameChangeBtn.setVisibility(View.VISIBLE);
                 confirmDescriptionChangeBtn.setVisibility(View.VISIBLE);
