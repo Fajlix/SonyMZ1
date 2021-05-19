@@ -10,9 +10,9 @@
         system make the link between the menu items and the fragments.-->
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.sonymz1.FirstFragment"
+        android:name="com.example.sonymz1.HomeFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_FirstFragment_to_challengePageFragment"
             app:destination="@id/challengePageFragment" />
@@ -85,6 +85,9 @@
         <action
             android:id="@+id/action_createChallengeFragment_to_challengePageFragment"
             app:destination="@id/challengePageFragment" />
+        <action
+            android:id="@+id/action_createChallengeFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/RegisterFragment"

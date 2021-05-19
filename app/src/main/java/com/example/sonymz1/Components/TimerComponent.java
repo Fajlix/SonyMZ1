@@ -10,10 +10,18 @@ public class TimerComponent implements ScoreComponent{
     private int goalTimer;
     private ScoreUpdateListener parent;
 
+    /**
+     * Constructor for creating a component
+     * @param goalTimer is the final total time parameter
+     */
     public TimerComponent(int goalTimer) {
         this.goalTimer = goalTimer;
     }
 
+    /**
+     * Method for updating the current time the user have executed the exercise
+     * @param mainUserId is the user ID
+     */
     public void updateParent(int mainUserId){
         parent.updateScore(mainUserId,currentTimer);
     }

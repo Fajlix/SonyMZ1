@@ -27,7 +27,7 @@ import java.util.Map;
  * represented in cards.
  */
 
-public class  ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ExampleViewHolder> {
+public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ExampleViewHolder> {
     /**
      * Adapter class for Challenge Recycler view
      * mChallengeList holds representation off challenges.

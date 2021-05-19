@@ -5,7 +5,7 @@ import com.example.sonymz1.ScoreUpdateListener;
 /**
  * @author Felix
  */
-public class DistanceComponent implements ScoreComponent{
+public class DistanceComponent implements ScoreComponent {
     private int currentDistance;
     private int goalDistance;
     private ScoreUpdateListener parent;
@@ -16,12 +16,9 @@ public class DistanceComponent implements ScoreComponent{
         this.goalDistance = goalDistance;
         type = DistanceType.km;
     }
-    public DistanceComponent(){
 
-    }
-
-    public void updateParent(int mainUserId){
-        parent.updateScore(mainUserId,currentDistance);
+    public void updateParent(int mainUserId) {
+        parent.updateScore(mainUserId, currentDistance);
     }
 
     @Override
@@ -37,7 +34,7 @@ public class DistanceComponent implements ScoreComponent{
         return String.valueOf(currentDistance);
     }
 
-    public void addDistance(int mainUserId,int distance){
+    public void addDistance(int mainUserId, int distance) {
         currentDistance += distance;
         updateParent(mainUserId);
     }
@@ -54,8 +51,7 @@ public class DistanceComponent implements ScoreComponent{
         this.type = type;
     }
 
-    public void setParent(ScoreUpdateListener scoreUpdateListener)
-    {
+    public void setParent(ScoreUpdateListener scoreUpdateListener) {
         this.parent = scoreUpdateListener;
     }
 

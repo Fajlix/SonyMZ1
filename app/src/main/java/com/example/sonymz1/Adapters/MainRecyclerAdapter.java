@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sonymz1.Database.Database;
-import com.example.sonymz1.FirstFragment;
+import com.example.sonymz1.HomeFragment;
 import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.R;
 import com.example.sonymz1.Section;
@@ -23,11 +23,11 @@ import java.util.List;
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
 
     List<Section> sectionList;
-    private FirstFragment fragment;
+    private HomeFragment fragment;
     private ArrayList<Challenge> challengeList;
 
 
-    public MainRecyclerAdapter(List<Section> sectionList, FirstFragment fragment) {
+    public MainRecyclerAdapter(List<Section> sectionList, HomeFragment fragment) {
         this.sectionList = sectionList;
         this.fragment = fragment;
 

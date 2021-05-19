@@ -207,7 +207,7 @@ public class Challenge implements ScoreUpdateListener {
     public int getChallengeBackground() {
         return challengeBackground;
     }
-
+    
     public int getMedal() {
         return medal;
     }
