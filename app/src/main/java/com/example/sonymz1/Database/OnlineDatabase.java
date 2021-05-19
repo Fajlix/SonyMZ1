@@ -53,7 +53,7 @@ class OnlineDatabase {
      * @param user the user for which the challenges will be returned.
      * @param callback a databaseCallback that will get notified when the data is received
      */
-    public void getChallenges(int user, OnlineDatabaseCallback callback) {
+    public void getAllChallenges(int user, OnlineDatabaseCallback callback) {
         challengeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
@@ -85,6 +85,37 @@ class OnlineDatabase {
             }
         });
     }
+
+    public void getAllChallenges(OnlineDatabaseCallback callback) {
+        challengeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                ArrayList<Challenge> challenges = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Gson gson = new Gson();
+                    ComponentFactory componentFactory = new ComponentFactory();
+                    JsonObject jsonObject = gson.fromJson(gson.toJson(snapshot.getValue()),JsonObject.class);
+                    JsonElement comps = jsonObject.remove("components");
+                    JsonArray jArr = new JsonArray();
+                    if (comps!= null) {
+                        jArr = comps.getAsJsonArray();
+                    }
+                    Challenge challenge = gson.fromJson(jsonObject, Challenge.class);
+                    for (JsonElement element : jArr){
+                        challenge.addComponent(componentFactory.getComponent("DISTANCE", element));
+                    }
+                    challenges.add(challenge);
+                }
+                callback.onCallback(challenges);
+                challengeRef.removeEventListener(this);
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
     /**
      * gets the users from firebase and calls the onCallback method with the list when the data has been
      * received

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/challenge_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/cover_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:foreground="#73000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/default_background" />
+
+        <TextView
+            android:id="@+id/challenge_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="[Challenge title]"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/cover_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/host_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="[host name]"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/challenge_title"
+            app:layout_constraintStart_toStartOf="@+id/challenge_title"
+            app:layout_constraintTop_toBottomOf="@+id/challenge_title" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/code_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="-16dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <TextView
+                android:id="@+id/challenge_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto"
+                android:text="[Challenge title]"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/enter_btn"
+                android:layout_width="80dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/roboto"
+                android:text="Enter"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/logo_blue"
+                app:cornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/codeTxt"
+                app:layout_constraintStart_toEndOf="@+id/codeTxt"
+                app:layout_constraintTop_toTopOf="@+id/codeTxt" />
+
+            <EditText
+                android:id="@+id/codeTxt"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:fontFamily="@font/roboto"
+                android:inputType="textVisiblePassword"
+                app:layout_constraintStart_toStartOf="@+id/challenge_title2"
+                app:layout_constraintTop_toBottomOf="@+id/challenge_title2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

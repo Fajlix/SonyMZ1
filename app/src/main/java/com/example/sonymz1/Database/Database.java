@@ -63,8 +63,20 @@ public class Database {
             callback.onCallback();
         }
         else {
-            oDb.getChallenges(user, challenges -> {
+            oDb.getAllChallenges(user, challenges -> {
                 lDb.setChallenges(challenges);
+                callback.onCallback();
+            });
+        }
+    }
+
+    public void getAllChallenges(DatabaseCallback callback){
+        if (lDb.getAllChallenges()!= null && lDb.getAllChallenges().size()>0){
+            callback.onCallback();
+        }
+        else {
+            oDb.getAllChallenges(challenges -> {
+                lDb.setAllChallenges(challenges);
                 callback.onCallback();
             });
         }
@@ -102,6 +114,9 @@ public class Database {
     public ArrayList<Challenge> getChallenges(){
         return lDb.getChallenges();
     }
+
+    public ArrayList<Challenge> getAllChallenges(){ return lDb.getAllChallenges(); }
+
     public User getUser(int userId){
         for (User user : lDb.getAllUsers()) {
             if (user.getId() == userId) {
