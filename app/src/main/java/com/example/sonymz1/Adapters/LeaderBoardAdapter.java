@@ -49,8 +49,18 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
         LinkedList<Integer> leaderBoardList = new LinkedList<>(leaderBoard.keySet());
         int rank = leaderBoardList.indexOf(userId) + 1;
         StringBuilder sb = new StringBuilder();
+
+        if(leaderBoardList.size() < 3){
+            if(userId == leaderBoardList.get(position)){
+                CardView cardView = (CardView) holder.itemView;
+                cardView.setCardBackgroundColor(Color.WHITE);
+            }
+            userId = leaderBoardList.get(position);
+            sb.append(position + 1);
+        }
+
         // If the main user is first, get the 2 challengers below
-        if (rank == 1) {
+        else if (rank == 1) {
             switch (position) {
                 case 0:
                     sb.append(rank);
