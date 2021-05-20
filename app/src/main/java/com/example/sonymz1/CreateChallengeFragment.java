@@ -235,6 +235,7 @@ public class CreateChallengeFragment extends Fragment {
                     .navigate(R.id.action_createChallengeFragment_to_FirstFragment);
         });
 
+        //adding everything to the challenge if it checks out
         view.findViewById(R.id.createButton).setOnClickListener(view1 -> {
             TextView createChallengeError = view.findViewById(R.id.createChallengeError);
             String name = challengeNameTextBox.getText().toString();
@@ -253,6 +254,9 @@ public class CreateChallengeFragment extends Fragment {
                 if (challengeNameTextBox.getText().toString().equals("") ||
                         challengeDescriptionTextBox.getText().toString().equals("")) {
                     createChallengeError.setText("The name and description can't be empty");
+                }
+                else if (challengeVM.isComponentsEmpty()) {
+                    createChallengeError.setText("End date and a score parameter have to be included");
                 }
                 else {
                     challengeVM.createChallenge(name, description, isPrivate, playerIds);
