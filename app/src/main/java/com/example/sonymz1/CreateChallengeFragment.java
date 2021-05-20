@@ -1,9 +1,12 @@
 package com.example.sonymz1;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,6 +46,8 @@ public class CreateChallengeFragment extends Fragment {
     private Switch privateSwitch;
     private Switch timerSwitch;
     private ChallengeViewModel challengeVM;
+    private Toolbar toolbar;
+    private Window window;
 
     public CreateChallengeFragment() {
 
@@ -66,6 +72,7 @@ public class CreateChallengeFragment extends Fragment {
         challengeDescriptionTextBox = view.findViewById(R.id.challengeDescriptionTextBox);
         challengeNameTextBox = view.findViewById(R.id.challengeNameTextBox);
         privateSwitch = view.findViewById(R.id.isPrivate);
+        customizeToolbar();
         ConstraintLayout createChallengeFragment = view.findViewById(R.id.createChallengeFragment);
         ImageView closeCreateChallenge = view.findViewById(R.id.closeCreateChallenge);
 
@@ -269,6 +276,21 @@ public class CreateChallengeFragment extends Fragment {
             });
         });
     }
+
+    private void customizeToolbar(){
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.white));
+
+
+
+
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((MainActivity)getActivity()).resetToolbar();
+    }
+
 
     public String getName() {
         return challengeNameTextBox.getText().toString();
