@@ -2,6 +2,7 @@ package com.example.sonymz1.Model;
 
 import com.example.sonymz1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,6 +22,7 @@ public class User {
         this.username = username;
         this.profilePic = R.drawable.logo;
         this.id = id;
+        this.friends = new ArrayList<>();
     }
 
     public void setUsername(String username) { this.username = username; }
