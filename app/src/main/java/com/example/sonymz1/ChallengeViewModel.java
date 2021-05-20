@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.CounterComponent;
+import com.example.sonymz1.Components.DateComponent;
 import com.example.sonymz1.Components.DistanceComponent;
+import com.example.sonymz1.Components.ScoreComponent;
 import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.Database.DatabaseCallback;
 import com.example.sonymz1.Model.Challenge;
@@ -34,7 +36,7 @@ public class ChallengeViewModel extends ViewModel {
      * sets the challenge that should be displayed by getting the current active challenge from the
      * database
      */
-    public void updateChallenge(){
+    public void updateChallenge() {
         this.challenge = Database.getInstance().getActiveChallenge();
         setLeaderBoard();
     }
@@ -53,20 +55,34 @@ public class ChallengeViewModel extends ViewModel {
         addComponents();
         Database.getInstance().saveChallenge(challenge);
         Database.getInstance().setActiveChallenge(challenge);
-        //TODO Add challengers
+        clearComponents();
     }
 
+    /**
+     *
+     */
     private void addComponents() {
-        if (components.size()>0) {
+        if (components.size() > 0) {
             for (int i = 0; i < components.size(); i++) {
                 challenge.addComponent(components.get(i));
             }
         }
-        else
-            challenge.addComponent(new DistanceComponent(50));
     }
 
+    /**
+     * adding a component to the list of components, if there already exist a scoreComponent the
+     * previous should be deleted
+     *
+     * @param component is the component that should be added
+     */
     public void addComponent(ChallengeComponent component) {
+        if (scoreComponentExist() && component.getClass() == ScoreComponent.class) {
+            for (int i = 0; i < components.size(); i++) {
+                if (components.get(i).getClass() == ScoreComponent.class) {
+                    components.remove(i);
+                }
+            }
+        }
         components.add(component);
     }
 
@@ -105,7 +121,7 @@ public class ChallengeViewModel extends ViewModel {
         saveChallenge();
     }
 
-    public void removePlayers(ArrayList<Integer> userIds){
+    public void removePlayers(ArrayList<Integer> userIds) {
         for (int i = 0; i < userIds.size(); i++) {
             challenge.removePlayer(userIds.get(i));
         }
@@ -113,8 +129,12 @@ public class ChallengeViewModel extends ViewModel {
         setLeaderBoard();
         saveChallenge();
     }
-
-    private void update(){ leaderBoard.setValue(challenge.getLeaderBoard()); }
+    public void clearComponents(){
+        components = new ArrayList<>();
+    }
+    private void update() {
+        leaderBoard.setValue(challenge.getLeaderBoard());
+    }
 
     public void addScore(int score) {
         //TODO maybe fix?
@@ -182,12 +202,12 @@ public class ChallengeViewModel extends ViewModel {
         return String.valueOf(challenge.getChallengeCode());
     }
 
-    public void newMainUser(String name,DatabaseCallback callback){
+    public void newMainUser(String name, DatabaseCallback callback) {
 
         Database.getInstance().getAllUsers(() -> {
             Random rand = new Random();
             int id = Math.abs(rand.nextInt());
-            while(!checkUnique(Database.getInstance().getAllUsers(),id)){
+            while (!checkUnique(Database.getInstance().getAllUsers(), id)) {
                 id = Math.abs(rand.nextInt());
             }
             Database.getInstance().saveUser(new User(name,id));
@@ -195,15 +215,19 @@ public class ChallengeViewModel extends ViewModel {
             callback.onCallback();
         });
     }
-    public int getCreatorId(){return challenge.getCreatorId();}
 
-    public User getCreatorName(){
+    public int getCreatorId() {
+        return challenge.getCreatorId();
+    }
+
+    public User getCreatorName() {
         return Database.getInstance().getUser(getCreatorId());
     }
-    private boolean checkUnique(ArrayList<User> users,int id){
+
+    private boolean checkUnique(ArrayList<User> users, int id) {
         for (User user :
                 users) {
-            if (user.getId() == id){
+            if (user.getId() == id) {
                 return false;
             }
         }
@@ -216,14 +240,14 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public int getNumOfAdmins() {
-        if (challenge.getAdminIds()==null){
+        if (challenge.getAdminIds() == null) {
             return 0;
         }
         return challenge.getAdminIds().size();
     }
 
     public ArrayList<Integer> getAdmins() {
-        if (challenge.getAdminIds()==null){
+        if (challenge.getAdminIds() == null) {
             return new ArrayList<>();
         }
         return challenge.getAdminIds();
@@ -247,7 +271,32 @@ public class ChallengeViewModel extends ViewModel {
         saveChallenge();
     }
 
-    private void saveChallenge(){
+    private void saveChallenge() {
         Database.getInstance().saveChallenge(challenge);
+    }
+
+    private boolean dateComponentExist() {
+        for (int i = 0; i < components.size(); i++) {
+            if(components.get(i).getClass() == DateComponent.class) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean scoreComponentExist() {
+        for (int i = 0; i < components.size(); i++) {
+            if(components.get(i) instanceof ScoreComponent) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isComponentsEmpty() {
+        if (components.isEmpty() || !scoreComponentExist() || !dateComponentExist()) {
+            return true;
+        }
+        return false;
     }
 }

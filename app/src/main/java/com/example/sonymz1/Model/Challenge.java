@@ -228,7 +228,7 @@ public class Challenge{
 
     }
     //Just returns the scoreComponent of all the components
-    private ScoreComponent getScoreComponent(){
+    public ScoreComponent getScoreComponent(){
         for (ChallengeComponent cc :
                 components) {
             if (cc instanceof ScoreComponent){
