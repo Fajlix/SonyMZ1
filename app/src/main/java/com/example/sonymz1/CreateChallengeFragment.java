@@ -62,7 +62,7 @@ public class CreateChallengeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         challengeVM = new ViewModelProvider(requireActivity()).get(ChallengeViewModel.class);
-
+        challengeVM.clearComponents();
         challengeDescriptionTextBox = view.findViewById(R.id.challengeDescriptionTextBox);
         challengeNameTextBox = view.findViewById(R.id.challengeNameTextBox);
         privateSwitch = view.findViewById(R.id.isPrivate);
@@ -114,7 +114,7 @@ public class CreateChallengeFragment extends Fragment {
                 if (edittextDistance.getText().toString().equals("")) {
                     distanceError.setText("The box can't be empty"); //if there is no value
                 } else {
-                    challengeVM.addComponent(new CounterComponent(Integer.parseInt(edittextDistance.getText().toString())));
+                    challengeVM.addComponent(new DistanceComponent(Integer.parseInt(edittextDistance.getText().toString())));
                     createChallengeFragment.bringToFront();
                 }
             });

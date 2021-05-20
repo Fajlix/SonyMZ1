@@ -62,7 +62,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
     public void onBindViewHolder(@NonNull @NotNull ExploreAdapter.ViewHolder holder, int position) {
         holder.challengeTitle.setText(mChallengesFiltered.get(position).getName());
         holder.challengeTitle2.setText(mChallengesFiltered.get(position).getName());
-        holder.coverImg.setBackgroundResource(mChallengesFiltered.get(position).getChallengeBackground());
+        holder.coverImg.setBackgroundResource(R.drawable.default_background);
         String hostname = Database.getInstance().getUser(mChallengesFiltered
                 .get(position).getCreatorId())
                 .getUsername();
@@ -78,7 +78,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                     Database.getInstance().setActiveChallenge(challenge);
                     ChallengeViewModel vm = new ViewModelProvider(fragment.requireActivity())
                             .get(ChallengeViewModel.class);
-                    challenge.addPlayer(vm.getMainUser().getId());
+                    challenge.addPlayer(Database.getInstance().getMainUser().getId());
                     Database.getInstance().saveChallenge(challenge);
                     NavHostFragment.findNavController(fragment)
                             .navigate(R.id.action_ExploreFragment_to_challengePageFragment);

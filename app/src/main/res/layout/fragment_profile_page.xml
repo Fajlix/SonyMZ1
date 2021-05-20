@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ProfilePageFragment">
 
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="133dp"
-        android:layout_height="116dp"
-        android:background="#FFFFFF"
-        android:foreground="@mipmap/picture_upload_profile2_foreground"
-        android:src="@mipmap/picture_upload_profile_circle_foreground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156" />
-
     <ImageView
         android:id="@+id/imageView11"
         android:layout_width="44dp"
@@ -26,7 +13,7 @@
         android:src="@mipmap/picture_upload_winner_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.771"
+        app:layout_constraintHorizontal_bias="0.779"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.15" />
@@ -42,7 +29,7 @@
         app:layout_constraintHorizontal_bias="0.861"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.164" />
+        app:layout_constraintVertical_bias="0.161" />
 
     <ImageView
         android:id="@+id/imageView12"
@@ -140,5 +127,17 @@
         tools:listitem="@layout/friends">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="119dp"
+        android:layout_height="120dp"
+        android:src="@mipmap/picture_upload_profile2_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

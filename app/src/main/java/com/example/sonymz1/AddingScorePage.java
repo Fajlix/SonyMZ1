@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,7 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class AddingScorePage extends Fragment {
 
     private Button addScoreBtn, returnBtn;
-    private TextInputEditText addScoreTxt;
+    private TextView addScoreTxt;
     private ChallengeViewModel vm;
 
     public AddingScorePage() {

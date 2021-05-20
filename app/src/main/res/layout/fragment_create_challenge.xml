@@ -488,11 +488,11 @@
 
         <TextView
             android:id="@+id/componentDistance"
-            android:layout_width="85dp"
-            android:layout_height="23dp"
+            android:layout_width="95dp"
+            android:layout_height="28dp"
             android:background="@drawable/textview_border"
             android:fontFamily="@font/roboto"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:text="Distance"
             android:textColor="#30F8FF"
             android:textSize="16sp"
@@ -502,51 +502,51 @@
             app:layout_constraintHorizontal_bias="0.13"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.69" />
+            app:layout_constraintVertical_bias="0.71000004" />
 
         <TextView
             android:id="@+id/componentCounter"
-            android:layout_width="85dp"
-            android:layout_height="23dp"
+            android:layout_width="95dp"
+            android:layout_height="28dp"
             android:background="@drawable/textview_border"
             android:fontFamily="@font/roboto"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:text="Counter"
             android:textColor="#30F8FF"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.42"
+            app:layout_constraintHorizontal_bias="0.47"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.69" />
+            app:layout_constraintVertical_bias="0.71000004" />
 
         <TextView
             android:id="@+id/componentDate"
-            android:layout_width="85dp"
-            android:layout_height="23dp"
+            android:layout_width="95dp"
+            android:layout_height="28dp"
             android:background="@drawable/textview_border"
             android:fontFamily="@font/roboto"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:text="End Date"
             android:textColor="#30F8FF"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.71"
+            app:layout_constraintHorizontal_bias="0.47"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.69" />
+            app:layout_constraintVertical_bias="0.77" />
 
         <TextView
             android:id="@+id/timerComponent"
-            android:layout_width="85dp"
-            android:layout_height="23dp"
+            android:layout_width="95dp"
+            android:layout_height="28dp"
             android:background="@drawable/textview_border"
             android:fontFamily="@font/roboto"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:text="Timer"
             android:textColor="#30F8FF"
             android:textSize="16sp"
@@ -554,22 +554,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.13"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.73" />
-
-        <TextView
-            android:id="@+id/addChallengers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="Add challengers"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.77" />

@@ -102,7 +102,8 @@ class OnlineDatabase {
                     }
                     Challenge challenge = gson.fromJson(jsonObject, Challenge.class);
                     for (JsonElement element : jArr){
-                        challenge.addComponent(componentFactory.getComponent("DISTANCE", element));
+                        String str = String.valueOf(element.getAsJsonObject().get("type"));
+                        challenge.addComponent(componentFactory.getComponent(str, element.getAsJsonObject().get("component")));
                     }
                     challenges.add(challenge);
                 }
