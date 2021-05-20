@@ -68,6 +68,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-       return friends.size();
+       if (friends == null){
+           return 0;
+       }
+        return friends.size();
     }
 }
