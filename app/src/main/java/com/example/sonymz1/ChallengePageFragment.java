@@ -435,7 +435,7 @@ public class ChallengePageFragment extends Fragment {
      */
     private void setUserOnPedestal(ImageView img, TextView txt, int userId, int score){
         Database.getInstance().getAllUsers(() ->
-                img.setImageResource(Database.getInstance().getUser(userId).getProfilePic()));
+                img.setImageResource(R.drawable.logo));
         txt.setText(String.valueOf(score));
     }
 

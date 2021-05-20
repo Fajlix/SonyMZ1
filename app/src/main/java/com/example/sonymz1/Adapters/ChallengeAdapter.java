@@ -104,7 +104,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
           Challenge currentItem = mChallengeList.get(position);
           holder.challengeName.setText(currentItem.getName());
-          holder.background.setImageResource(currentItem.getChallengeBackground());
+          holder.background.setImageResource(R.drawable.run_challenge);
           holder.medal.setImageResource(currentItem.getMedal());
         ChallengeViewModel vm = new ViewModelProvider(fragmentActivity).get(ChallengeViewModel.class);
         int mainUserId = vm.getMainUser().getId();
@@ -123,6 +123,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
 
           if(mainUserIndex == 0){
             holder.progressText.setText("You are first!");
+            holder.medal.setImageResource(R.drawable.medal);
 
          }else{
                 int userBeforeIndex = mainUserIndex-1;

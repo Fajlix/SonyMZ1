@@ -129,7 +129,7 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
             holder.rank.setText(sb.toString());
             holder.usernameTxt.setText(user.getUsername());
             holder.progressTxt.setText(String.valueOf(leaderBoard.get(user.getId()))); // add unit
-            holder.userImg.setImageResource(user.getProfilePic());
+            holder.userImg.setImageResource(R.drawable.logo);
         });
     }
 
