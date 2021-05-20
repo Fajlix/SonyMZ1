@@ -54,10 +54,8 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
             User user = Database.getInstance().getUser(leaderBoardList.get(position).getKey());
             holder.username.setText(user.getUsername());
             holder.scoreTxt.setText("Score: " + leaderBoardList.get(position).getValue()); // add unit
-            holder.userImg.setImageResource(user.getProfilePic());
+            holder.userImg.setImageResource(R.drawable.logo);
         });
-
-
         //Changes cards background colour for top 3 challengers.
         CardView cardView = (CardView) holder.itemView;
         switch (position) {

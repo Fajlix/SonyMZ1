@@ -63,7 +63,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     public void onBindViewHolder(@NonNull ProfileAdapter.ViewHolder holder, int position) {
         holder.username.setText(friends.get(position).getUsername());
         holder.friendIdNumber.setText(String.valueOf(friends.get(position).getId()));
-        holder.friendImg.setImageResource(friends.get(position).getProfilePic());
+        holder.friendImg.setImageResource(R.drawable.logo);
     }
 
     @Override

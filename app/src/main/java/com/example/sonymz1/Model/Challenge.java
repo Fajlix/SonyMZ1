@@ -34,7 +34,6 @@ public class Challenge{
     private String challengeCode;
     private int creatorId;
     private ArrayList<Integer> adminIds = new ArrayList<>();
-    private int challengeBackground;
     private int medal;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
@@ -48,7 +47,6 @@ public class Challenge{
         this.isFinished = false;
         this.creatorId = creatorId;
         this.medal = medal;
-        this.challengeBackground = challengeBackground;
         this.isFinished = isFinished;
         this.challengeCode = challengeCode;
     }
@@ -60,7 +58,6 @@ public class Challenge{
         this.isPrivate = false;
         this.description = "";
         this.challengeCode = generateCode(4);
-        this.challengeBackground = challengeBackground;
         this.medal = medal;
         this.isFinished = false;
     }
@@ -72,7 +69,6 @@ public class Challenge{
         this.isPrivate = false;
         this.challengeCode = generateCode(4);
         this.description = "";
-        this.challengeBackground = R.drawable.default_background;
         this.isFinished = false;
     }
 
@@ -201,10 +197,6 @@ public class Challenge{
 
     public void changeText(String text){
         description = text;
-    }
-
-    public int getChallengeBackground() {
-        return challengeBackground;
     }
     
     public int getMedal() {

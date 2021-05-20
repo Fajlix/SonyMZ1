@@ -62,7 +62,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
     public void onBindViewHolder(@NonNull @NotNull ExploreAdapter.ViewHolder holder, int position) {
         holder.challengeTitle.setText(mChallengesFiltered.get(position).getName());
         holder.challengeTitle2.setText(mChallengesFiltered.get(position).getName());
-        holder.coverImg.setBackgroundResource(mChallengesFiltered.get(position).getChallengeBackground());
+        holder.coverImg.setBackgroundResource(R.drawable.default_background);
         String hostname = Database.getInstance().getUser(mChallengesFiltered
                 .get(position).getCreatorId())
                 .getUsername();
