@@ -78,7 +78,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                     Database.getInstance().setActiveChallenge(challenge);
                     ChallengeViewModel vm = new ViewModelProvider(fragment.requireActivity())
                             .get(ChallengeViewModel.class);
-                    challenge.addPlayer(vm.getMainUser().getId());
+                    challenge.addPlayer(Database.getInstance().getMainUser().getId());
                     Database.getInstance().saveChallenge(challenge);
                     NavHostFragment.findNavController(fragment)
                             .navigate(R.id.action_ExploreFragment_to_challengePageFragment);

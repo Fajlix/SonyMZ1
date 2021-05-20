@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 class LocalDatabase {
     private static LocalDatabase instance;
+    private User mainUser;
     private ArrayList<Challenge> challenges;
     private Challenge activeChallenge;
     private ArrayList<User> allUsers;
@@ -42,6 +43,14 @@ class LocalDatabase {
         if(!challenges.contains(challenge)){
             challenges.add(challenge);
         }
+    }
+
+    public User getMainUser() {
+        return mainUser;
+    }
+
+    public void setMainUser(User mainUser) {
+        this.mainUser = mainUser;
     }
 
     public void setAllUsers(ArrayList<User> allUsers) {

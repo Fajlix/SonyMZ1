@@ -83,7 +83,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
         }
 
         //Set blue colour to mark where the user is.
-        if (leaderBoardList.get(position).getKey() == vm.getMainUser().getId()){
+        if (leaderBoardList.get(position).getKey() == Database.getInstance().getMainUser().getId()){
             holder.rank.setTextColor(fragment.getResources().getColor(R.color.blue));
             holder.username.setTextColor(fragment.getResources().getColor(R.color.blue));
             holder.scoreTxt.setTextColor(fragment.getResources().getColor(R.color.blue));

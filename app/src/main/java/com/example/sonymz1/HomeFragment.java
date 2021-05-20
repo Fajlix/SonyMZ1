@@ -55,10 +55,10 @@ public class HomeFragment extends Fragment {
      * Method to populate challenge lists. Separate lists for active and finished challenges.
      */
     private void createChallengeList() {
-        Database.getInstance().getChallenges(vm.getMainUser().getId(), () -> {
+        Database.getInstance().getChallenges(Database.getInstance().getMainUser().getId(), () -> {
             finishedChallengeList = new ArrayList<>();
             activeChallengeList = new ArrayList<>();
-            welcomeTxt.setText("Welcome " + vm.getMainUser().getUsername());
+            welcomeTxt.setText("Welcome " + Database.getInstance().getMainUser().getUsername());
             for (Challenge challenge:Database.getInstance().getChallenges()) {
                 if(challenge.isFinished()){
                     finishedChallengeList.add(challenge);

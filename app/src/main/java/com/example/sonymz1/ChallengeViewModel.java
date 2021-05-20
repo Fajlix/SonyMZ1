@@ -23,7 +23,6 @@ import java.util.Random;
 public class ChallengeViewModel extends ViewModel {
 
     private Challenge challenge;
-    private User mainUser;
     private MutableLiveData<Map<Integer, Integer>> leaderBoard = new MutableLiveData<>();
     private ArrayList<ChallengeComponent> components = new ArrayList<>();
 
@@ -47,7 +46,7 @@ public class ChallengeViewModel extends ViewModel {
         challenge = new Challenge(name);
         challenge.setDescription(description);
         challenge.setPrivate(isPrivate);
-        challenge.setCreatorId(mainUser.getId());
+        challenge.setCreatorId(Database.getInstance().getMainUser().getId());
         addPlayers(playerIds);
         //addPlayer(1, 20); It wont work on my setPedestal method
         setLeaderBoard();
@@ -120,8 +119,7 @@ public class ChallengeViewModel extends ViewModel {
     public void addScore(int score) {
         //TODO maybe fix?
         //We have to know what type of challenge it is so that we can add the right type of score
-        CounterComponent scoreComp = (CounterComponent) (challenge.getComponents().get(0));
-        scoreComp.addCount(mainUser.getId(), score);
+        challenge.addScore(score);
         if(challenge.checkIfGoalReached()){
             challenge.setFinished(true);
         }
@@ -136,14 +134,9 @@ public class ChallengeViewModel extends ViewModel {
 
     public void setMainUser(int mainUserID, DatabaseCallback callback) {
         Database.getInstance().getAllUsers(() -> {
-            mainUser = Database.getInstance().getUser(mainUserID);
+            Database.getInstance().setMainUser(mainUserID);
             callback.onCallback();
         });
-    }
-
-    //TODO This should not be here
-    public User getMainUser() {
-        return mainUser;
     }
 
     public MutableLiveData<Map<Integer, Integer>> getLeaderBoard() {
@@ -163,7 +156,7 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public int getMainUserScore() {
-        return challenge.getLeaderBoard().get(mainUser.getId());
+        return challenge.getLeaderBoard().get(Database.getInstance().getMainUser().getId());
     }
 
     public int getEndGoal() {
@@ -197,8 +190,8 @@ public class ChallengeViewModel extends ViewModel {
             while(!checkUnique(Database.getInstance().getAllUsers(),id)){
                 id = Math.abs(rand.nextInt());
             }
-            mainUser = new User(name,id);
-            Database.getInstance().saveUser(mainUser);
+            Database.getInstance().saveUser(new User(name,id));
+            Database.getInstance().setMainUser(id);
             callback.onCallback();
         });
     }
@@ -218,7 +211,8 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public boolean mainUserIsAdmin(){
-        return mainUser.getId() == getCreatorId() || challenge.getAdminIds().contains(mainUser.getId());
+        return Database.getInstance().getMainUser().getId() == getCreatorId() ||
+                challenge.getAdminIds().contains(Database.getInstance().getMainUser().getId());
     }
 
     public int getNumOfAdmins() {
@@ -236,7 +230,7 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public boolean mainUserIsCreator() {
-        return mainUser.getId() == getCreatorId();
+        return Database.getInstance().getMainUser().getId() == getCreatorId();
     }
 
     public void addAdmins(ArrayList<Integer> checkedUserIDs) {

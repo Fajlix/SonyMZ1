@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.Database.DatabaseCallback;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -71,7 +72,7 @@ public class RegisterFragment extends Fragment {
                 // save main user id in SharedPreferences
                 spEditor = sp.edit();
                 vm.newMainUser(nameEditText.getText().toString(), () -> {
-                    spEditor.putInt("id", vm.getMainUser().getId());
+                    spEditor.putInt("id", Database.getInstance().getMainUser().getId());
                     spEditor.apply();
 
                     NavHostFragment.findNavController(RegisterFragment.this)

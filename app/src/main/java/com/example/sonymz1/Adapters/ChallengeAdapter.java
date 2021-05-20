@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.ChallengeViewModel;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.MainActivity;
 import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.R;
@@ -107,14 +108,13 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
           holder.background.setImageResource(currentItem.getChallengeBackground());
           holder.medal.setImageResource(currentItem.getMedal());
         ChallengeViewModel vm = new ViewModelProvider(fragmentActivity).get(ChallengeViewModel.class);
-        int mainUserId = vm.getMainUser().getId();
         int mainUserScore = 0;
         int mainUserIndex = -1;
           List<Map.Entry<Integer, Integer>> list =
                   new LinkedList<>(mChallengeList.get(position).getLeaderBoard().entrySet());
         for (Map.Entry<Integer, Integer> entry :
                 list) {
-            if (entry.getKey() == mainUserId){
+            if (entry.getKey() == Database.getInstance().getMainUser().getId()){
                 mainUserScore = entry.getValue();
                 mainUserIndex = list.indexOf(entry);
                 break;

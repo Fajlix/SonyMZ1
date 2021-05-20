@@ -125,6 +125,13 @@ public class Database {
         }
         return null;
     }
+    public User getMainUser() {
+        return lDb.getMainUser();
+    }
+
+    public void setMainUser(int mainUserId) {
+        lDb.setMainUser(getUser(mainUserId));
+    }
 
 
 }
