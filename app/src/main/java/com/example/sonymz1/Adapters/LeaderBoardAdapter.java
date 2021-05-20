@@ -45,7 +45,7 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int userId = vm.getMainUser().getId();
+        int userId = Database.getInstance().getMainUser().getId();
         LinkedList<Integer> leaderBoardList = new LinkedList<>(leaderBoard.keySet());
         int rank = leaderBoardList.indexOf(userId) + 1;
         StringBuilder sb = new StringBuilder();

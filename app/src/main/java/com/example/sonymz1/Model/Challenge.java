@@ -2,8 +2,8 @@ package com.example.sonymz1.Model;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.ScoreComponent;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.R;
-import com.example.sonymz1.ScoreUpdateListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import java.util.Random;
  * Class representing a challenge and information about a challenge e.g users, their scores, chalenge
  * name etc.
  */
-public class Challenge implements ScoreUpdateListener {
+public class Challenge{
     /**
      *  name for challenge, leader Board with playerIds and score, challenge components, if challenge
      *  is private or not, string for challenge description, challenge code to join,
@@ -211,11 +211,12 @@ public class Challenge implements ScoreUpdateListener {
         return medal;
     }
 
-    @Override
-    public void updateScore(int mainUserId,int score) {
+    private void updateScore(int mainUserId,int score) {
         //TODO getCurrentuserID
         leaderBoard.put(mainUserId,score);
-
+    }
+    public void addScore(int score){
+        updateScore(Database.getInstance().getMainUser().getId(), score);
     }
     public boolean checkIfGoalReached(){
         ScoreComponent scoreComponent = getScoreComponent();
