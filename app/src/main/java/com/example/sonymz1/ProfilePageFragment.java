@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.sonymz1.Adapters.ParticipantsAdapter;
 import com.example.sonymz1.Adapters.ProfileAdapter;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.Model.User;
 
 import java.lang.reflect.Array;
@@ -58,7 +59,7 @@ public class ProfilePageFragment extends Fragment {
          */
 
         ProfileAdapter profileAdapter = new ProfileAdapter(this,
-                vm.getMainUser().getFriends());
+                Database.getInstance().getMainUser().getFriends());
         rvcfriendList.setAdapter(profileAdapter);
     }
 
