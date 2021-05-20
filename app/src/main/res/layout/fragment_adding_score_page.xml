@@ -6,34 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AddingScorePage" >
 
-    <Button
-        android:id="@+id/returnBtn"
-        android:layout_width="124dp"
-        android:layout_height="46dp"
-        android:background="#A7E3E7"
-        android:text="Return"
-        app:backgroundTint="#A7E3E7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764" />
-
-    <Button
-        android:id="@+id/addScoreBtn"
-        android:layout_width="124dp"
-        android:layout_height="46dp"
-        android:background="#79DEB4"
-        android:text="Add score"
-        app:backgroundTint="#79DEB4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764" />
-
     <TextView
         android:id="@+id/challengeName2"
         android:layout_width="wrap_content"
@@ -114,5 +86,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.63" />
+
+    <Button
+        android:id="@+id/addScoreBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add score"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#79DEB4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.815"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.765" />
+
+    <Button
+        android:id="@+id/returnBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#A7E3E7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.169"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.765" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
