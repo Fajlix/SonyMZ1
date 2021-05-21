@@ -436,15 +436,15 @@
 
         <ImageView
             android:id="@+id/closeCreateChallenge"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintHorizontal_bias="0.94"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.029999971"
-            app:srcCompat="@mipmap/picture_upload_winner_foreground" />
+            app:layout_constraintVertical_bias="0.04000002"
+            app:srcCompat="@mipmap/ic_x_foreground" />
 
         <TextView
             android:id="@+id/createChallengeError"
@@ -484,7 +484,7 @@
             app:layout_constraintHorizontal_bias="0.12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.65" />
+            app:layout_constraintVertical_bias="0.64" />
 
         <TextView
             android:id="@+id/componentDistance"
@@ -556,7 +556,7 @@
             app:layout_constraintHorizontal_bias="0.13"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.77" />
+            app:layout_constraintVertical_bias="0.74" />
 
         <Switch
             android:id="@+id/isPrivate"
