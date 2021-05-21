@@ -452,10 +452,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FF0000"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/createChallengeName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/presetButton"
             app:layout_constraintVertical_bias="0.19" />
 
         <TextView
@@ -579,13 +579,13 @@
             android:layout_width="325dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:hintTextColor="@color/black"
             android:hint="Challenge name"
             app:boxStrokeColor="@color/logo_green"
             app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/presetButton">
+            app:layout_constraintTop_toBottomOf="@+id/createChallengeError">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/challengeNameTextBox"
@@ -595,8 +595,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
