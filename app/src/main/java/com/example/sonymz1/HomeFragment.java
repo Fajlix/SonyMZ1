@@ -3,9 +3,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -29,6 +31,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private MainRecyclerAdapter mainRecyclerAdapter;
     private ChallengeViewModel vm;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,4 +102,6 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rvc_list);
         medal = view.findViewById(R.id.medal);
     }
+
+
 }
