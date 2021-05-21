@@ -635,6 +635,7 @@
                 android:layout_width="match_parent"
                 app:boxStrokeColor="@color/black"
                 android:layout_height="match_parent"
+                android:gravity="start|top"
                 android:fontFamily="@font/roboto"
                 android:hint="Description"
                 android:maxLines="5"
