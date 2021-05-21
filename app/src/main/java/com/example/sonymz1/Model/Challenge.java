@@ -2,8 +2,8 @@ package com.example.sonymz1.Model;
 
 import com.example.sonymz1.Components.ChallengeComponent;
 import com.example.sonymz1.Components.ScoreComponent;
+import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.R;
-import com.example.sonymz1.ScoreUpdateListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import java.util.Random;
  * Class representing a challenge and information about a challenge e.g users, their scores, chalenge
  * name etc.
  */
-public class Challenge implements ScoreUpdateListener {
+public class Challenge{
     /**
      *  name for challenge, leader Board with playerIds and score, challenge components, if challenge
      *  is private or not, string for challenge description, challenge code to join,
@@ -34,7 +34,6 @@ public class Challenge implements ScoreUpdateListener {
     private String challengeCode;
     private int creatorId;
     private ArrayList<Integer> adminIds = new ArrayList<>();
-    private int challengeBackground;
     private int medal;
 
     public Challenge(String name, Map<Integer, Integer> leaderBoard,
@@ -48,7 +47,6 @@ public class Challenge implements ScoreUpdateListener {
         this.isFinished = false;
         this.creatorId = creatorId;
         this.medal = medal;
-        this.challengeBackground = challengeBackground;
         this.isFinished = isFinished;
         this.challengeCode = challengeCode;
     }
@@ -60,7 +58,6 @@ public class Challenge implements ScoreUpdateListener {
         this.isPrivate = false;
         this.description = "";
         this.challengeCode = generateCode(4);
-        this.challengeBackground = challengeBackground;
         this.medal = medal;
         this.isFinished = false;
     }
@@ -72,7 +69,6 @@ public class Challenge implements ScoreUpdateListener {
         this.isPrivate = false;
         this.challengeCode = generateCode(4);
         this.description = "";
-        this.challengeBackground = R.drawable.default_background;
         this.isFinished = false;
     }
 
@@ -202,20 +198,17 @@ public class Challenge implements ScoreUpdateListener {
     public void changeText(String text){
         description = text;
     }
-
-    public int getChallengeBackground() {
-        return challengeBackground;
-    }
     
     public int getMedal() {
         return medal;
     }
 
-    @Override
-    public void updateScore(int mainUserId,int score) {
+    private void updateScore(int mainUserId,int score) {
         //TODO getCurrentuserID
         leaderBoard.put(mainUserId,score);
-
+    }
+    public void addScore(int score){
+        updateScore(Database.getInstance().getMainUser().getId(), score);
     }
     public boolean checkIfGoalReached(){
         ScoreComponent scoreComponent = getScoreComponent();
@@ -235,7 +228,7 @@ public class Challenge implements ScoreUpdateListener {
 
     }
     //Just returns the scoreComponent of all the components
-    private ScoreComponent getScoreComponent(){
+    public ScoreComponent getScoreComponent(){
         for (ChallengeComponent cc :
                 components) {
             if (cc instanceof ScoreComponent){

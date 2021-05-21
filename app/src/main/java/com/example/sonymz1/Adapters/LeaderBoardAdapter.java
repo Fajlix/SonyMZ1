@@ -45,12 +45,22 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int userId = vm.getMainUser().getId();
+        int userId = Database.getInstance().getMainUser().getId();
         LinkedList<Integer> leaderBoardList = new LinkedList<>(leaderBoard.keySet());
         int rank = leaderBoardList.indexOf(userId) + 1;
         StringBuilder sb = new StringBuilder();
+
+        if(leaderBoardList.size() < 3){
+            if(userId == leaderBoardList.get(position)){
+                CardView cardView = (CardView) holder.itemView;
+                cardView.setCardBackgroundColor(Color.WHITE);
+            }
+            userId = leaderBoardList.get(position);
+            sb.append(position + 1);
+        }
+
         // If the main user is first, get the 2 challengers below
-        if (rank == 1) {
+        else if (rank == 1) {
             switch (position) {
                 case 0:
                     sb.append(rank);
@@ -129,7 +139,7 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
             holder.rank.setText(sb.toString());
             holder.usernameTxt.setText(user.getUsername());
             holder.progressTxt.setText(String.valueOf(leaderBoard.get(user.getId()))); // add unit
-            holder.userImg.setImageResource(user.getProfilePic());
+            holder.userImg.setImageResource(R.drawable.logo);
         });
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--What’s important here is that the ids of the menu items here match the ids
         of the fragments in the nav_graph you set out earlier. After we set it up later, this will let the
@@ -27,5 +28,8 @@
         <item
             android:id="@+id/FAQFragment"
             android:title="FAQ" />
+        <item
+            android:id="@+id/ProfilePageFragment"
+            android:title="Profile" />
     </group>
 </menu>
