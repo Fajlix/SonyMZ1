@@ -69,7 +69,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
         holder.hostName.setText(hostname);
 
         holder.enterBtn.setOnClickListener(v -> {
-            String str = holder.codeInput.getText().toString();
+            String str = holder.codeInput.getText().toString().toUpperCase();
             if (str != null || str.equals("")){
                 // if the code input equals the challenge code then enter the challenge and
                 // add the user
