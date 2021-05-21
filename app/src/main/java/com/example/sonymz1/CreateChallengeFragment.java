@@ -256,7 +256,7 @@ public class CreateChallengeFragment extends Fragment {
                     createChallengeError.setText("The name and description can't be empty");
                 }
                 else if (challengeVM.isComponentsEmpty()) {
-                    createChallengeError.setText("End date and a score parameter have to be included");
+                    createChallengeError.setText("Score parameter has to be included");
                 }
                 else {
                     challengeVM.createChallenge(name, description, isPrivate);

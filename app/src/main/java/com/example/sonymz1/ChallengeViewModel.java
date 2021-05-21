@@ -293,7 +293,7 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public boolean isComponentsEmpty() {
-        if (components.isEmpty() || !(scoreComponentExist() || dateComponentExist())) {
+        if (components.isEmpty() || !scoreComponentExist()) {
             return true;
         }
         return false;
