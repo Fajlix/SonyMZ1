@@ -91,7 +91,8 @@
                 app:layout_constraintHorizontal_bias="0.37"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.49" />
+                app:layout_constraintVertical_bias="0.49"
+                />
 
             <TextView
                 android:id="@+id/distanceError"
@@ -576,11 +577,12 @@
             android:id="@+id/createChallengeName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="325dp"
-            android:layout_height="68dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textColorHint="#9B9B9B"
+            android:hint="Challenge name"
             app:boxStrokeColor="#000000"
-            app:boxStrokeWidth="2dp"
+            app:boxStrokeWidth="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/presetButton">
@@ -589,14 +591,12 @@
                 android:id="@+id/challengeNameTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#FFFFFF"
                 android:fontFamily="@font/roboto"
-                android:hint="Challenge name"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -623,8 +623,9 @@
             android:layout_height="168dp"
             android:layout_marginTop="10dp"
             android:textColorHint="#9B9B9B"
-            app:boxStrokeColor="#000000"
-            app:boxStrokeWidth="2dp"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeWidthFocused="1dp"
+            app:boxStrokeWidth="1dp"
             app:layout_constraintEnd_toEndOf="@+id/createChallengeName"
             app:layout_constraintStart_toStartOf="@+id/createChallengeName"
             app:layout_constraintTop_toBottomOf="@+id/createChallengeName">
@@ -632,11 +633,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/challengeDescriptionTextBox"
                 android:layout_width="match_parent"
+                app:boxStrokeColor="@color/black"
                 android:layout_height="match_parent"
-                android:background="#FFFFFF"
                 android:fontFamily="@font/roboto"
                 android:hint="Description"
                 android:maxLines="5"
+                app:boxStrokeWidthFocused="1dp"
+                app:boxStrokeWidth="1dp"
                 android:textColor="#000000"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
