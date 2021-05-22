@@ -137,7 +137,6 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public void addScore(int score) {
-        //TODO maybe fix?
         //We have to know what type of challenge it is so that we can add the right type of score
         challenge.addScore(score);
         if(challenge.checkIfGoalReached()){
@@ -262,6 +261,9 @@ public class ChallengeViewModel extends ViewModel {
             challenge.addAdmin(checkedUserIDs.get(i));
         }
         saveChallenge();
+    }
+    public boolean getIsFinished(){
+        return challenge.isFinished();
     }
 
     public void removeAdmins(ArrayList<Integer> checkedUserIDs) {
