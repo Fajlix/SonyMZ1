@@ -129,7 +129,9 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
                 int userBeforeIndex = mainUserIndex-1;
                 int userBeforeScore =list.get(userBeforeIndex).getValue();
                 int score = userBeforeScore - mainUserScore;
-                holder.progressText.setText("You are "+score+" behind challenger "+userBeforeIndex+2);
+                holder.progressText.setText("You are "+score+" behind challenger "+
+                        Database.getInstance().getUser(list.get(userBeforeIndex)
+                        .getKey()).getUsername());
 
         }
                 if (currentItem.isFinished()){
