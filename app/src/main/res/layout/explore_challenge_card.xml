@@ -28,15 +28,17 @@
             android:id="@+id/challenge_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/roboto"
             android:text="[Challenge title]"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/cover_img"
+            app:layout_constraintBottom_toTopOf="@+id/host_txt"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/cover_img" />
 
         <TextView
             android:id="@+id/host_txt"
@@ -46,7 +48,9 @@
             android:text="[host name]"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/public_btn"
             app:layout_constraintEnd_toEndOf="@+id/challenge_title"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/challenge_title"
             app:layout_constraintTop_toBottomOf="@+id/challenge_title" />
 
@@ -61,13 +65,30 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/arrow" />
 
+        <Button
+            android:id="@+id/public_btn"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="@font/roboto"
+            android:text="Join"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:backgroundTint="@color/logo_blue"
+            app:layout_constraintBottom_toTopOf="@+id/cover_img"
+            app:layout_constraintEnd_toEndOf="@+id/host_txt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/host_txt"
+            app:layout_constraintTop_toBottomOf="@+id/host_txt" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/code_view"
+            android:id="@+id/private_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="0dp">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/challenge_title2"
@@ -85,11 +106,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/enter_btn"
+                android:id="@+id/private_btn"
                 android:layout_width="80dp"
                 android:layout_height="44dp"
+                android:layout_below="@id/challenge_title2"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/codeTxt"
                 android:fontFamily="@font/roboto"
                 android:text="Enter"
                 android:textSize="12sp"
@@ -104,15 +127,18 @@
                 android:id="@+id/codeTxt"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:layout_below="@id/challenge_title2"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_corners"
-                android:paddingLeft="8dp"
                 android:ems="10"
                 android:fontFamily="@font/roboto"
                 android:inputType="textVisiblePassword"
+                android:paddingLeft="8dp"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/challenge_title2"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/challenge_title2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

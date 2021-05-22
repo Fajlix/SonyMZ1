@@ -260,7 +260,8 @@ public class CreateChallengeFragment extends Fragment {
                 }
                 if (challengeNameTextBox.getText().toString().equals("") ||
                         challengeDescriptionTextBox.getText().toString().equals("")) {
-                    createChallengeError.setText("The name and description can't be empty");
+                    challengeNameTextBox.setError("Fill in challenge name");
+                    challengeDescriptionTextBox.setError("Fill in description");
                 }
                 else if (challengeVM.isComponentsEmpty()) {
                     createChallengeError.setText("End date and a score parameter have to be included");
