@@ -292,6 +292,9 @@ public class ChallengeViewModel extends ViewModel {
         }
         return false;
     }
+    public ScoreComponent getScoreComponent(){
+        return challenge.getScoreComponent();
+    }
 
     public boolean isComponentsEmpty() {
         if (components.isEmpty() || !scoreComponentExist() || !dateComponentExist()) {
