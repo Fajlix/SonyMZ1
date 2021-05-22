@@ -36,6 +36,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.invoke.ConstantCallSite;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Viktor J
@@ -48,6 +50,7 @@ public class CreateChallengeFragment extends Fragment {
     private ChallengeViewModel challengeVM;
     private Toolbar toolbar;
     private Window window;
+    private Long date;
 
     public CreateChallengeFragment() {
 
@@ -91,7 +94,17 @@ public class CreateChallengeFragment extends Fragment {
 
             buttonAddDate.setOnClickListener(view5 -> {
                 createChallengeFragment.bringToFront();
-                challengeVM.addComponent(new DateComponent(calendarDate.getDate()));
+                challengeVM.addComponent(new DateComponent(date));
+            });
+            calendarDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                @Override
+                public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.YEAR,i);
+                    calendar.set(Calendar.MONTH,i1);
+                    calendar.set(Calendar.DAY_OF_MONTH, i2);
+                    date = calendar.getTimeInMillis();
+                }
             });
 
             datePopUp.setOnClickListener(view4 -> {
