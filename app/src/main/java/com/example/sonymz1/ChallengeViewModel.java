@@ -44,13 +44,12 @@ public class ChallengeViewModel extends ViewModel {
     /**
      * Method for communication between Model and View, in this case Challenge and CreateChallengeFragment
      */
-    public void createChallenge(String name, String description, boolean isPrivate, int[] playerIds) {
+    public void createChallenge(String name, String description, boolean isPrivate) {
         challenge = new Challenge(name);
         challenge.setDescription(description);
         challenge.setPrivate(isPrivate);
         challenge.setCreatorId(Database.getInstance().getMainUser().getId());
-        addPlayers(playerIds);
-        //addPlayer(1, 20); It wont work on my setPedestal method
+        addPlayer(Database.getInstance().getMainUser().getId(), 0);
         setLeaderBoard();
         addComponents();
         Database.getInstance().saveChallenge(challenge);
@@ -294,7 +293,7 @@ public class ChallengeViewModel extends ViewModel {
     }
 
     public boolean isComponentsEmpty() {
-        if (components.isEmpty() || !scoreComponentExist() || !dateComponentExist()) {
+        if (components.isEmpty() || !scoreComponentExist()) {
             return true;
         }
         return false;

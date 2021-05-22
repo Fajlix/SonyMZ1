@@ -251,23 +251,16 @@ public class CreateChallengeFragment extends Fragment {
             //TODO SHOULD DEFINETLY NOT EXIST
 
             Database.getInstance().getAllUsers(() -> {
-                ArrayList<User> users = Database.getInstance().getAllUsers();
-                int[] playerIds = new int[users.size()];
-                int index = 0;
-                for (User user : users) {
-                    playerIds[index] = user.getId();
-                    index++;
-                }
                 if (challengeNameTextBox.getText().toString().equals("") ||
                         challengeDescriptionTextBox.getText().toString().equals("")) {
                     challengeNameTextBox.setError("Fill in challenge name");
                     challengeDescriptionTextBox.setError("Fill in description");
                 }
                 else if (challengeVM.isComponentsEmpty()) {
-                    createChallengeError.setText("End date and a score parameter have to be included");
+                    createChallengeError.setText("Score parameter has to be included");
                 }
                 else {
-                    challengeVM.createChallenge(name, description, isPrivate, playerIds);
+                    challengeVM.createChallenge(name, description, isPrivate);
                     NavHostFragment.findNavController(CreateChallengeFragment.this)
                             .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
                 }
