@@ -73,9 +73,7 @@ public class AddingScorePage extends Fragment {
                         .navigate(R.id.action_addingScorePage_to_challengePageFragment));
 
         view.findViewById(R.id.addScoreBtn).setOnClickListener(view12 -> {
-            String str = distanceInput.getText().toString();
-            int score = Integer.parseInt(str);
-            vm.addScore(score);
+            vm.addScore(getScoreInput());
 
             NavHostFragment.findNavController(AddingScorePage.this)
                     .navigate(R.id.action_addingScorePage_to_challengePageFragment);
