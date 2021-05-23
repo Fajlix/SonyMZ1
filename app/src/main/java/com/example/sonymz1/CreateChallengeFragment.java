@@ -202,6 +202,7 @@ public class CreateChallengeFragment extends Fragment {
                 int totalSeconds = 0;
                 String Text1 = edittextTimer1.getText().toString();
                 String Text2 = edittextTimer2.getText().toString();
+                TimerComponent timerComponent;
 
                 if (!timerSwitch.isChecked()) {
                     if (Text1.equals("") && Text2.equals("")) {
@@ -212,8 +213,10 @@ public class CreateChallengeFragment extends Fragment {
                         totalSeconds += Integer.parseInt(edittextTimer2.getText().toString()) * 60;
                     }
                     if (totalSeconds != 0) {
-                        challengeVM.addComponent(new TimerComponent(totalSeconds));
+                        timerComponent = new TimerComponent(totalSeconds);
+                        challengeVM.addComponent(timerComponent);
                         createChallengeFragment.bringToFront();
+                        timerComponent.setHasSeconds(false);
                     }
                 } else {
                     if (Text1.equals("") && Text2.equals("")) {
@@ -223,8 +226,10 @@ public class CreateChallengeFragment extends Fragment {
                     } else if (!edittextTimer2.getText().equals("")) {
                         totalSeconds += Integer.parseInt(edittextTimer2.getText().toString());
                     }
-                    challengeVM.addComponent(new TimerComponent(totalSeconds));
+                    timerComponent = new TimerComponent(totalSeconds);
+                    challengeVM.addComponent(timerComponent);
                     createChallengeFragment.bringToFront();
+                    timerComponent.setHasSeconds(true);
                 }
             });
 
