@@ -8,6 +8,7 @@ import com.example.sonymz1.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -204,16 +205,24 @@ public class Challenge{
     }
 
     private void updateScore(int mainUserId,int score) {
-        //TODO getCurrentuserID
         leaderBoard.put(mainUserId,score);
     }
     public void addScore(int score){
-        updateScore(Database.getInstance().getMainUser().getId(), score);
+        int currentScore = leaderBoard.get(Database.getInstance().getMainUser().getId());
+        updateScore(Database.getInstance().getMainUser().getId(), score + currentScore);
     }
     public boolean checkIfGoalReached(){
         ScoreComponent scoreComponent = getScoreComponent();
         if (scoreComponent != null){
             int bestUser = leaderBoard.keySet().iterator().next();
+            Iterator<Integer> users = leaderBoard.keySet().iterator();
+            while (users.hasNext())
+            {
+                int user = users.next();
+                if (leaderBoard.get(user)>leaderBoard.get(bestUser)){
+                    bestUser = user;
+                }
+            }
             int currentScore = leaderBoard.get(bestUser);
             return currentScore >= scoreComponent.getGoalScore();
         }
