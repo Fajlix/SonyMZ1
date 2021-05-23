@@ -29,7 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class AddingScorePage extends Fragment {
 
     private Button addScoreBtn, returnBtn;
-    private TextView distanceActivity,distanceType, timerType1, timerType2;
+    private TextView distanceActivity,distanceType, timerType1, timerType2, challengeName2;
     private ConstraintLayout distanceView, counterView, timerView;
     private TextInputEditText distanceInput,counterInput,timerInputFirst,timerInputSecond;
     private ChallengeViewModel vm;
@@ -66,6 +66,7 @@ public class AddingScorePage extends Fragment {
         timerView = view.findViewById(R.id.timerView);
         timerType1 = view.findViewById(R.id.timerType1);
         timerType2 = view.findViewById(R.id.timerType2);
+        challengeName2 = view.findViewById(R.id.challengeName2);
 
         //Navigate from ChallengePage to AddingScorePage but atm just a placeholder
         view.findViewById(R.id.returnBtn).setOnClickListener(
@@ -79,6 +80,7 @@ public class AddingScorePage extends Fragment {
                     .navigate(R.id.action_addingScorePage_to_challengePageFragment);
         });
         setInputType();
+        challengeName2.setText(vm.getName());
     }
     private int getScoreInput(){
         ScoreComponent component = vm.getScoreComponent();
