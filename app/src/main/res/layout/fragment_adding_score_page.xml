@@ -19,17 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.169" />
 
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="303dp"
-        android:layout_height="255dp"
-        android:src="@mipmap/picture_upload_add_score_foreground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.315" />
-
     <Button
         android:id="@+id/addScoreBtn"
         android:layout_width="wrap_content"
@@ -53,8 +42,8 @@
         app:backgroundTint="#A7E3E7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView10"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.765" />
 
@@ -82,7 +71,7 @@
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.62"
+            app:layout_constraintVertical_bias="0.42000002"
             tools:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -119,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputTimerFirst"
@@ -135,7 +124,7 @@
             app:layout_constraintHorizontal_bias="0.28"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.62"
+            app:layout_constraintVertical_bias="0.42000002"
             tools:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -158,12 +147,11 @@
             app:boxStrokeColor="@color/logo_green"
             app:boxStrokeWidth="1dp"
             app:hintTextColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/inputTimerFirst"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.67"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.62"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toEndOf="@+id/inputTimerFirst"
+            app:layout_constraintTop_toTopOf="@+id/inputTimerFirst"
             tools:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -230,7 +218,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputDistance"
@@ -243,10 +231,9 @@
             app:hintTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.62"
+            app:layout_constraintVertical_bias="0.42000002"
             tools:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -267,11 +254,11 @@
             android:text="Today I have run"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/inputDistance"
-            app:layout_constraintEnd_toStartOf="@+id/inputDistance"
-            app:layout_constraintHorizontal_bias="0.65"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/inputDistance" />
+            app:layout_constraintBottom_toTopOf="@+id/inputDistance"
+            app:layout_constraintEnd_toEndOf="@+id/inputDistance"
+            app:layout_constraintStart_toStartOf="@+id/inputDistance"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.85" />
 
         <TextView
             android:id="@+id/distanceType"
@@ -281,11 +268,11 @@
             android:text="km"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/inputDistance"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toEndOf="@+id/inputDistance"
-            app:layout_constraintTop_toTopOf="@+id/inputDistance" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/inputDistance"
+            app:layout_constraintStart_toStartOf="@+id/inputDistance"
+            app:layout_constraintTop_toBottomOf="@+id/inputDistance"
+            app:layout_constraintVertical_bias="0.110000014" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
