@@ -36,6 +36,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.invoke.ConstantCallSite;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Viktor J
@@ -48,6 +50,7 @@ public class CreateChallengeFragment extends Fragment {
     private ChallengeViewModel challengeVM;
     private Toolbar toolbar;
     private Window window;
+    private Long date;
 
     public CreateChallengeFragment() {
 
@@ -91,7 +94,17 @@ public class CreateChallengeFragment extends Fragment {
 
             buttonAddDate.setOnClickListener(view5 -> {
                 createChallengeFragment.bringToFront();
-                challengeVM.addComponent(new DateComponent(calendarDate.getDate()));
+                challengeVM.addComponent(new DateComponent(date));
+            });
+            calendarDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                @Override
+                public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.YEAR,i);
+                    calendar.set(Calendar.MONTH,i1);
+                    calendar.set(Calendar.DAY_OF_MONTH, i2);
+                    date = calendar.getTimeInMillis();
+                }
             });
 
             datePopUp.setOnClickListener(view4 -> {
@@ -202,6 +215,7 @@ public class CreateChallengeFragment extends Fragment {
                 int totalSeconds = 0;
                 String Text1 = edittextTimer1.getText().toString();
                 String Text2 = edittextTimer2.getText().toString();
+                TimerComponent timerComponent;
 
                 if (!timerSwitch.isChecked()) {
                     if (Text1.equals("") && Text2.equals("")) {
@@ -212,8 +226,10 @@ public class CreateChallengeFragment extends Fragment {
                         totalSeconds += Integer.parseInt(edittextTimer2.getText().toString()) * 60;
                     }
                     if (totalSeconds != 0) {
-                        challengeVM.addComponent(new TimerComponent(totalSeconds));
+                        timerComponent = new TimerComponent(totalSeconds);
+                        challengeVM.addComponent(timerComponent);
                         createChallengeFragment.bringToFront();
+                        timerComponent.setHasSeconds(false);
                     }
                 } else {
                     if (Text1.equals("") && Text2.equals("")) {
@@ -223,8 +239,10 @@ public class CreateChallengeFragment extends Fragment {
                     } else if (!edittextTimer2.getText().equals("")) {
                         totalSeconds += Integer.parseInt(edittextTimer2.getText().toString());
                     }
-                    challengeVM.addComponent(new TimerComponent(totalSeconds));
+                    timerComponent = new TimerComponent(totalSeconds);
+                    challengeVM.addComponent(timerComponent);
                     createChallengeFragment.bringToFront();
+                    timerComponent.setHasSeconds(true);
                 }
             });
 
@@ -251,22 +269,16 @@ public class CreateChallengeFragment extends Fragment {
             //TODO SHOULD DEFINETLY NOT EXIST
 
             Database.getInstance().getAllUsers(() -> {
-                ArrayList<User> users = Database.getInstance().getAllUsers();
-                int[] playerIds = new int[users.size()];
-                int index = 0;
-                for (User user : users) {
-                    playerIds[index] = user.getId();
-                    index++;
-                }
                 if (challengeNameTextBox.getText().toString().equals("") ||
                         challengeDescriptionTextBox.getText().toString().equals("")) {
-                    createChallengeError.setText("The name and description can't be empty");
+                    challengeNameTextBox.setError("Fill in challenge name");
+                    challengeDescriptionTextBox.setError("Fill in description");
                 }
                 else if (challengeVM.isComponentsEmpty()) {
-                    createChallengeError.setText("End date and a score parameter have to be included");
+                    createChallengeError.setText("Score parameter has to be included");
                 }
                 else {
-                    challengeVM.createChallenge(name, description, isPrivate, playerIds);
+                    challengeVM.createChallenge(name, description, isPrivate);
                     NavHostFragment.findNavController(CreateChallengeFragment.this)
                             .navigate(R.id.action_createChallengeFragment_to_challengePageFragment);
                 }

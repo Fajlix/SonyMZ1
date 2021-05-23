@@ -5,6 +5,7 @@ package com.example.sonymz1.Components;
  */
 public class TimerComponent implements ScoreComponent{
     private int goalTimer;
+    private boolean hasSeconds;
 
     /**
      * Constructor for creating a component
@@ -12,6 +13,14 @@ public class TimerComponent implements ScoreComponent{
      */
     public TimerComponent(int goalTimer) {
         this.goalTimer = goalTimer;
+    }
+
+    public boolean HasSeconds() {
+        return hasSeconds;
+    }
+
+    public void setHasSeconds(boolean hasSeconds) {
+        this.hasSeconds = hasSeconds;
     }
 
     @Override

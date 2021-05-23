@@ -18,12 +18,13 @@
             android:id="@+id/backgroundPic"
             android:layout_width="413dp"
             android:layout_height="150dp"
+            android:foreground="#73000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:foreground="#73000000"
-            app:srcCompat="@drawable/default_background" />
+            app:srcCompat="@drawable/default_background"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/challengeName"
@@ -39,6 +40,22 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/endingDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Ends in:"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/challengeName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.26"
+            app:layout_constraintStart_toEndOf="@+id/challengeName"
+            app:layout_constraintTop_toTopOf="@+id/challengeName"
+            app:layout_constraintVertical_bias="0.8" />
 
         <ImageView
             android:id="@+id/medal"
@@ -84,7 +101,8 @@
             android:layout_height="match_parent"
             android:background="@color/black_trans"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
         <TextView
             android:id="@+id/finishedText"

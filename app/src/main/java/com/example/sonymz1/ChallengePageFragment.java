@@ -62,7 +62,7 @@ public class ChallengePageFragment extends Fragment {
     private Button addScoreButton;
     private RecyclerView removePList, addAdminList, removeAdminList;
     private CheckBox allCheckRP, allCheckAA, allCheckRA;
-
+    private boolean isFinished = false;
     private ConstraintLayout root;
 
     private SelectParticipantsAdapter rpa, addAdminAdapter, removeAdminAdapter;
@@ -121,7 +121,9 @@ public class ChallengePageFragment extends Fragment {
             }
             else{
                 if(participantsView.getVisibility() != View.VISIBLE){
-                    addScoreButton.setVisibility(View.VISIBLE);
+                    if (!isFinished) {
+                        addScoreButton.setVisibility(View.VISIBLE);
+                    }
                 }
                 if(vm.mainUserIsAdmin()){
                     editBtnImg.setVisibility(View.VISIBLE);
@@ -292,6 +294,7 @@ public class ChallengePageFragment extends Fragment {
             removeAdminAdapter.unSelectAll();
             allCheckRA.setChecked(false);
         });
+        setFinishedChallenge();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -301,6 +304,7 @@ public class ChallengePageFragment extends Fragment {
         setParticipants();
         setInfoCard();
         setUsers();
+        setFinishedChallenge();
     }
 
     /**
@@ -314,7 +318,6 @@ public class ChallengePageFragment extends Fragment {
 
 
     }
-    //TODO FELIX FIX THIS PLZZ USE RIGHT DATABASE
 
     private void setUsers(){
         Database.getInstance().getAllUsers(() -> {
@@ -359,6 +362,14 @@ public class ChallengePageFragment extends Fragment {
         addAdminAdapter = new SelectParticipantsAdapter(nonAdmins);
         addAdminList.setAdapter(addAdminAdapter);
     }
+    private void setFinishedChallenge(){
+        addScoreButton.setVisibility(View.VISIBLE);
+        isFinished = false;
+        if (vm.getIsFinished()){
+            addScoreButton.setVisibility(View.GONE);
+            isFinished = true;
+        }
+    }
 
     private void setRemoveAdmin(ArrayList<User> users){
         ArrayList<User> admins = new ArrayList<>();
@@ -389,7 +400,9 @@ public class ChallengePageFragment extends Fragment {
 
             backBtn.setOnClickListener(v -> {
                 participantsView.setVisibility(View.GONE);
-                addScoreButton.setVisibility(View.VISIBLE);
+                if (!isFinished) {
+                    addScoreButton.setVisibility(View.VISIBLE);
+                }
             });
         }else moreBtn.setVisibility(View.GONE);
     }

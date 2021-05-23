@@ -132,6 +132,4 @@ public class Database {
     public void setMainUser(int mainUserId) {
         lDb.setMainUser(getUser(mainUserId));
     }
-
-
 }

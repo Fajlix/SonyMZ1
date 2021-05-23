@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonymz1.ChallengeViewModel;
+import com.example.sonymz1.Components.ChallengeComponent;
+import com.example.sonymz1.Components.DateComponent;
 import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.MainActivity;
 import com.example.sonymz1.Model.Challenge;
@@ -54,6 +56,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
         public TextView finishedText;
         public TextView challengeName;
         public TextView progressText;
+        public TextView endingDate;
 
         /**
          * method to hold views for the challenge card.
@@ -68,6 +71,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
             progressText = itemView.findViewById(R.id.progressTxt);
             finishedOverlay = itemView.findViewById(R.id.finishedOverlay);
             finishedText = itemView.findViewById(R.id.finishedText);
+            endingDate = itemView.findViewById(R.id.endingDate);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +111,19 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
           holder.challengeName.setText(currentItem.getName());
           holder.background.setImageResource(R.drawable.run_challenge);
           holder.medal.setImageResource(currentItem.getMedal());
+        for (ChallengeComponent component :
+                currentItem.getComponents()) {
+            if (component.getClass().equals(DateComponent.class)) {
+                System.out.println(component.getValue());
+                String[] str = component.getValue().split(":");
+                String newstr= str[0].replace("0", "");
+                if (newstr.length()<1){
+                    str[0] = "0";
+                }
+                holder.endingDate.setText("Ends in: " + newstr + " days");
+                System.out.println(str[0]);
+            }
+        }
         ChallengeViewModel vm = new ViewModelProvider(fragmentActivity).get(ChallengeViewModel.class);
         int mainUserScore = 0;
         int mainUserIndex = -1;
@@ -129,7 +146,9 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.Exam
                 int userBeforeIndex = mainUserIndex-1;
                 int userBeforeScore =list.get(userBeforeIndex).getValue();
                 int score = userBeforeScore - mainUserScore;
-                holder.progressText.setText("You are "+score+" behind challenger "+userBeforeIndex+2);
+                holder.progressText.setText("You are "+score+" behind challenger "+
+                        Database.getInstance().getUser(list.get(userBeforeIndex)
+                        .getKey()).getUsername());
 
         }
                 if (currentItem.isFinished()){

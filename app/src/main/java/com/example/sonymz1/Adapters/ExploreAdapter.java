@@ -8,11 +8,12 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +23,6 @@ import com.example.sonymz1.Database.Database;
 import com.example.sonymz1.ExploreFragment;
 import com.example.sonymz1.Model.Challenge;
 import com.example.sonymz1.R;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -68,7 +68,38 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 .getUsername();
         holder.hostName.setText(hostname);
 
-        holder.enterBtn.setOnClickListener(v -> {
+        holder.challenge_container.setOnClickListener(v -> {
+            if (mChallengesFiltered.get(position).isPrivate()) {
+                if (holder.private_container.getVisibility() == View.GONE) {
+                    holder.private_container.setVisibility(View.VISIBLE);
+                    holder.challengeTitle.setVisibility(View.GONE);
+                    holder.hostName.setVisibility(View.GONE);
+                } else {
+                    holder.private_container.setVisibility(View.GONE);
+                    holder.challengeTitle.setVisibility(View.VISIBLE);
+                    holder.hostName.setVisibility(View.VISIBLE);
+                }
+            }else {
+                if (holder.publicBtn.getVisibility() == View.GONE) {
+                    holder.publicBtn.setVisibility(View.VISIBLE);
+                }else {
+                    holder.publicBtn.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        holder.publicBtn.setOnClickListener(v -> {
+            Challenge challenge = mChallengesFiltered.get(position);
+            Database.getInstance().setActiveChallenge(challenge);
+            challenge.addPlayer(Database.getInstance().getMainUser().getId());
+            Database.getInstance().saveChallenge(challenge);
+            Toast.makeText(fragment.getContext(),"You have joined the challenge",
+                    Toast.LENGTH_SHORT).show();
+            NavHostFragment.findNavController(fragment)
+                    .navigate(R.id.action_ExploreFragment_to_challengePageFragment);
+        });
+
+        holder.privateBtn.setOnClickListener(v -> {
             String str = holder.codeInput.getText().toString().toUpperCase();
             if (str != null || str.equals("")){
                 // if the code input equals the challenge code then enter the challenge and
@@ -76,10 +107,10 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 Challenge challenge = mChallengesFiltered.get(position);
                 if (str.equals(challenge.getChallengeCode())) {
                     Database.getInstance().setActiveChallenge(challenge);
-                    ChallengeViewModel vm = new ViewModelProvider(fragment.requireActivity())
-                            .get(ChallengeViewModel.class);
                     challenge.addPlayer(Database.getInstance().getMainUser().getId());
                     Database.getInstance().saveChallenge(challenge);
+                    Toast.makeText(fragment.getContext(),"You have joined the challenge",
+                            Toast.LENGTH_SHORT).show();
                     NavHostFragment.findNavController(fragment)
                             .navigate(R.id.action_ExploreFragment_to_challengePageFragment);
                 }
@@ -159,11 +190,11 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
         return null;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView challengeTitle, challengeTitle2, hostName;
         ImageView coverImg;
-        Button enterBtn;
-        ConstraintLayout challenge_container, code_container;
+        Button privateBtn, publicBtn;
+        ConstraintLayout challenge_container, private_container;
         EditText codeInput;
 
         public ViewHolder(@NonNull View itemView) {
@@ -171,27 +202,12 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
             challengeTitle = itemView.findViewById(R.id.challenge_title);
             challengeTitle2 = itemView.findViewById(R.id.challenge_title2);
             hostName = itemView.findViewById(R.id.host_txt);
-            enterBtn = itemView.findViewById(R.id.enter_btn);
+            privateBtn = itemView.findViewById(R.id.private_btn);
+            publicBtn = itemView.findViewById(R.id.public_btn);
             coverImg = itemView.findViewById(R.id.cover_img);
             challenge_container = itemView.findViewById(R.id.challenge_view);
-            code_container = itemView.findViewById(R.id.code_view);
+            private_container = itemView.findViewById(R.id.private_container);
             codeInput = itemView.findViewById(R.id.codeTxt);
-            itemView.setOnClickListener(this);
-        }
-
-
-        @Override
-        public void onClick(View v) {
-            if (code_container.getVisibility() == View.GONE){
-                code_container.setVisibility(View.VISIBLE);
-                challengeTitle.setVisibility(View.GONE);
-                hostName.setVisibility(View.GONE);
-            }
-            else{
-                code_container.setVisibility(View.GONE);
-                challengeTitle.setVisibility(View.VISIBLE);
-                hostName.setVisibility(View.VISIBLE);
-            }
         }
     }
 }

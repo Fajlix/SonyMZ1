@@ -10,6 +10,179 @@
     android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/timerPopUp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/timerConstraint"
+            android:layout_width="362dp"
+            android:layout_height="429dp"
+            android:background="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/buttonAddTimer"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:fontFamily="@font/roboto"
+                android:text="Add"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:backgroundTint="#F6716F"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.958" />
+
+            <TextView
+                android:id="@+id/textAddTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add timer as a parameter"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.04000002" />
+
+            <EditText
+                android:id="@+id/edittextTimer1"
+                android:layout_width="58dp"
+                android:layout_height="47dp"
+                android:background="@drawable/edittext_border"
+                android:fontFamily="@font/roboto"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.23"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.49" />
+
+            <EditText
+                android:id="@+id/edittextTimer2"
+                android:layout_width="58dp"
+                android:layout_height="47dp"
+                android:background="@drawable/edittext_border"
+                android:fontFamily="@font/roboto"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.49" />
+
+            <TextView
+                android:id="@+id/textTimer1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="h"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.49" />
+
+            <TextView
+                android:id="@+id/textTimer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.76"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.49" />
+
+            <Switch
+                android:id="@+id/timerSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchTextAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.25" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="min and sec"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.71"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.25" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="hours and min"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.25" />
+
+            <TextView
+                android:id="@+id/timerError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.32999998" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/distancePopUp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -187,183 +360,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/timerPopUp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#B3000000"
-        app:layout_constraintBottom_toBottomOf="@+id/datePopUp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/timerConstraint"
-            android:layout_width="362dp"
-            android:layout_height="429dp"
-            android:background="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/buttonAddTimer"
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:fontFamily="@font/roboto"
-                android:text="Add"
-                android:textColor="#FFFFFF"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                app:backgroundTint="#F6716F"
-                app:iconTint="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.958" />
-
-            <TextView
-                android:id="@+id/textAddTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add timer as a parameter"
-                android:textColor="#000000"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.04000002" />
-
-            <EditText
-                android:id="@+id/edittextTimer1"
-                android:layout_width="58dp"
-                android:layout_height="47dp"
-                android:background="@drawable/edittext_border"
-                android:fontFamily="@font/roboto"
-                android:inputType="text"
-                android:maxLines="1"
-                android:padding="10dp"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.23"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.49" />
-
-            <EditText
-                android:id="@+id/edittextTimer2"
-                android:layout_width="58dp"
-                android:layout_height="47dp"
-                android:background="@drawable/edittext_border"
-                android:fontFamily="@font/roboto"
-                android:inputType="text"
-                android:maxLines="1"
-                android:padding="10dp"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.6"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.49" />
-
-            <TextView
-                android:id="@+id/textTimer1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="h"
-                android:textColor="#000000"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.4"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.49" />
-
-            <TextView
-                android:id="@+id/textTimer2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="min"
-                android:textColor="#000000"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.76"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.49" />
-
-            <Switch
-                android:id="@+id/timerSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:switchTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.25" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="min and sec"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.71"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.25" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="hours and min"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.25" />
-
-            <TextView
-                android:id="@+id/timerError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FF0000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.32999998" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/datePopUp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -452,10 +448,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FF0000"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/createChallengeName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/presetButton"
             app:layout_constraintVertical_bias="0.19" />
 
         <TextView
@@ -579,10 +575,10 @@
             android:layout_width="325dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:hintTextColor="@color/black"
             android:hint="Challenge name"
             app:boxStrokeColor="@color/logo_green"
             app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/presetButton">
@@ -595,8 +591,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
