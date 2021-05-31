@@ -6,3 +6,5 @@ https://drive.google.com/drive/folders/1mFtZt0E6LEDS6wugA6LU1jymBBv_a9AP?usp=sha
 Figma:
 https://www.figma.com/file/lizydNwtjsZ3xpIyn2ItsO/Untitled?node-id=0%3A1
 
+Trello:
+https://trello.com/b/WmL6zIPh/scrumboard
